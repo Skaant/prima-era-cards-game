@@ -1,0 +1,25 @@
+---
+import { RESSOURCES } from "../data/ressources";
+import { COLORS } from "../data/colors";
+import type { IdRessource } from "../types/ressources/IdRessource";
+
+interface Props {
+  id: IdRessource;
+  plural?: true;
+  outline?: true;
+}
+
+const { id, plural, outline } = Astro.props;
+const ressource = RESSOURCES[id];
+const color = COLORS[ressource.color];
+---
+
+<a
+  href={`/les-ressources#${id}`}
+  class={`badge bg-${ressource.color} ${color.textWhite ? "text-light" : "text-dark"}`}
+  style={outline
+    ? `border-color: ${color.textWhite ? "#eee" : "#111"}`
+    : undefined}
+>
+  {plural && ressource.plural ? ressource.plural : ressource.name}
+</a>

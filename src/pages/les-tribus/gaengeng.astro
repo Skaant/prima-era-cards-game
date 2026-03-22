@@ -1,0 +1,55 @@
+---
+import Layout from "../../components/Layout.astro";
+import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
+---
+
+<Layout title="La tribu Gaengeng">
+  <div class="section">
+    <h1>La <a href="/les-tribus">tribu</a> <Tribu id="gaengeng" /></h1>
+    <p>
+      Les <Tribu id="gaengeng" plural={true} />
+      s'intéressent aux fondements du <Ressource id="waild" /> : les organismes vivants.
+    </p>
+    <p>
+      Ils collectionnent les <Ressource id="genes" plural={true} /> de toutes les
+      espèces d'animaux, de plantes ou même de bactéries, pour en inventorier les
+      propriétés.
+    </p>
+    <p>
+      Et ce n'est pas de la simple curiosité, puisqu'iels sont aussi capables de
+      recréer n'importe quel être vivant à partir de ses génétiques !
+    </p>
+    <h2>Mécaniques</h2>
+    <ul>
+      <li>
+        <b>Archives du vivant :</b>
+        collecte et création de <Ressource id="genes" plural={true} /> à partir du
+        <Ressource id="waild" />, des <Ressource id="genes" plural={true} /> existant
+        ou de <Ressource id="data" />
+      </li>
+      <li>
+        <b>Génie nano :</b>
+        production de <Ressource id="data" /> relative aux <Ressource
+          id="genes"
+          plural={true}
+        />
+      </li>
+      <li>
+        <b>Manifester la multitude :</b>
+        génération d' <Ressource id="enfants" plural={true} /> et de <Ressource
+          id="zums"
+          plural={true}
+        /> et clonage d'êtres vivants, à partir d' <Ressource id="eau" /> et de <Ressource
+          id="jing"
+        />.
+      </li>
+      <li>Type carte permanente : cellule</li>
+      <li>
+        Légère production de <Ressource id="jing" /> et de <Ressource
+          id="waild"
+        />
+      </li>
+    </ul>
+  </div>
+</Layout>

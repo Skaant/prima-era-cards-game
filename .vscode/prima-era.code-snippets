@@ -1,0 +1,22 @@
+{
+  "Tribu": {
+    "prefix": "trib",
+    "body": "<Tribu id=\"$1\" />",
+    "description": "Insert <Tribu id=\"$1\" />",
+  },
+  "Ressource": {
+    "prefix": "ress",
+    "body": "<Ressource id=\"$1\" />",
+    "description": "Insert <Ressource id=\"$1\" />",
+  },
+  "Ressources au pluriel": {
+    "prefix": "resp",
+    "body": "<Ressource id=\"$1\" plural={true} />",
+    "description": "Insert <Ressource id=\"$1\" />",
+  },
+  "Ressource waild": {
+    "prefix": "waild",
+    "body": "<Ressource id=\"waild\" />",
+    "description": "Insert <Ressource id=\"waild\" />",
+  },
+}

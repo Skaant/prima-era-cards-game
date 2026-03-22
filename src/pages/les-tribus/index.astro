@@ -1,0 +1,30 @@
+---
+import Layout from "../../components/Layout.astro";
+import Tribu from "../../components/Tribu.astro";
+import { TRIBUS } from "../../data/tribus";
+import type { IdTribu } from "../../types/tribus/IdTribu";
+
+const tribus = Object.keys(TRIBUS) as IdTribu[];
+---
+
+<Layout title="Les tribus" currentPage="les-tribus">
+  <div class="section">
+    <h1>Les tribus</h1>
+    <ul id="liste-tribu" class="inline-list">
+      {
+        tribus.map((id) => (
+          <li>
+            <Tribu id={id} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>
+
+<style>
+  #liste-tribu {
+    font-size: 1.5rem;
+    gap: 0.5rem;
+  }
+</style>

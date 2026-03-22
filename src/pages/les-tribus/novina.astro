@@ -1,0 +1,54 @@
+---
+import Layout from "../../components/Layout.astro";
+import Ressource from "../../components/Ressource.astro";
+---
+
+<Layout title="La tribu Novina">
+  <div class="section">
+    <h1>La tribu Novina</h1>
+    <p>
+      Aux frontières de Grand-Arbre, la vie livre sa plus grande bataille contre
+      l'inerte.
+    </p>
+    <p>
+      C'est là qu'on trouve les Novinas, affairés, en train d'implanter le
+      waild.
+    </p>
+    <p>
+      Toujours en quête de territoires vierges à découvrir et à ensemencer, ils
+      laissent derrière eux des vestiges fertiles et sont prêts à tout
+      recommencer.
+    </p>
+  </div>
+  <div class="section">
+    <h2>Mécaniques</h2>
+    <ul>
+      <li>Optimal : <Ressource id="waild" /> faible ou actif</li>
+      <li>
+        <b>Implanter la vie :</b>
+        produit beaucoup de <Ressource id="waild" />, à partir d' <Ressource
+          id="eau"
+        /> et/ou d' <Ressource id="humus" />
+      </li>
+      <li>
+        <b>Explorateurs sans limite :</b>
+        découvre de l'<Ressource id="inerte-supervisé" />, qui ouvre de l'espace
+        pour encore plus de <Ressource id="waild" />
+      </li>
+      <li>
+        Produit un peu d'<Ressource id="eau" /> à partir du sol, <i>
+          là où il n'y a pas de rivières ou de végétation</i
+        >
+      </li>
+      <li>
+        Produit un peu d'<Ressource id="humus" />, en créant des obstacles qui
+        retiennent la matière organique
+      </li>
+      <li>
+        Produit de la <Ressource id="data" /> principalement lorsque le <Ressource
+          id="waild"
+        /> est bas
+      </li>
+    </ul>
+  </div>
+</Layout>

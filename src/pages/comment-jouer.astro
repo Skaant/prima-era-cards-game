@@ -1,0 +1,95 @@
+---
+import Layout from "../components/Layout.astro";
+---
+
+<Layout title="Comment jouer ?" currentPage="comment-jouer">
+  <div class="section">
+    <h1>Comment jouer ?</h1>
+    <p>Ici vous trouverez les règles pour jouer à Prima-Era.</p>
+  </div>
+  <div class="section">
+    <h2>Les cycles</h2>
+    <p>
+      Une partie se décompose en un nombre de cycles (tours) nécessaire pour
+      atteindre <a href="#objectifs-de-victoire">un objectif</a>.
+    </p>
+    <p>Les cycles eux-mêmes sont composés de plusieurs phases :</p>
+    <ul>
+      <li><a href="#phase-de-pioche">Phase de pioche</a></li>
+      <li><a href="#phase-d-actions">Phase d'actions</a></li>
+      <li><a href="#phase-de-production">Phase de production</a></li>
+    </ul>
+    <h3 id="phase-de-pioche">Phase de pioche</h3>
+    <p>
+      Au début du cycle, chaque joueur·euse tire 5 cartes face cachée d'une ou
+      plusieurs pioches de tribus.
+    </p>
+    <p>
+      Une fois toutes les cartes piochées, elles sont retournées face visible.
+    </p>
+    <p>
+      Les joueur·euses choisissent d'ajouter jusqu'à 3 cartes à leur main,
+      celle-ci ne devant pas dépasser 7 cartes.
+    </p>
+    <p>Ils peuvent ensuite s'échanger des cartes de leur main.</p>
+    <h3 id="phase-d-actions">Phase d'actions</h3>
+    <p>
+      Durant cette phase, les joueur·euses peuvent jouer les cartes présentes
+      dans leur main.
+    </p>
+    <p>
+      Pour cela, il faut généralement s'acquitter d'un coût en ressources et
+      répondre à différents prérequis.
+    </p>
+    <p>
+      L'évolution de la quantité, de la production par cycle et du stockage
+      maximum des ressources est matérialisée par des barrettes de ressources et
+      des jetons d'unités.
+    </p>
+    <h3 id="phase-de-production">Phase de production</h3>
+    <p>
+      À la fin du cycle, on résoud les différentes consommations ou productions
+      dites "par cycle".
+    </p>
+    <p>
+      Il faut prendre en compte les productions des cartes permanents en jeu,
+      ainsi que les effets inter-ressources (ex: chaque 1 zum produit 1 data par
+      cycle).
+    </p>
+  </div>
+  <div class="section">
+    <h2 id="objectifs-de-victoire">Objectifs de victoire</h2>
+    <p>
+      Pour gagner la partie, plusieurs objectifs sont donnés aux joueur·euses :
+    </p>
+    <ul>
+      <li>
+        <b>Remplir l'univers de vie</b>, atteindre 80 <a
+          href="/les-ressources#waild">waïld</a
+        >,
+      </li>
+      <li>
+        <b>Atteindre l'illumination</b>, atteindre 10 <a
+          href="/les-ressources#aibs">aïbs</a
+        >,
+      </li>
+      <li>
+        <b>Comprendre les secrets de l'univers</b>, atteindre 200 <a
+          href="/les-ressources#data">data</a
+        >
+      </li>
+      <li>
+        <b>Naissance d'une supra-civilisation</b>, bâtir 4 <b>vaults</b>,
+      </li>
+      <li>
+        <b>Union de toutes les tribus</b>, atteindre une affinité de 2 avec 10
+        <a href="les-tribus">tribus</a>,
+      </li>
+      <li>
+        <b>Biodiversité infinie</b>, atteindre 50 <a
+          href="/les-ressources#genetiques">génétiques</a
+        >.
+      </li>
+    </ul>
+  </div>
+</Layout>

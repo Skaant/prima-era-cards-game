@@ -1,0 +1,126 @@
+h1 {
+  margin-top: 20vh;
+}
+
+.section {
+  > * {
+    max-width: 800px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+}
+
+/* Background color classes */
+.bg-light {
+  background-color: #eee;
+}
+.bg-muted {
+  background-color: #6c757d;
+  color: white;
+}
+.bg-dark {
+  background-color: #111;
+  color: white;
+}
+.bg-gold {
+  background-color: #ffcd5c;
+}
+.bg-light-gold {
+  background-color: #ffde95;
+}
+.bg-blue {
+  background-color: #5d89ff;
+  color: white;
+}
+.bg-light-blue {
+  background-color: #bfd8ff;
+}
+.bg-deep {
+  background-color: #433869;
+  color: white;
+}
+.bg-light-deep {
+  background-color: #b6b1c5;
+}
+.bg-jewel {
+  background-color: #ffdcb0;
+}
+.bg-skin {
+  background-color: #ff6e38;
+}
+.bg-dark-skin {
+  background-color: #a7654d;
+  color: white;
+}
+.bg-light-skin {
+  background-color: #ffaf92;
+}
+.bg-green {
+  background-color: #46af49;
+  color: white;
+}
+.bg-light-green {
+  background-color: #95df3a;
+}
+.bg-dark-green {
+  background-color: #5f9c21;
+}
+.bg-purple {
+  background-color: #a735ff;
+  color: white;
+}
+.bg-light-purple {
+  background-color: #c579ff;
+}
+.bg-dark-purple {
+  background-color: #6a0dad;
+  color: white;
+}
+.bg-brown {
+  background-color: #7b4a2d;
+  color: white;
+}
+.bg-light-brown {
+  background-color: #b47c5b;
+}
+.bg-turquoize {
+  background-color: #00ffab;
+}
+.bg-dark-turquoize {
+  background-color: #10b688;
+  color: white;
+}
+.bg-orange {
+  background-color: #ff9900;
+}
+
+/* Inline list */
+.inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+}
+
+/* Text color */
+.text-light {
+  color: #eee;
+}
+.text-dark {
+  color: #111;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 0 0.45em 0.1em;
+  font-size: 1em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 1em;
+  text-decoration: none;
+  border: 2px solid transparent;
+}

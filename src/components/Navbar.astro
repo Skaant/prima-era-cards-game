@@ -1,0 +1,62 @@
+---
+type NavSlug = "comment-jouer" | "l-univers" | "les-tribus" | "les-ressources";
+
+interface Props {
+  currentPage?: NavSlug;
+}
+
+const { currentPage } = Astro.props;
+
+const links: { slug: NavSlug; label: string }[] = [
+  { slug: "comment-jouer", label: "Comment jouer ?" },
+  { slug: "l-univers", label: "L'univers" },
+  { slug: "les-tribus", label: "Les tribus" },
+  { slug: "les-ressources", label: "Les ressources" },
+];
+---
+
+<nav>
+  <a href="/" id="site-name">Prima-Era</a>
+  <div id="nav-links">
+    {
+      links.map(({ slug, label }) =>
+        slug === currentPage ? (
+          <span>{label}</span>
+        ) : (
+          <a href={`/${slug}`}>{label}</a>
+        ),
+      )
+    }
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+  }
+
+  #site-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  #nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  #nav-links a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  #nav-links a:hover,
+  #site-name:hover {
+    text-decoration: underline;
+  }
+</style>
