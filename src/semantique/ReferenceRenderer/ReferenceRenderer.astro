@@ -1,0 +1,29 @@
+---
+import { RESSOURCES } from "../../data/ressources";
+import { TRIBUS } from "../../data/tribus";
+import type { IdRessource } from "../../types/ressources/IdRessource";
+import type { IdTribu } from "../../types/tribus/IdTribu";
+import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
+
+interface Props {
+  value: string;
+  hideAmount?: true;
+}
+
+const { value, hideAmount } = Astro.props;
+const splatValue = value.split(" ");
+const amount = splatValue.length === 2 ? splatValue[0] : undefined;
+const reference = splatValue[splatValue.length === 2 ? 1 : 0];
+const isRessource = reference in RESSOURCES;
+const isTribu = !isRessource && reference in TRIBUS;
+const isPlural = amount === "*" || Number(amount) > 1;
+---
+
+{amount && amount !== "*" && !hideAmount ? `${amount} ` : ""}
+{
+  isRessource && (
+    <Ressource id={reference as IdRessource} plural={isPlural || undefined} />
+  )
+}
+{isTribu && <Tribu id={reference as IdTribu} plural={isPlural || undefined} />}

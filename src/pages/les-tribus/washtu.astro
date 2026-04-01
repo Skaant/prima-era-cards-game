@@ -1,0 +1,61 @@
+---
+import ListeCartes from "../../cartes/ListeCartes.astro";
+import Layout from "../../components/Layout.astro";
+import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
+---
+
+<Layout title="La tribu Permak">
+  <div class="section">
+    <h1>La <a href="/les-tribus">tribu</a> <Tribu id="permak" /></h1>
+    <p><i>Culture du waïld pour l'abondance</i></p>
+    <p>
+      La waïld peut être entretenu pour produire d'avantage de ressources,
+      nourrir plus de zums et créer encore plus de waïld.
+    </p>
+    <p>
+      Les permaks sont très forts à ça, du fait de leur capacité à observer
+      longuement pour produire les micro-actions les plus efficaces.
+    </p>
+    <p>
+      Connectés aux aspirations du waïld, ils vont avec lui et ne cherchent pas
+      à lui imposer quoi que ce soit.
+    </p>
+  </div>
+  <div class="section">
+    <h2>Mécaniques</h2>
+    <ul>
+      <li>Optimal : <Ressource id="waild" /> actif ou fort</li>
+      <li>
+        <b>Nourrir les zums :</b>
+        produit beaucoup de <Ressource id="jing" /> , à partir d' <Ressource
+          id="eau"
+        /> , de <Ressource id="waild" /> , de <Ressource id="waild-entretenu" /> et/ou
+        d' <Ressource id="humus" />
+      </li>
+      <li>
+        <b>Conduite syntropique :</b>
+        produit du <Ressource id="waild-entretenu" /> , qui peut être <i>
+          collecté</i
+        > pour obtenir de l'<Ressource id="eau" />, du <Ressource id="jing" />
+        ou de l'<Ressource id="humus" />, et peut être compté ou non dans les
+        prérequis de <Ressource id="waild" />.
+      </li>
+      <li>
+        <b> Sol vivant : </b>
+        produit de l'<Ressource id="humus" /> , qui génère du <Ressource
+          id="waild"
+        /> chaque cycle et peut être utilisé pour payer le coût en <Ressource
+          id="eau"
+        /> ou en <Ressource id="jing" />
+        d'une plante ou d'un bâtiment organique
+      </li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>Cartes de base</h2>
+    <ListeCartes
+      ids={["eau", "cueilleur", "jardin", "waild", "échanges avec le jardin"]}
+    />
+  </div>
+</Layout>

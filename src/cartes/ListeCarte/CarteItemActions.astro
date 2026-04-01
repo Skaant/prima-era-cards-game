@@ -1,0 +1,38 @@
+---
+import Ressource from "../../components/Ressource.astro";
+import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
+import type { IdRessource } from "../../types/ressources/IdRessource";
+import type { Carte } from "../type/Carte";
+
+interface Props {
+  actions: Carte["actions"];
+}
+
+const { actions } = Astro.props;
+---
+
+<td class="carte-actions">
+  {
+    actions && actions.length > 0 && (
+      <>
+<ul>
+          {actions.map(({ nom, couts, effet }) => {
+            
+            return (
+              <li>
+                <i>{nom}</i> :
+                {(Object.entries(couts) as [IdRessource, number][])
+                .map(([id, value]) => <>
+                  {value} <Ressource id={id} plural={value >= 1 || undefined} />
+                </>)}
+                <br/>
+                =>
+                <DynamicString value={effet}  />
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    )
+  }
+</td>

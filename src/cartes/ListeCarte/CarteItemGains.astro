@@ -1,0 +1,100 @@
+---
+import Ressource from "../../components/Ressource.astro";
+import StockSvgSwitch from "../../ressources/svg/StockSvgSwitch.astro";
+import type { Carte } from "../type/Carte";
+
+interface Props {
+  gains: Carte["gains"];
+}
+
+const { gains } = Astro.props;
+const traibs = gains?.traibs
+  ? (Object.entries(gains.traibs) as [string, number][])
+  : [];
+---
+
+<td class="carte-gains">
+  {
+    gains &&
+      (traibs.length > 0 ||
+        (gains.ressources && gains.ressources.length > 0) ||
+        (gains.autres && gains.autres.length > 0)) && (
+        <>
+          {traibs.length > 0 && (
+            <ul>
+              {traibs.map(([tribu, valeur]) => (
+                <li>
+                  {" "}
+                  +{valeur} {tribu}
+                </li>
+              ))}
+            </ul>
+          )}
+          {gains.ressources && gains.ressources.length > 0 && (
+            <ul>
+              {gains.ressources.map((ress) => (
+                <li>
+                  {"aBranchesMax" in ress && (
+                    <span class="legend">
+                      <Ressource id="branches" plural={true} /> max :{" "}
+                    </span>
+                  )}
+                  {ress.value
+                    ? "stock" in ress && "stockIndividuel" in ress
+                      ? ""
+                      : ress.value > 0
+                        ? "+"
+                        : "-"
+                    : ""}
+                  {ress.value}
+                  {("stockIndividuel" in ress &&
+                    ress.stockIndividuel &&
+                    (ress.stockIndividuel === true ? (
+                      <StockSvgSwitch type="indiv" />
+                    ) : ress.stockIndividuel === "in" ? (
+                      <StockSvgSwitch type="indiv-in" />
+                    ) : (
+                      <StockSvgSwitch type="indiv-out" />
+                    ))) ||
+                    ("stock" in ress && <StockSvgSwitch />)}
+                  <Ressource
+                    id={ress.id}
+                    plural={
+                      ress.value && (ress.value > 1 || ress.value < -1)
+                        ? true
+                        : undefined
+                    }
+                  />
+                  {"parBranche" in ress && (
+                    <span>
+                      / <Ressource id="branches" />
+                    </span>
+                  )}
+                  {"parCycle" in ress && <span>/ cycle</span>}
+                </li>
+              ))}
+            </ul>
+          )}
+          {gains.autres && gains.autres.length > 0 && (
+            <ul class="autres">
+              {gains.autres.map((autre) => (
+                <li>{autre}</li>
+              ))}
+            </ul>
+          )}
+        </>
+      )
+  }
+</td>
+
+<style>
+  .carte-gains > ul {
+    justify-content: start;
+    flex-direction: column;
+    > li {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+</style>

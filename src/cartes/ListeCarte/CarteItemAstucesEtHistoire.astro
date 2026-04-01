@@ -1,0 +1,25 @@
+---
+import type { Carte } from "../type/Carte";
+
+interface Props {
+  astuces?: Carte["astuces"];
+  histoire?: Carte["histoire"];
+}
+
+const { astuces, histoire } = Astro.props;
+---
+
+<td class="carte-astuces-histoire">
+  {astuces && astuces.length > 0 && (
+    <div class="carte-astuces">
+<ul>
+        {astuces.map((astuce) => <li>{astuce}</li>)}
+      </ul>
+    </div>
+  )}
+  {histoire && (
+    <div class="carte-histoire">
+<p>{histoire}</p>
+    </div>
+  )}
+</td>

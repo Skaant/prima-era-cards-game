@@ -1,9 +1,52 @@
 ---
+import ListeCartes from "../../cartes/ListeCartes.astro";
 import Layout from "../../components/Layout.astro";
+import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
 ---
 
 <Layout title="La tribu Oraton">
   <div class="section">
-    <h1>La tribu Oraton</h1>
+    <h1>La <a href="/les-tribus">tribu</a> <Tribu id="oraton" /></h1>
+    <p><i>Construire des villes, mutualiser et bien-vivre ensemble</i></p>
+    <p>
+      Lorsque de nombreux zums, animaux, plantes etc. souhaitent vivre au même
+      endroit, les oratons les aident à planifier un espace qui réponde aux
+      besoins de chacun.
+    </p>
+    <p>
+      La tribu a une expertise pour l'urbanisme, organiser les bâtiments et
+      rendre le mouvement fluide.
+    </p>
+    <p>
+      Pour optimiser l'espace, ils tirent les villes vers le haut tel que c'est
+      le cas pour les triko-cités, dominées par une sphère de psik très pur.
+    </p>
+  </div>
+  <div class="section">
+    <h2>Mécaniques</h2>
+    <ul>
+      <li>Optimal : nombreux bâtiments</li>
+      <li>
+        <b>Accueillir toutes les formes de vie :</b>
+        hébergements pour les <Ressource id="zums" plural={true} /> et facilitation
+        de l'installation d'animaux et plantes.
+      </li>
+      <li>
+        <b>Centre urbain :</b>
+        facilitation de l'installation de bâtiments et méga-bâtiments, <i
+          >construits dessus</i
+        >.
+      </li>
+      <li>
+        <b>Un trésor commun : </b>
+        produit du <Ressource id="psik" />, et applique passivement ses effets
+        aux habitants.
+      </li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>Cartes de base</h2>
+    <ListeCartes ids={[]} />
   </div>
 </Layout>

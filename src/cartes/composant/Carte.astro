@@ -1,0 +1,33 @@
+---
+import type { Carte } from "../type/Carte";
+
+interface Props extends Carte {}
+
+const { nom, type, description } = Astro.props;
+---
+
+<div class="carte">
+  <div>{nom}</div>
+  <div class="type">{type}</div>
+  {description && <p>{description}</p>}
+</div>
+
+<style>
+  .carte {
+    padding: 0.75rem 1rem;
+    border: 1px solid #0004;
+    border-radius: 2px;
+    box-sizing: border-box;
+    background: #fff;
+    > p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .type {
+    margin-top: 0.3em;
+    font-size: 0.7em;
+    opacity: 0.8;
+    text-transform: uppercase;
+  }
+</style>

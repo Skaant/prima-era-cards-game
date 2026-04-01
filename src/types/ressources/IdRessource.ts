@@ -20,4 +20,8 @@ export type IdRessource =
   | "vent"
   | "foto"
   | "shpak"
-  | "genes";
+  | "genes"
+  | "bourgeons-totipotents"
+  | "protection-waild"
+  | "protection-waild-min"
+  | "protection-waild-max";

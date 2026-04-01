@@ -1,0 +1,46 @@
+---
+import type { Carte } from "../Carte";
+import SvgAction from "./SvgAction.astro";
+import SvgAmeliorationDurable from "./SvgAmeliorationDurable.astro";
+import SvgAmeliorationPonctuelle from "./SvgAmeliorationPonctuelle.astro";
+import SvgAnimal from "./SvgAnimal.astro";
+import SvgBatimentArtificiel from "./SvgBatimentArtificiel.astro";
+import SvgBatimentOrganique from "./SvgBatimentOrganique.astro";
+import SvgChampignon from "./SvgChampignon.astro";
+import SvgMeteo from "./SvgMeteo.astro";
+import SvgModule from "./SvgModule.astro";
+import SvgPlante from "./SvgPlante.astro";
+import SvgRessource from "./SvgRessource.astro";
+import SvgZum from "./SvgZum.astro";
+
+interface Props {
+  type: Carte["type"];
+  size?: string;
+}
+
+const { type, size } = Astro.props;
+const svgProps = { size };
+
+const svgMap: Record<
+  Carte["type"],
+  (_props: Record<string, unknown>) => unknown
+> = {
+  action: SvgAction,
+  "amélioration-durable": SvgAmeliorationDurable,
+  "amélioration-ponctuelle": SvgAmeliorationPonctuelle,
+  animal: SvgAnimal,
+  "bâtiment-artificiel": SvgBatimentArtificiel,
+  "bâtiment-organique": SvgBatimentOrganique,
+  champignon: SvgChampignon,
+  météo: SvgMeteo,
+  "module-artificiel": SvgModule,
+  "module-organique": SvgModule,
+  plante: SvgPlante,
+  ressource: SvgRessource,
+  zum: SvgZum,
+};
+
+const SvgComponent = svgMap[type];
+---
+
+{SvgComponent && <SvgComponent {...svgProps} />}

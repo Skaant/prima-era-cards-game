@@ -1,0 +1,44 @@
+---
+import type { Carte } from "../type/Carte";
+import TypesCarteSvgSwitch from "../type/svg/TypesCarteSvgSwitch.astro";
+
+const TYPES_ABREGES: { [key in Carte["type"]]: string } = {
+  action: "action",
+  "amélioration-ponctuelle": "amelio-ponct",
+  "amélioration-durable": "amelio-dura",
+  animal: "animal",
+  "bâtiment-artificiel": "bat-arti",
+  "bâtiment-organique": "bat-org",
+  champignon: "champi",
+  module: "module",
+  météo: "météo",
+  plante: "plante",
+  ressource: "ress",
+  zum: "zum",
+};
+
+interface Props {
+  type: Carte["type"];
+  nom: string;
+}
+
+const { type, nom } = Astro.props;
+---
+
+<td class="carte-item-type-et-nom">
+  <TypesCarteSvgSwitch type={type} />
+  {nom}
+</td>
+
+<style>
+  .carte-item-type-et-nom {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  span.legend {
+    font-size: 0.7em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+</style>

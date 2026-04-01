@@ -1,0 +1,45 @@
+---
+import type { SvgProps } from "../../svg/SvgProps.type";
+import SvgStock from "./SvgStock.astro";
+import SvgStockIndividuel from "./SvgStockIndividuel.astro";
+import SvgStockIndividuelIn from "./SvgStockIndividuelIn.astro";
+import SvgStockIndividuelOut from "./SvgStockIndividuelOut.astro";
+
+type StockSvgType = "indiv" | "indiv-in" | "indiv-out";
+
+interface Props extends SvgProps {
+  type?: StockSvgType;
+}
+
+const { type, size, fill } = Astro.props;
+const svgProps = { size, fill };
+
+const svgMap: Record<
+  StockSvgType,
+  (_props: Record<"title" | string, unknown>) => unknown
+> = {
+  indiv: SvgStockIndividuel,
+  "indiv-in": SvgStockIndividuelIn,
+  "indiv-out": SvgStockIndividuelOut,
+};
+
+const stockIndivTitle =
+  "stock individuel (non comptabilisé dans le stock global)";
+
+const titleMap: Record<StockSvgType, string> = {
+  indiv: stockIndivTitle,
+  "indiv-in": `${stockIndivTitle}, en DÉPÔT seulement`,
+  "indiv-out": `${stockIndivTitle}, en COLLECTE seulement`,
+};
+
+const SvgComponent = type ? svgMap[type] : SvgStock;
+---
+
+{
+  SvgComponent && (
+    <SvgComponent
+      title={type ? titleMap[type] : "stock global"}
+      {...svgProps}
+    />
+  )
+}

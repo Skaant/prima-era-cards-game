@@ -1,7 +1,12 @@
 {
   "Tribu": {
-    "prefix": "trib",
+    "prefix": "trb",
     "body": "<Tribu id=\"$1\" />",
+    "description": "Insert <Tribu id=\"$1\" />",
+  },
+  "Tribus": {
+    "prefix": "trbs",
+    "body": "<Tribu id=\"$1\" plural={true} />",
     "description": "Insert <Tribu id=\"$1\" />",
   },
   "Ressource": {
@@ -14,9 +19,29 @@
     "body": "<Ressource id=\"$1\" plural={true} />",
     "description": "Insert <Ressource id=\"$1\" />",
   },
+  "Ressource eau": {
+    "prefix": "eau",
+    "body": "<Ressource id=\"eau\" />",
+    "description": "Insert <Ressource id=\"eau\" />",
+  },
+  "Ressource jing": {
+    "prefix": "jing",
+    "body": "<Ressource id=\"jing\" />",
+    "description": "Insert <Ressource id=\"jing\" />",
+  },
+  "Ressource enfants": {
+    "prefix": "enfants",
+    "body": "<Ressource id=\"enfants\" plural={true} />",
+    "description": "Insert <Ressource id=\"enfants\" plural={true} />",
+  },
   "Ressource waild": {
     "prefix": "waild",
     "body": "<Ressource id=\"waild\" />",
     "description": "Insert <Ressource id=\"waild\" />",
+  },
+  "Ressource zums": {
+    "prefix": "zums",
+    "body": "<Ressource id=\"zums\" plural={true} />",
+    "description": "Insert <Ressource id=\"zums\" plural={true} />",
   },
 }

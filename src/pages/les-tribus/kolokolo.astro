@@ -1,31 +1,153 @@
 ---
+import ListeCartes from "../../cartes/ListeCarte/ListeCartes.astro";
 import Layout from "../../components/Layout.astro";
+import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
 ---
 
 <Layout title="La tribu Kolokolo">
   <div class="section">
-    <h1>La tribu Kolokolo</h1>
-
-    <p>
-      Quand des zums s'installent dans le waild, les kolokolos leur permettent
-      de rapidement subvenir à leur besoin.
-    </p>
-    <p>
-      En s'harmonisant avec leur environnement, ils créent des espaces sécurisés
-      pour des populations naissantes.
-    </p>
-    <p>Ils sont un maillon primordial pour emmener la vie encore plus loin.</p>
+    <p><a href="/les-tribus" class="small">Retour aux tribus</a></p>
+    <h1>Tribu <Tribu id="kolokolo" /></h1>
+    <div class="col-left">
+      <div>
+        <blockquote>Vivre au milieu du waïld</blockquote>
+        <p>
+          Les vagues incessantes de <Ressource id="zums" plural={true} /> et de vie
+          qui se déversent dans l'espace pour le remplir tombent parfois <b
+            >sur des territoires déjà colonisés par le <Ressource
+              id="waild"
+            /></b
+          >. Mais sans la bonne infrastructure et écologie, le <Ressource
+            id="waild"
+          /> fort ou extrême peut <b>balayer toutes tentatives d'installation</b
+          >.
+        </p>
+        <p>
+          Les <Tribu id="kolokolo" plural={true} /> sont les protecteurs des établissements
+          <Ressource id="zums" plural={true} /> dans un <Ressource id="waild" /> chaotique.
+          Leur connexion à la nature s'exprime dans leur <b
+            >habileté à négocier avec l'environnement</b
+          > pour équilibrer les besoins des animaux, plantes et champignons autochtones
+          avec ceux des nouveaux arrivants. Ainsi harmonisés, la population de <Ressource
+            id="zums"
+            plural={true}
+          />
+          croît et le <Ressource id="waild" /> se développe encore plus vite.
+        </p>
+      </div>
+      <div>
+        <h2>Optimum</h2>
+        <p><Ressource id="waild" /> fort (25 à 60)</p>
+        <h2>Mécaniques</h2>
+        <ul>
+          <li>
+            Protection <Ressource id="waild" />
+          </li>
+          <li>
+            + <Ressource id="bourgeons-totipotents" plural={true} />
+          </li>
+          <li>
+            Hébergement pour <Ressource id="zums" plural={true} />
+          </li>
+          <li>+ <Ressource id="enfants" plural={true} /> / cycle</li>
+          <li>
+            + stock et production légère d'<Ressource id="eau" /> et de <Ressource
+              id="jing"
+            />
+          </li>
+          <li>+ <Ressource id="waild" /> et <Ressource id="humus" /></li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="section">
-    <h2>Mécaniques</h2>
-    <ul>
-      <li>Conditions optimales : waild actif.</li>
-      <li>Réduction des prérequis en waild</li>
-      <li>Hébèrgements pour zums, et développement des enfants.</li>
-      <li>
-        <i>Polyvalence :</i> production et stockage d'eau, jing, data et psik.
-      </li>
-      <li>Aides à l'installation d'animaux, plantes et bâtiments.</li>
-    </ul>
+    <h2>Dynamiques</h2>
+    <h3>Évolution vers le <Ressource id="waild" /> extrême</h3>
+    <div>
+      <blockquote>
+        La continuité écologique emmène l'inerte jusqu'à son optimum.
+      </blockquote>
+    </div>
+    <p>
+      Pour atteindre l'<b>objectif de <Ressource id="waild" /> élevé</b>, en
+      plus de la difficulté d'accumuler la quantité requise, il faut aussi
+      pouvoir y <b>resister</b>. Les <Tribu id="kolokolo" plural={true} />
+      sont très bien adaptés grâce à la <b
+        >protection <Ressource id="waild" /></b
+      >, qui réduit d'une part le niveau minimal de <Ressource id="waild" /> requis
+      par certains animaux, plantes ou bâtiments organiques pour s'installer, mais
+      augmente d'autre part leur <b>résistance à des niveaux extrêmes</b> de <Ressource
+        id="waild"
+      />.
+    </p>
+    <p>
+      La capacité de la tribu à produire de l'<Ressource id="humus" /> joue un rôle
+      important, puisque celui-ci <b
+        >stimule la croissance du <Ressource id="waild" /></b
+      >. Une fois leur dynamique bien lancée, les <Ressource id="waild" /> et l'<Ressource
+        id="humus"
+      />
+      forment un cercle vertueux, à l'origine d'une <b
+        >croissance exponentielle de la biomasse</b
+      >.
+    </p>
+    <h3>Aider les <Ressource id="zums" plural={true} /> à croître</h3>
+    <div><blockquote>Support de toutes les autres tribus</blockquote></div>
+    <p>
+      Les <Tribu id="kolokolo" plural={true} /> sont le pilier du <b
+        >développement des populations <Ressource id="zums" plural={true} /></b
+      >, capables de subvenir à leurs besoins primaires : <Ressource
+        id="eau"
+      />, <Ressource id="jing" />
+      et logement. Bien que n'étant pas d'excellents producteurs, ils disposent d'<b
+        >importantes capacités de stockage</b
+      > pour toutes les ressources de base.
+    </p>
+    <p>
+      Également, ils fournissent des environnements confortables, propices à la
+      <b>génération d'<Ressource id="enfants" plural={true} /></b> qui deviendront,
+      au bout de plusieurs cycles, des <Ressource id="zums" plural={true} />.
+      Grâce aux <Tribu id="kolokolo" plural={true} />, tous bénéficient d'amples
+      espaces pour vivre et se reposer.
+    </p>
+    <h3>Favoriser la vie au sein de la colonie</h3>
+    <div>
+      <blockquote>
+        À quoi bon vivre, si c'est seul et coupé de la nature ?
+      </blockquote>
+    </div>
+    <p>
+      La <Ressource id="protection-waild" /> permet d'<b
+        >accueillir rapidement des espèces exigeantes</b
+      > et de <b>les conserver le plus longtemps possible</b> au cours de la continuité
+      écologique, tirant le meilleur parti de leurs apports. Mais ce n'est pas le
+      seul talent de la tribu
+      <Tribu id="kolokolo" /> pour amplifier la vie.
+    </p>
+    <p>
+      L'usage de <Ressource id="bourgeons-totipotents" plural={true} /> réduit le
+      coût des bâtiments organiques et des plantes, accélère leur croissance et peut
+      être converti en <Ressource id="waild" />. Certains zums et bâtiments
+      <b>facilitent l'implantation</b> de plantes, champignons et animaux dans l'établissement.
+    </p>
+  </div>
+  <div class="section">
+    <h2>Cartes</h2>
+    <ListeCartes
+      ids={[
+        "petit-dom",
+        "entrepot-stockage",
+        "citerne",
+        "haie-mature",
+        "glaneur",
+        "jing",
+        "godosava-petites-aiguilles",
+        "poche-impermeable",
+        "cellier",
+        "mousse-epaisse",
+        "treille",
+      ]}
+    />
   </div>
 </Layout>

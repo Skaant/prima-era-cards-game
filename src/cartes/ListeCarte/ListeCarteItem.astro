@@ -1,0 +1,63 @@
+---
+import type { IdCarte } from "../IdCarte";
+import type { Carte } from "../type/Carte";
+import CarteItemPrerequis from "./CarteItemPrerequis.astro";
+import CarteItemGains from "./CarteItemGains.astro";
+import CarteItemActions from "./CarteItemActions.astro";
+import CarteItemCouts from "./CarteItemCouts.astro";
+import CarteItemAstucesEtHistoire from "./CarteItemAstucesEtHistoire.astro";
+import CarteItemTypeEtNom from "./CarteItemTypeEtNom.astro";
+
+interface Props {
+  id: IdCarte;
+  carte: Carte;
+}
+
+const { carte } = Astro.props;
+const { nom, description, ...data } = carte;
+---
+
+<tr class="carte-item">
+  <CarteItemTypeEtNom type={data.type} nom={nom} />
+  <CarteItemPrerequis prerequis={data.prerequis} />
+  <CarteItemCouts couts={data.couts} />
+  <CarteItemGains gains={data.gains} />
+  <CarteItemActions actions={data.actions} />
+  <CarteItemAstucesEtHistoire astuces={data.astuces} histoire={data.histoire} />
+  <td>{description}</td>
+</tr>
+
+<style>
+  .carte-item {
+    white-space: nowrap;
+    > td {
+      vertical-align: top;
+      padding-right: 12px;
+      border-top: 1px solid #888;
+    }
+    > :first-child {
+      font-family: "pangaia";
+      padding-top: 4px;
+      font-size: 1.2em;
+    }
+    > :not(:first-child) {
+      border-left: solid 1px #888;
+      padding-left: 0.8em;
+    }
+    span.legend {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      .badge {
+        text-transform: none;
+      }
+    }
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 4px;
+      padding-left: 0;
+      margin: 0.2em 0 0.6em;
+    }
+  }
+</style>

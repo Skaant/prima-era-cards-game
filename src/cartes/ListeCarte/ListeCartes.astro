@@ -1,0 +1,46 @@
+---
+import Ressource from "../../components/Ressource.astro";
+import type { IdCarte } from "../IdCarte";
+import { TOUTES_CARTES } from "../toutes-cartes";
+import ListeCarteItem from "./ListeCarteItem.astro";
+
+interface Props {
+  ids: IdCarte[];
+}
+
+const { ids } = Astro.props;
+const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
+---
+
+<div class="liste-cartes-wrapper">
+  <table class="liste-cartes">
+    <thead>
+      <tr>
+        <th>carte</th>
+        <th>prérequis</th>
+        <th>coûts</th>
+        <th>gains</th>
+        <th>actions</th>
+        <th>astuces & histoire</th>
+      </tr>
+    </thead>
+    <tbody>
+      {cartes.map(({ id, carte }) => <ListeCarteItem {id} {carte} />)}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .liste-cartes-wrapper {
+    overflow-x: auto;
+  }
+  .liste-cartes {
+    width: 100%;
+    font-size: 0.85em;
+    th {
+      text-transform: uppercase;
+      opacity: 0.8;
+      padding: 0.8em;
+    }
+  }
+</style>

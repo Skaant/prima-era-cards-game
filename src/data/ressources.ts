@@ -12,7 +12,7 @@ export const RESSOURCES: {
 } = {
   eau: { name: "eau", color: "blue" },
   jing: { name: "jing", color: "skin" },
-  waild: { name: "waild", color: "green" },
+  waild: { name: "waild", color: "dark-green" },
   data: { name: "data", color: "turquoize" },
   aibs: { name: "aïbs", color: "gold" },
   zums: { name: "zum", plural: "zums", color: "skin" },
@@ -21,7 +21,7 @@ export const RESSOURCES: {
   psik: { name: "psik", color: "purple" },
   joie: { name: "joie", color: "gold" },
   "waild-entretenu": { name: "waild entretenu", color: "light-green" },
-  humus: { name: "humus", color: "dark-green" },
+  humus: { name: "humus", color: "brown" },
   branches: { name: "branche", plural: "branches", color: "light-brown" },
   miko: { name: "miko", color: "dark-purple" },
   "inerte-supervisé": {
@@ -56,5 +56,22 @@ export const RESSOURCES: {
     name: "gêne",
     plural: "gênes",
     color: "dark-turquoize",
+  },
+  "bourgeons-totipotents": {
+    name: "bourgeon totipotent",
+    plural: "bourgeons totipotents",
+    color: "light-green",
+  },
+  "protection-waild": {
+    name: "protection waïld",
+    color: "dark-green",
+  },
+  "protection-waild-min": {
+    name: "protection waïld min",
+    color: "dark-green",
+  },
+  "protection-waild-max": {
+    name: "protection waïld max",
+    color: "dark-green",
   },
 };

@@ -1,0 +1,45 @@
+---
+import ReferenceRenderer from "../ReferenceRenderer/ReferenceRenderer.astro";
+
+interface Props {
+  value: string;
+}
+
+const { value } = Astro.props;
+const pattern = /\*\*(.*?)\*\*|\*(.*?)\*|\{\{(.*?)\}\}/g;
+
+type Part =
+  | { type: "text"; content: string }
+  | { type: "bold"; content: string }
+  | { type: "italic"; content: string }
+  | { type: "reference"; content: string };
+
+const parts: Part[] = [];
+let lastIndex = 0;
+let match: RegExpExecArray | null;
+
+while ((match = pattern.exec(value)) !== null) {
+  if (match.index > lastIndex) {
+    parts.push({ type: "text", content: value.slice(lastIndex, match.index) });
+  }
+  if (match[1] !== undefined) {
+    parts.push({ type: "bold", content: match[1] });
+  } else if (match[2] !== undefined) {
+    parts.push({ type: "italic", content: match[2] });
+  } else if (match[3] !== undefined) {
+    parts.push({ type: "reference", content: match[3] });
+  }
+  lastIndex = pattern.lastIndex;
+}
+
+if (lastIndex < value.length) {
+  parts.push({ type: "text", content: value.slice(lastIndex) });
+}
+---
+
+{parts.map((part) => {
+  if (part.type === "bold") return <b>{part.content}</b>;
+  if (part.type === "italic") return <i>{part.content}</i>;
+  if (part.type === "reference") return <ReferenceRenderer value={part.content} />;
+  return part.content;
+})}

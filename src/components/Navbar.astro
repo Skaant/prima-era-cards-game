@@ -16,6 +16,7 @@ const links: { slug: NavSlug; label: string }[] = [
 ---
 
 <nav>
+  <img src="/banniere.svg" id="banniere" alt="" aria-hidden="true" />
   <a href="/" id="site-name">Prima-Era</a>
   <div id="nav-links">
     {
@@ -32,20 +33,33 @@ const links: { slug: NavSlug; label: string }[] = [
 
 <style>
   nav {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1.5rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 16vh;
+  }
+
+  #banniere {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 62vw;
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
   }
 
   #site-name {
-    font-weight: bold;
+    font-family: "pangaia";
     font-size: 1.2rem;
     text-decoration: none;
     color: inherit;
   }
 
   #nav-links {
+    z-index: 1;
     display: flex;
     gap: 1.5rem;
   }

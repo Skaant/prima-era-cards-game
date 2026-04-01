@@ -1,11 +1,14 @@
 ---
+import ListeCartes from "../../cartes/ListeCartes.astro";
 import Layout from "../../components/Layout.astro";
 import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
 ---
 
 <Layout title="La tribu Novina">
   <div class="section">
-    <h1>La tribu Novina</h1>
+    <h1>La <a href="/les-tribus">tribu</a> <Tribu id="novina" /></h1>
+    <p><i>Apporter la vie où elle n'est pas</i></p>
     <p>
       Aux frontières de Grand-Arbre, la vie livre sa plus grande bataille contre
       l'inerte.
@@ -50,5 +53,9 @@ import Ressource from "../../components/Ressource.astro";
         /> est bas
       </li>
     </ul>
+  </div>
+  <div class="section">
+    <h2>Cartes de base</h2>
+    <ListeCartes ids={["butte", "poadi rhizomatique", "eau"]} />
   </div>
 </Layout>

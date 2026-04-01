@@ -1,0 +1,54 @@
+---
+import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
+import type { IdRessource } from "../../types/ressources/IdRessource";
+import type { IdTribu } from "../../types/tribus/IdTribu";
+import type { Carte } from "../type/Carte";
+
+interface Props {
+  prerequis: Carte["prerequis"];
+}
+
+const { prerequis } = Astro.props;
+const traibs = prerequis?.traibs
+  ? (Object.entries(prerequis.traibs) as [IdTribu, number][])
+  : [];
+---
+
+<td class="carte-prerequis">
+  {
+    prerequis &&
+      (traibs.length > 0 ||
+        (prerequis.ressources &&
+          Object.keys(prerequis.ressources).length > 0)) && (
+        <>
+          {traibs.length > 0 && (
+            <ul>
+              {traibs.map(([tribu, valeur]) => (
+                <li>
+                  <Tribu id={tribu} plural={true} /> > {valeur}
+                </li>
+              ))}
+            </ul>
+          )}
+          {prerequis.ressources &&
+            Object.keys(prerequis.ressources).length > 0 && (
+              <ul>
+                {(
+                  Object.entries(prerequis.ressources) as [
+                    IdRessource,
+                    { min?: number; max?: number },
+                  ][]
+                ).map(([id, { min, max }]) => (
+                  <li>
+                    {min ? `${min} < ` : ""}
+                    <Ressource id={id} />
+                    {max ? ` < ${max}` : ""}
+                  </li>
+                ))}
+              </ul>
+            )}
+        </>
+      )
+  }
+</td>
