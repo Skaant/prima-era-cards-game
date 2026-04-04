@@ -24,4 +24,6 @@ export type IdRessource =
   | "bourgeons-totipotents"
   | "protection-waild"
   | "protection-waild-min"
-  | "protection-waild-max";
+  | "protection-waild-max"
+  | "batiments"
+  | "plantes";

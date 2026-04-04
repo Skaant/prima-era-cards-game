@@ -1,12 +1,12 @@
 ---
-import type { IdCarte } from "../IdCarte";
-import type { Carte } from "../type/Carte";
+import type { Carte } from "../_types/Carte";
 import CarteItemPrerequis from "./CarteItemPrerequis.astro";
 import CarteItemGains from "./CarteItemGains.astro";
 import CarteItemActions from "./CarteItemActions.astro";
 import CarteItemCouts from "./CarteItemCouts.astro";
 import CarteItemAstucesEtHistoire from "./CarteItemAstucesEtHistoire.astro";
 import CarteItemTypeEtNom from "./CarteItemTypeEtNom.astro";
+import type { IdCarte } from "../_types/IdCarte";
 
 interface Props {
   id: IdCarte;
@@ -14,17 +14,16 @@ interface Props {
 }
 
 const { carte } = Astro.props;
-const { nom, description, ...data } = carte;
+const { nom, ...data } = carte;
 ---
 
 <tr class="carte-item">
   <CarteItemTypeEtNom type={data.type} nom={nom} />
-  <CarteItemPrerequis prerequis={data.prerequis} />
-  <CarteItemCouts couts={data.couts} />
-  <CarteItemGains gains={data.gains} />
+  <td><CarteItemPrerequis prerequis={data.prerequis} /></td>
+  <td><CarteItemCouts couts={data.couts} /></td>
+  <td><CarteItemGains gains={data.gains} /></td>
   <CarteItemActions actions={data.actions} />
-  <CarteItemAstucesEtHistoire astuces={data.astuces} histoire={data.histoire} />
-  <td>{description}</td>
+  <CarteItemAstucesEtHistoire notes={data.notes} histoire={data.histoire} />
 </tr>
 
 <style>
@@ -57,7 +56,10 @@ const { nom, description, ...data } = carte;
       display: flex;
       gap: 4px;
       padding-left: 0;
-      margin: 0.2em 0 0.6em;
+      margin: 0.2em 0;
+      ul {
+        margin: 0;
+      }
     }
   }
 </style>

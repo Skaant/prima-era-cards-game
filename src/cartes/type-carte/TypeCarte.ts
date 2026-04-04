@@ -10,4 +10,6 @@ export type _TypeCarte =
   | "amélioration-ponctuelle"
   | "amélioration-durable"
   | "module-organique"
-  | "module-artificiel";
+  | "module-artificiel"
+  | "vault"
+  | "saint";

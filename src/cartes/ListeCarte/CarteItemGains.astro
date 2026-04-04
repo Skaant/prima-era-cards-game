@@ -1,31 +1,36 @@
 ---
 import Ressource from "../../components/Ressource.astro";
+import Tribu from "../../components/Tribu.astro";
 import StockSvgSwitch from "../../ressources/svg/StockSvgSwitch.astro";
-import type { Carte } from "../type/Carte";
+import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
+import type { IdTribu } from "../../types/tribus/IdTribu";
+import type { Carte } from "../_types/Carte";
+import CarteItemPrerequis from "./CarteItemPrerequis.astro";
 
 interface Props {
   gains: Carte["gains"];
 }
 
 const { gains } = Astro.props;
-const traibs = gains?.traibs
-  ? (Object.entries(gains.traibs) as [string, number][])
+const tribus = gains?.tribus
+  ? (Object.entries(gains.tribus) as [IdTribu, number][])
   : [];
 ---
 
-<td class="carte-gains">
+<div class="gains">
   {
     gains &&
-      (traibs.length > 0 ||
+      (tribus.length > 0 ||
         (gains.ressources && gains.ressources.length > 0) ||
         (gains.autres && gains.autres.length > 0)) && (
         <>
-          {traibs.length > 0 && (
+          {tribus.length > 0 && (
             <ul>
-              {traibs.map(([tribu, valeur]) => (
+              {tribus.map(([tribu, valeur]) => (
                 <li>
                   {" "}
-                  +{valeur} {tribu}
+                  +{valeur}{" "}
+                  <Tribu id={tribu} plural={valeur > 1 || undefined} />
                 </li>
               ))}
             </ul>
@@ -34,10 +39,15 @@ const traibs = gains?.traibs
             <ul>
               {gains.ressources.map((ress) => (
                 <li>
-                  {"aBranchesMax" in ress && (
-                    <span class="legend">
-                      <Ressource id="branches" plural={true} /> max :{" "}
-                    </span>
+                  {"prerequis" in ress && ress.prerequis && (
+                    <>
+                      <div class="inline-prerequis">
+                        <i>
+                          Si
+                          <CarteItemPrerequis prerequis={ress.prerequis} /> :
+                        </i>
+                      </div>
+                    </>
                   )}
                   {ress.value
                     ? "stock" in ress && "stockIndividuel" in ress
@@ -65,10 +75,21 @@ const traibs = gains?.traibs
                         : undefined
                     }
                   />
-                  {"parBranche" in ress && (
-                    <span>
-                      / <Ressource id="branches" />
-                    </span>
+                  {"parRessource" in ress && ress.parRessource && (
+                    <>
+                      /{" "}
+                      {ress.parRessource.value
+                        ? `${ress.parRessource.value}`
+                        : ""}{" "}
+                      <Ressource
+                        id={ress.parRessource.id}
+                        plural={
+                          (ress.parRessource.value &&
+                            ress.parRessource.value > 1) ||
+                          undefined
+                        }
+                      />
+                    </>
                   )}
                   {"parCycle" in ress && <span>/ cycle</span>}
                 </li>
@@ -78,23 +99,39 @@ const traibs = gains?.traibs
           {gains.autres && gains.autres.length > 0 && (
             <ul class="autres">
               {gains.autres.map((autre) => (
-                <li>{autre}</li>
+                <li>
+                  <DynamicString value={autre} />
+                </li>
               ))}
             </ul>
           )}
         </>
       )
   }
-</td>
+</div>
 
 <style>
-  .carte-gains > ul {
-    justify-content: start;
-    flex-direction: column;
-    > li {
+  .gains {
+    :global(.prerequis li) {
       display: flex;
       align-items: center;
       gap: 4px;
+    }
+    > ul {
+      justify-content: start;
+      flex-direction: column;
+      > li {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: wrap;
+        line-height: 1em;
+        .inline-prerequis > i {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
     }
   }
 </style>

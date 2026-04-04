@@ -2,7 +2,11 @@ import type { IndexCartes } from "../../IndexCartes";
 import type { IdCarteRessource } from "./IdCarteRessource";
 
 export const CARTES_RESSOURCES: IndexCartes<IdCarteRessource> = {
-  eau: { nom: "Eau", type: "ressource", description: "+1 eau" },
+  eau: {
+    nom: "Eau",
+    type: "ressource",
+    gains: { ressources: [{ id: "eau", value: 1 }] },
+  },
   jing: {
     nom: "Jing",
     type: "ressource",

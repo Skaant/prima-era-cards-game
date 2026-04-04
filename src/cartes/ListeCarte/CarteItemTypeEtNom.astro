@@ -1,21 +1,6 @@
 ---
-import type { Carte } from "../type/Carte";
-import TypesCarteSvgSwitch from "../type/svg/TypesCarteSvgSwitch.astro";
-
-const TYPES_ABREGES: { [key in Carte["type"]]: string } = {
-  action: "action",
-  "amélioration-ponctuelle": "amelio-ponct",
-  "amélioration-durable": "amelio-dura",
-  animal: "animal",
-  "bâtiment-artificiel": "bat-arti",
-  "bâtiment-organique": "bat-org",
-  champignon: "champi",
-  module: "module",
-  météo: "météo",
-  plante: "plante",
-  ressource: "ress",
-  zum: "zum",
-};
+import type { Carte } from "../_types/Carte";
+import TypesCarteSvgSwitch from "../type-carte/svg/TypesCarteSvgSwitch.astro";
 
 interface Props {
   type: Carte["type"];

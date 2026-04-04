@@ -161,7 +161,7 @@ blockquote {
 .badge {
   font-family: "pangaia";
   display: inline-block;
-  margin: 0 0.2rem;
+  margin: 0 0.05rem;
   padding: 0.1em 0.45em 0;
   font-size: 1em;
   line-height: 1;

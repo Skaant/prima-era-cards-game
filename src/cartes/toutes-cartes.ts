@@ -1,4 +1,4 @@
-import type { IdCarte } from "./IdCarte";
+import type { IdCarte } from "./_types/IdCarte";
 import type { IndexCartes } from "./IndexCartes";
 import { CARTES_NEUTRES } from "./neutres/cartes-neutres";
 import { CARTES_TRIBUS } from "./tribus/cartes-tribus";

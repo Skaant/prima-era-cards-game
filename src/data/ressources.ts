@@ -74,4 +74,14 @@ export const RESSOURCES: {
     name: "protection waïld max",
     color: "dark-green",
   },
+  batiments: {
+    name: "bâtiment",
+    plural: "bâtiments",
+    color: "light-blue",
+  },
+  plantes: {
+    name: "plante",
+    plural: "plantes",
+    color: "light-green",
+  },
 };

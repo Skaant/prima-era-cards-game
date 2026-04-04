@@ -1,25 +1,36 @@
 ---
-import type { Carte } from "../type/Carte";
+import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
+import type { Carte } from "../_types/Carte";
 
 interface Props {
-  astuces?: Carte["astuces"];
+  notes?: Carte["notes"];
   histoire?: Carte["histoire"];
 }
 
-const { astuces, histoire } = Astro.props;
+const { notes, histoire } = Astro.props;
 ---
 
-<td class="carte-astuces-histoire">
-  {astuces && astuces.length > 0 && (
-    <div class="carte-astuces">
-<ul>
-        {astuces.map((astuce) => <li>{astuce}</li>)}
-      </ul>
-    </div>
-  )}
-  {histoire && (
-    <div class="carte-histoire">
-<p>{histoire}</p>
-    </div>
-  )}
+<td class="carte-notes-histoire">
+  {
+    notes && notes.length > 0 && (
+      <div class="carte-notes">
+        <ul>
+          {notes.map((note) => (
+            <li>
+              <DynamicString value={note} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+  {
+    histoire && (
+      <div class="carte-histoire">
+        <p>
+          <i>{histoire}</i>
+        </p>
+      </div>
+    )
+  }
 </td>

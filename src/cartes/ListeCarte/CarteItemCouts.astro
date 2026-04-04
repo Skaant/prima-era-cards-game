@@ -1,28 +1,54 @@
 ---
 import Ressource from "../../components/Ressource.astro";
 import type { IdRessource } from "../../types/ressources/IdRessource";
-import type { Carte } from "../type/Carte";
+import type { Carte } from "../_types/Carte";
 
 interface Props {
   couts: Carte["couts"];
 }
 
 const { couts } = Astro.props;
-const entries = couts ? (Object.entries(couts) as [IdRessource, number][]) : [];
 ---
 
-<td class="carte-couts">
+<>
   {
-    entries.length > 0 && (
+    couts?.ressources && (
       <>
-<ul>
-          {entries.map(([id, val]) => (
-            <li>
-              {val} <Ressource id={id} plural={val > 1 ? true : undefined} />
+        <ul>
+          {couts.ressources.map(({ id, value, parRessource, parCycle }) => (
+            <li class="cout">
+              {value}{" "}
+              <Ressource
+                id={id as IdRessource}
+                plural={value > 1 ? true : undefined}
+              />
+              {parRessource && (
+                <div class="cout-ressource">
+                  / {parRessource.value ? `${parRessource.value}` : ""}
+                  <Ressource id={parRessource.id} />
+                </div>
+              )}
+              {parCycle && <span class="cout-cycle">/ cycle</span>}
             </li>
           ))}
         </ul>
       </>
     )
   }
-</td>
+</>
+
+<style>
+  .cout {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cout-ressource {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cout-cycle {
+    margin: 0 0.4em 0 0;
+  }
+</style>

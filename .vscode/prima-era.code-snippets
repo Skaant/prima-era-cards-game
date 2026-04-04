@@ -44,4 +44,20 @@
     "body": "<Ressource id=\"zums\" plural={true} />",
     "description": "Insert <Ressource id=\"zums\" plural={true} />",
   },
+  "Carte": {
+    "prefix": "carte",
+    "body": "'$1': {nom:'$2', type: '$3', $4},",
+  },
+  "Carte prerequis": {
+    "prefix": "cpre",
+    "body": "prerequis: {tribus: {'$1': $2}, ressources: {'$3': {$4: $5}}},",
+  },
+  "Carte ressources": {
+    "prefix": "cress",
+    "body": "{ ressources: [{ id: '$1', value: $2}, $3] }",
+  },
+  "Carte par cycle": {
+    "prefix": "cpcy",
+    "body": "parCycle: true,",
+  },
 }
