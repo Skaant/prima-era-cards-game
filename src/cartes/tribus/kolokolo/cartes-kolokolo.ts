@@ -15,9 +15,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
-      tribus: {
-        kolokolo: 1,
-      },
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "branches", value: 2, stock: true, stockIndividuel: true },
         { id: "branches", value: 1, parCycle: true, stockIndividuel: true },
@@ -918,5 +916,377 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         "{{enfants}} *devient* {{zums}} → +1 {{waild}}",
       ],
     },
+  },
+  "spikologue-animalier": {
+    nom: "Spikologue animalier",
+    type: "zum",
+    prerequis: { tribus: { kolokolo: 25 } },
+    couts: {
+      ressources: [
+        { id: "zums", value: 1 },
+        { id: "data", value: 12 },
+      ],
+    },
+    gains: {
+      autres: [
+        "-1 {{eau}} ou -1 {{jing}} sur coût des animaux",
+        "+1 animal → +5 {{data}}",
+      ],
+    },
+    actions: [
+      {
+        nom: "Parler",
+        couts: {
+          ressources: [{ id: "actions", value: 1 }],
+        },
+        gains: { ressources: [{ id: "data", value: 3 }] },
+        notes: ["*Une fois par animal par cycle.*"],
+      },
+    ],
+  },
+  "médecin-fin": {
+    nom: "Médecin de la fin",
+    type: "zum",
+    prerequis: { tribus: { kolokolo: 14 } },
+    couts: {
+      ressources: [
+        { id: "zums", value: 1 },
+        { id: "data", value: 20 },
+      ],
+    },
+    gains: {
+      ressources: [{ id: "jing", value: 1, parCycle: true }],
+      autres: ["+1 {{jing}} lors de la collecte sur des animaux"],
+    },
+  },
+  "experience-terrain": {
+    nom: "Expérience du terrain",
+    type: "amélioration-durable",
+    prerequis: { tribus: { kolokolo: 10 } },
+    couts: {
+      ressources: [{ id: "data", value: 35 }],
+    },
+    gains: {
+      autres: ["**x2** gains des cartes **Ressources**"],
+    },
+    notes: ["*Les coefficients multiplicateurs s'additionnent.*"],
+  },
+  "dom-tronc": {
+    nom: "Dom dans le tronc",
+    type: "bâtiment-organique",
+    prerequis: {
+      tribus: { kolokolo: 8 },
+      ressources: {
+        waild: { min: 20, max: 70 },
+      },
+    },
+    couts: {
+      ressources: [
+        { id: "eau", value: 3 },
+        { id: "jing", value: 2 },
+      ],
+    },
+    gains: {
+      ressources: [
+        { id: "zums", stock: true, value: 1 },
+        {
+          id: "zums",
+          stock: true,
+          parRessource: { id: "waild", value: 10 },
+          value: 1,
+        },
+        {
+          id: "enfants",
+          parCycle: true,
+          parRessource: { id: "waild", value: 10 },
+          value: 0.1,
+        },
+      ],
+    },
+  },
+  naissance: {
+    nom: "Naissance",
+    type: "action",
+    prerequis: { tribus: { kolokolo: 5 } },
+    couts: {
+      ressources: [
+        { id: "actions", value: 3 },
+        { id: "eau", value: 1 },
+        { id: "jing", value: 1 },
+      ],
+    },
+    gains: {
+      ressources: [{ id: "enfants", value: 1 }],
+    },
+  },
+  "auto-conteneur": {
+    nom: "Auto-conteneur",
+    type: "amélioration-durable",
+    prerequis: { tribus: { kolokolo: 15 } },
+    couts: {
+      ressources: [
+        { id: "data", value: 25 },
+        { id: "jing", value: 4 },
+      ],
+    },
+    gains: {
+      autres: ["+1 ressource de cartes **Ressources** → +1 stock"],
+    },
+  },
+  enclos: {
+    nom: "Enclos",
+    type: "bâtiment-organique",
+    prerequis: {
+      tribus: { kolokolo: 10 },
+      ressources: { waild: { min: 8, max: 60 } },
+    },
+    couts: {
+      ressources: [
+        { id: "eau", value: 2 },
+        { id: "jing", value: 2 },
+      ],
+    },
+    gains: {
+      ressources: [{ id: "jing", value: 1, parCycle: true }],
+      autres: ["+4 {{protection-waild}} pour les animaux"],
+    },
+  },
+  "précieuse-shraine-clairiere": {
+    nom: "Précieuse shraïne de la clairière",
+    type: "shraine",
+    prerequis: {
+      tribus: { kolokolo: 24 },
+      ressources: {
+        waild: { max: 15 },
+      },
+    },
+    couts: {
+      ressources: [
+        { id: "eau", value: 6 },
+        { id: "jing", value: 6 },
+      ],
+    },
+    gains: {
+      ressources: [
+        { id: "jing", value: 4, parCycle: true },
+        { id: "data", value: 10, parCycle: true },
+        { id: "enfants", value: 0.5, parCycle: true },
+      ],
+      autres: ["Effets de {{protection-waild}} doublés pour ce bâtiment."],
+    },
+    notes: ["Requiert 3 haies."],
+  },
+  "grande-porte-haie": {
+    nom: "Grande porte dans la haie",
+    type: "vault",
+    prerequis: { tribus: { kolokolo: 16 } },
+    couts: {
+      ressources: [
+        { id: "eau", value: 5 },
+        { id: "jing", value: 4 },
+        { id: "waild", value: 6 },
+      ],
+    },
+    gains: {
+      ressources: [
+        { id: "jing", value: 5, parCycle: true },
+        { id: "waild", value: 5, parCycle: true },
+      ],
+      autres: [
+        "-1 {{eau}} ou -1 {{jing}} sur le coût des cartes {{* etres-vivants}}",
+      ],
+    },
+    notes: [
+      "Requiert 4 haies.",
+      "{{etres-vivants}} *: zums, animaux, plantes, bâtiments organiques, champignons.*",
+    ],
+  },
+  "vault-concorde": {
+    nom: "Vault de concorde",
+    type: "vault",
+    prerequis: {
+      tribus: { kolokolo: 25 },
+      ressources: {
+        waild: { min: 45 },
+        "etres-vivants": { min: 12 },
+      },
+    },
+    couts: {
+      ressources: [
+        { id: "eau", value: 10 },
+        { id: "jing", value: 6 },
+        { id: "data", value: 20 },
+      ],
+    },
+    gains: {
+      ressources: [
+        { id: "waild", value: 2, parCycle: true },
+        { id: "data", value: 1, parRessource: { id: "etres-vivants" } },
+        {
+          id: "protection-waild",
+          value: 1,
+          parRessource: { id: "waild", value: 10 },
+        },
+      ],
+    },
+  },
+  "condenser-vie": {
+    nom: "Condenser la vie",
+    type: "action",
+    prerequis: { tribus: { kolokolo: 12 } },
+    couts: {
+      ressources: [{ id: "waild", value: 2 }],
+    },
+    gains: {
+      ressources: [{ id: "bourgeons-totipotents", value: 1 }],
+    },
+  },
+  "rite-fertilite": {
+    nom: "Rite de fertilité",
+    type: "amélioration-ponctuelle",
+    prerequis: { tribus: { kolokolo: 8 } },
+    couts: {
+      ressources: [
+        { id: "data", value: 6 },
+        { id: "jing", value: 1 },
+      ],
+    },
+    gains: {
+      ressources: [{ id: "enfants", value: 0.1, parCycle: true }],
+    },
+  },
+  "conditions-propices": {
+    nom: "Conditions propices",
+    type: "amélioration-ponctuelle",
+    prerequis: { tribus: { kolokolo: 16 } },
+    couts: {
+      ressources: [{ id: "data", value: 25 }],
+    },
+    gains: {
+      autres: ["Pendant le cycle : +1 {{waild}} → +1 {{waild}}"],
+    },
+  },
+  "haie-toit": {
+    nom: "Haie sur le toit",
+    type: "module-organique",
+    prerequis: { tribus: { kolokolo: 6 } },
+    couts: {
+      ressources: [{ id: "eau", value: 1 }],
+    },
+    gains: {
+      ressources: [
+        { id: "waild", value: 1 },
+        { id: "protection-waild", value: 1 },
+      ],
+    },
+  },
+  "gueule-waild": {
+    nom: "Gueule de waïld",
+    type: "bâtiment-organique",
+    prerequis: { tribus: { kolokolo: 10 } },
+    couts: {
+      ressources: [
+        { id: "eau", value: 1 },
+        { id: "jing", value: 4 },
+      ],
+    },
+    gains: {
+      ressources: [
+        { id: "humus", stock: true, stockIndividuel: true, value: 4 },
+        {
+          prerequis: {
+            ressources: { humus: { stockIndividuelPlein: true } },
+          },
+          id: "waild",
+          parCycle: true,
+          value: 2,
+        },
+      ],
+    },
+    actions: [
+      {
+        nom: "Arroser",
+        couts: {
+          autres: ["1 {{pluie}} ou 1 {{eau}}", "1 {{humus}} stock individuel"],
+        },
+        gains: { ressources: [{ id: "waild", value: 4 }] },
+      },
+    ],
+  },
+  "dom-suspendu": {
+    nom: "Dom suspendu",
+    type: "bâtiment-organique",
+    prerequis: { tribus: { kolokolo: 12 }, ressources: { waild: { min: 30 } } },
+    couts: {
+      ressources: [
+        { id: "eau", value: 2 },
+        { id: "jing", value: 4 },
+      ],
+    },
+    gains: {
+      ressources: [
+        { id: "zums", value: 6 },
+        {
+          id: "enfants",
+          parCycle: true,
+          value: 0.1,
+          parRessource: {
+            id: "zums",
+            stockIndividuel: true,
+          },
+        },
+        {
+          id: "actions",
+          parCycle: true,
+          value: -1,
+          parRessource: {
+            id: "zums",
+            stockIndividuel: true,
+          },
+        },
+        {
+          id: "data",
+          parCycle: true,
+          value: 3,
+          parRessource: {
+            id: "zums",
+            stockIndividuel: true,
+          },
+        },
+      ],
+    },
+  },
+  "chloro-atelier": {
+    nom: "Chloro-atelier",
+    type: "bâtiment-organique",
+    prerequis: { tribus: { kolokolo: 10 } },
+    couts: {
+      ressources: [{ id: "jing", value: 2 }],
+    },
+    gains: {
+      autres: ["Si aucune action utilisée pendant le cycle : +1 {{waïld}}"],
+    },
+    actions: [
+      {
+        nom: "Nourrir",
+        couts: {
+          ressources: [
+            { id: "pluie", value: 1 },
+            { id: "jing", value: 1 },
+          ],
+        },
+        gains: { ressources: [{ id: "bourgeons-totipotents", value: 1 }] },
+      },
+      {
+        nom: "Arroser",
+        couts: {
+          ressources: [
+            { id: "soleil", value: 1 },
+            { id: "eau", value: 1 },
+          ],
+        },
+        gains: { ressources: [{ id: "bourgeons-totipotents", value: 1 }] },
+      },
+    ],
   },
 };

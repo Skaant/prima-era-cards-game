@@ -84,4 +84,14 @@ export const RESSOURCES: {
     plural: "plantes",
     color: "light-green",
   },
+  "etres-vivants": {
+    name: "être vivant",
+    plural: "êtres vivants",
+    color: "light-skin",
+  },
+  "etres-vegetatifs": {
+    name: "être végétatif",
+    plural: "êtres végétatifs",
+    color: "light-green",
+  },
 };

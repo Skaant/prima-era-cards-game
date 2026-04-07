@@ -10,6 +10,37 @@ const tribus = Object.keys(TRIBUS) as IdTribu[];
 <Layout title="Les tribus" currentPage="les-tribus">
   <div class="section">
     <h1>Les tribus</h1>
+    <p>
+      Bien que chaque contexte engendre sa variété de déclinaisons, <b
+        >les tribus répètent les mêmes archétypes</b
+      > à travers toute la forêt spatiale. <b
+        >Elles réunissent des individus autour de centres d'intérêt communs</b
+      >, des activités partagées et des façons spécifiques de <b
+        >servir le Toum-Oum</b
+      >.
+    </p>
+    <p>
+      Elles <b>manipulent des panels de ressources différents</b>, et la somme
+      de toutes ces transformations résulte en un ecosystème très
+      complémentaire. Chacune peut se débrouiller de façon autonome mais pour
+      servir des objectifs plus vastes, ou juste par confort, <b
+        >elles vivent ensemble</b
+      > et
+      <b>leurs membres passent librement de l'une à l'autre</b>.
+    </p>
+    <h2>Affinités avec les tribus</h2>
+    <p>
+      Au cours d'une partie, jouer des cartes augmente l'affinité du (ou des)
+      joueur(s) pour telle ou telle tribu. La plupart des cartes exigent une
+      affinité minimale pour être jouée.
+    </p>
+    <p>
+      On peut chercher à se développer dans le sens d'une tribu spécifique, d'un
+      groupe de quelques unes ou d'être plus général <span class="small"
+        >tribu <Tribu id="tribili" /></span
+      >.
+    </p>
+    <h2>Liste des tribus</h2>
     <ul id="liste-tribu" class="inline-list">
       {
         tribus.map((id) => (

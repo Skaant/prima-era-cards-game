@@ -12,4 +12,5 @@ export type _TypeCarte =
   | "module-organique"
   | "module-artificiel"
   | "vault"
-  | "saint";
+  | "saint"
+  | "shraine";

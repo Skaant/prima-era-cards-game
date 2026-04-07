@@ -89,7 +89,7 @@ export const CARTES_ANIMAUX: { [key in IdCarteAnimal]: Carte } = {
     },
   },
   "pique-pique-crete-bleue": {
-    nom: "Pique-pique crête bleue",
+    nom: "Pique-pique à crête bleue",
     type: "animal",
     prerequis: { ressources: { waild: { min: 15, max: 50 } } },
     couts: {
@@ -135,7 +135,7 @@ export const CARTES_ANIMAUX: { [key in IdCarteAnimal]: Carte } = {
     ],
   },
   "groakon-mares": {
-    nom: "Groakon mares",
+    nom: "Groakon des mares",
     type: "animal",
     prerequis: { ressources: { eau: { min: 8 }, waild: { min: 10, max: 25 } } },
     couts: {
@@ -150,7 +150,7 @@ export const CARTES_ANIMAUX: { [key in IdCarteAnimal]: Carte } = {
     ],
   },
   "gris-argente-sous-cailloux": {
-    nom: "Gris argenté sous-cailloux",
+    nom: "Gris-argenté sous-cailloux",
     type: "animal",
     prerequis: {
       ressources: { eau: { min: 15 }, waild: { min: 10, max: 30 } },
@@ -218,5 +218,28 @@ export const CARTES_ANIMAUX: { [key in IdCarteAnimal]: Carte } = {
         },
       },
     ],
+  },
+  "troute-vifevonte": {
+    nom: "Troute vifevonte",
+    type: "animal",
+    prerequis: {
+      ressources: { eau: { min: 20 }, waild: { min: 30, max: 60 } },
+    },
+    couts: {
+      ressources: [{ id: "jing", value: 1 }],
+    },
+    gains: {
+      ressources: [
+        { id: "jing", stockIndividuel: "out", parCycle: true, value: 4 },
+        { id: "jing", stockIndividuel: true, parCycle: true, value: 1 },
+        {
+          prerequis: { ressources: { eau: { min: 30 } } },
+          id: "jing",
+          stockIndividuel: true,
+          parCycle: true,
+          value: 1,
+        },
+      ],
+    },
   },
 };

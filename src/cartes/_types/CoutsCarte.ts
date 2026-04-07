@@ -8,4 +8,5 @@ export type CoutsCarte = {
     parRessource?: ParRessource;
     parCycle?: true;
   }[];
+  autres?: string[];
 };

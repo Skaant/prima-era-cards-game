@@ -26,4 +26,6 @@ export type IdRessource =
   | "protection-waild-min"
   | "protection-waild-max"
   | "batiments"
-  | "plantes";
+  | "plantes"
+  | "etres-vivants"
+  | "etres-vegetatifs";

@@ -9,4 +9,5 @@ export type IdCarteAnimal =
   | "groakon-mares"
   | "gris-argente-sous-cailloux"
   | "maakiri-voulvoulnavier"
-  | "babou-replanteur";
+  | "babou-replanteur"
+  | "troute-vifevonte";

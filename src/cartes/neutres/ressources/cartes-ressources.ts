@@ -14,6 +14,19 @@ export const CARTES_RESSOURCES: IndexCartes<IdCarteRessource> = {
       ressources: [{ id: "jing", value: 1 }],
     },
   },
-  waild: { nom: "Waïld", type: "ressource", description: "+1 waild" },
-  data: { nom: "Data", type: "ressource", description: "+1 data" },
+  waild: {
+    nom: "Waïld",
+    type: "ressource",
+    gains: { ressources: [{ id: "waild", value: 1 }] },
+  },
+  data: {
+    nom: "Data",
+    type: "ressource",
+    gains: { ressources: [{ id: "data", value: 3 }] },
+  },
+  "protection-waild": {
+    nom: "Protection waïld",
+    type: "ressource",
+    gains: { ressources: [{ id: "protection-waild", value: 1 }] },
+  },
 };

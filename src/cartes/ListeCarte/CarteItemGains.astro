@@ -2,6 +2,7 @@
 import Ressource from "../../components/Ressource.astro";
 import Tribu from "../../components/Tribu.astro";
 import StockSvgSwitch from "../../ressources/svg/StockSvgSwitch.astro";
+import SvgStockIndividuel from "../../ressources/svg/SvgStockIndividuel.astro";
 import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
 import type { IdTribu } from "../../types/tribus/IdTribu";
 import type { Carte } from "../_types/Carte";
@@ -12,25 +13,40 @@ interface Props {
 }
 
 const { gains } = Astro.props;
-const tribus = gains?.tribus
-  ? (Object.entries(gains.tribus) as [IdTribu, number][])
-  : [];
 ---
 
 <div class="gains">
   {
     gains &&
-      (tribus.length > 0 ||
+      ((gains.tribus?.length || 0) > 0 ||
         (gains.ressources && gains.ressources.length > 0) ||
         (gains.autres && gains.autres.length > 0)) && (
         <>
-          {tribus.length > 0 && (
+          {gains.tribus && gains.tribus.length > 0 && (
             <ul>
-              {tribus.map(([tribu, valeur]) => (
+              {gains.tribus.map(({ id, value, parCycle, parRessource }) => (
                 <li>
                   {" "}
-                  +{valeur}{" "}
-                  <Tribu id={tribu} plural={valeur > 1 || undefined} />
+                  +{value}{" "}
+                  <Tribu id={id as IdTribu} plural={value > 1 || undefined} />
+                  {parRessource && (
+                    <>
+                      / {parRessource.value ? `${parRessource.value}` : ""}{" "}
+                      {parRessource.stockIndividuel && (
+                        <>
+                          <SvgStockIndividuel />{" "}
+                        </>
+                      )}
+                      <Ressource
+                        id={parRessource.id}
+                        plural={
+                          (parRessource.value && parRessource.value > 1) ||
+                          undefined
+                        }
+                      />
+                    </>
+                  )}
+                  {parCycle && <span>/ cycle</span>}
                 </li>
               ))}
             </ul>
@@ -49,12 +65,11 @@ const tribus = gains?.tribus
                       </div>
                     </>
                   )}
-                  {ress.value
-                    ? "stock" in ress && "stockIndividuel" in ress
-                      ? ""
-                      : ress.value > 0
-                        ? "+"
-                        : "-"
+                  {ress.value &&
+                  "stock" in ress &&
+                  "stockIndividuel" in ress &&
+                  ress.value > 0
+                    ? "+"
                     : ""}
                   {ress.value}
                   {("stockIndividuel" in ress &&
@@ -81,6 +96,11 @@ const tribus = gains?.tribus
                       {ress.parRessource.value
                         ? `${ress.parRessource.value}`
                         : ""}{" "}
+                      {ress.parRessource.stockIndividuel && (
+                        <>
+                          <SvgStockIndividuel />{" "}
+                        </>
+                      )}
                       <Ressource
                         id={ress.parRessource.id}
                         plural={

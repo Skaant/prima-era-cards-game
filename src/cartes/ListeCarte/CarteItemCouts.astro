@@ -1,5 +1,6 @@
 ---
 import Ressource from "../../components/Ressource.astro";
+import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
 import type { IdRessource } from "../../types/ressources/IdRessource";
 import type { Carte } from "../_types/Carte";
 
@@ -30,6 +31,9 @@ const { couts } = Astro.props;
               )}
               {parCycle && <span class="cout-cycle">/ cycle</span>}
             </li>
+          ))}
+          {couts.autres?.map((autre) => (
+            <DynamicString value={autre} />
           ))}
         </ul>
       </>
