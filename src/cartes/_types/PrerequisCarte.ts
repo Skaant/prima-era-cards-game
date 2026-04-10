@@ -1,5 +1,5 @@
-import type { IdRessource } from "../../types/ressources/IdRessource";
-import type { IdTribu } from "../../types/tribus/IdTribu";
+import type { IdRessource } from "../../ressources/IdRessource";
+import type { IdTribu } from "../../tribus/IdTribu";
 
 export type PrerequisCarte = {
   tribus?: { [key in IdTribu]?: number };

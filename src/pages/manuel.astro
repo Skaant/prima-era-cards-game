@@ -1,0 +1,285 @@
+---
+import SvgCarte from "../cartes/svg/SvgCarte.astro";
+import SvgDeck from "../cartes/svg/SvgDeck.astro";
+import SvgStase from "../cartes/svg/SvgStase.astro";
+import Eau from "../content/ressources/eau.ressource.astro";
+import Layout from "../layout/Layout.astro";
+import Ressource from "../ressources/Ressource.astro";
+import SvgStock from "../ressources/svg/stock/SvgStock.astro";
+import SvgStockIndividuel from "../ressources/svg/stock/SvgStockIndividuel.astro";
+import SvgStockIndividuelIn from "../ressources/svg/stock/SvgStockIndividuelIn.astro";
+import SvgStockIndividuelOut from "../ressources/svg/stock/SvgStockIndividuelOut.astro";
+import SvgData from "../ressources/svg/SvgData.astro";
+import SvgRessource from "../ressources/svg/SvgRessource.astro";
+import SvgWaild from "../ressources/svg/SvgWaild.astro";
+import SvgCycle from "../svg/SvgCycle.astro";
+import SvgTribu from "../tribus/svg/SvgTribu.astro";
+---
+
+<Layout title="Manuel de jeu">
+  <div class="section">
+    <h1>Manuel de jeu</h1>
+    <div class="col-left">
+      <div class="image-legende">
+        <SvgRessource size="8em" />
+        <SvgCarte size="8em" />
+        <SvgCycle size="8em" />
+        <p class="small">
+          Les trois concepts clés de Prima-Era : <b>ressources</b>, <b>cartes</b
+          >, et
+          <b>cycles</b>.
+        </p>
+      </div>
+      <div>
+        <blockquote>
+          Depuis le recyclage de Tera en Grand-Grand-Arbre, les <Ressource
+            id="zums"
+            plural={true}
+          />
+          arpentent l'univers pour <b>transformer l'inerte en forêt spatiale</b
+          >, le <Ressource id="waild" />. Leur souhait est de <b
+            >réaliser l'Aïbs</b
+          >, l'Union Totale, mais pour y arriver ils ont <b
+            >besoin de beaucoup d'idées</b
+          >, la <Ressource id="data" />.
+        </blockquote>
+        <p>
+          Dans Prima-Era, vous aidez les <Ressource id="zums" plural={true} /> à réaliser
+          leurs ambitions démesurées et fantastiques. En déployant des <b
+            >ecosystèmes abondants et diversifiés</b
+          >, et en permettant aux êtres vivants d'<b>avoir plus d'idées</b> et de
+          les partager, remplissez un des <b>objectifs de victoire</b> pour remporter
+          la partie.
+        </p>
+        <p>
+          Pour cela, vous devrez gérer astucieusement vos <SvgRessource
+            size="1em"
+          />
+          <b>ressources</b>
+          en choisissant les <SvgCarte size="1em" />
+          <b>cartes</b> que vous allez jouer, <SvgCycle size="1em" />
+          <b>cycles</b> après cycles. Le hasard occupe une part importante du jeu,
+          vous devrez donc <b>capitaliser sur vos forces</b> (combo) lorsque les opportunités
+          se présentent.
+        </p>
+        <p>
+          Ce manuel va vous guider, dans un premier temps, dans l'<b
+            >acquisition des mécaniques du jeu</b
+          > :
+          <a href="deroulement-partie">déroulement d'une partie</a> et le <a
+            href="differentes-ressources">détails des différentes ressources</a
+          >. Dans un second temps, le manuel se concentrera sur <b
+            >l'univers de l'Expans</b
+          >, avec une
+          <a href="presentation-tribus">présentation des tribus</a>
+          et des <a href="histoire-zums">bribes de l'histoire des zums</a>.
+        </p>
+        <p>
+          Enfin, vous trouverez les éléments de jeu : <b
+            >les cartes et les barettes de ressources</b
+          >, que vous pouvez choisir d'<b
+            >imprimer seules ou avec le reste des règles et de l'histoire</b
+          >. Bonne lecture :) !
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 id="deroulement-partie">Déroulement d'une partie</h2>
+    <div class="col-right">
+      <div>
+        <p>
+          Une partie de Prima-Era est gagnée lorsqu'un des <b
+            >objectifs de victoire</b
+          >
+          est atteint. Pour l'instant, les deux objectifs sont :
+        </p>
+        <ul>
+          <li>
+            <b>Amplifier la vie :</b> atteindre 80 <Ressource id="waild" />,
+          </li>
+          <li>
+            <b>Contribuer à l'aïbs :</b> obtenir 200 <Ressource id="data" />.
+          </li>
+        </ul>
+        <p>
+          Ces deux <b>ressources</b> sont obtenues à travers différentes
+          <b>transformations</b> (effets des cartes), et pendant la <b
+            >phase de production</b
+          >. Globalement, tout part de l'<Ressource id="eau" /> et du <Ressource
+            id="jing"
+          />, des <b>ressources primordiales</b> qui donnent naissance à toutes les
+          autres.
+        </p>
+        <p>
+          À chaque <b>cycle</b>, différentes opportunités sont proposées pour
+          augmenter le stock et la capacité de production. Ces phases sont
+          détaillées plus bas.
+        </p>
+      </div>
+      <div class="image-legende">
+        <SvgWaild size="8em" />
+        <SvgData size="8em" />
+        <p class="small">
+          Les <b>objectifs de victoire</b> : rassembler les <b>ressources</b>
+          <Ressource id="waild" /> ou <Ressource id="data" />.
+        </p>
+      </div>
+    </div>
+    <h3>Les cycles</h3>
+    <div class="col-left">
+      <div class="image-legende">
+        <SvgCycle size="12em" />
+        <p class="small">
+          Un <b>cycle</b> comporte trois phases :
+          <b>pioche</b>, <b>pose de cartes et actions</b> et <b>production</b>.
+        </p>
+      </div>
+      <div>
+        <p>
+          Une partie se déroule en plusieurs <b>cycles</b>. Chaque cycle est
+          découpé en trois phases :
+        </p>
+        <ul>
+          <li>
+            <b>La pioche</b>, durant laquelle le(s) joueur·euse(s) choisissent
+            les cartes à mettre dans leur main,
+          </li>
+          <li>
+            <b>Pose de cartes et actions</b>, en respectant leur prérequis et en
+            payant leur coût, les cartes peuvent être jouées de la main au
+            terrain, pour bénéficier de leurs effets. Dans le même temps, les
+            actions proposées par certaines cartes peuvent être utilisées,
+          </li>
+          <li>
+            <b>La production</b>, où sont comptés les gains de ressources pour
+            le cycle actuel.
+          </li>
+        </ul>
+        <p>
+          Une fois les trois phases terminées, <b>un nouveau cycle commence</b>.
+          Et ainsi de suite jusqu'à ce qu'un objectif soit rempli ! Prenons un
+          moment pour détailler ces phases :
+        </p>
+      </div>
+    </div>
+    <div class="col-right">
+      <div>
+        <h4>Phase de pioche</h4>
+        <p>
+          Durant cette phase, lae joueur·euse doit remplir sa main avec 8
+          cartes. La main sont les cartes visibles que le joueur va pouvoir
+          poser sur le terrain à la phase suivante.
+        </p>
+        <p>Les cartes du deck stase sont mélangées.</p>
+        <p>
+          Les cartes sont piochées une par une, depuis le deck tribu ou le deck
+          stase. Pour chacune, lae joueur·euse choisit :
+        </p>
+        <ul>
+          <li>De l'ajouter à sa main,</li>
+          <li>De la mettre dans le deck stase,</li>
+          <li>De la défausser définitivement.</li>
+        </ul>
+        <p>
+          L'action est répétée jusqu'à ce que la main soit pleine (8 cartes). On
+          passe alors à la phase suivante
+        </p>
+      </div>
+      <div class="image-legende">
+        <div>
+          <SvgDeck size="6em" />
+          <SvgTribu size="6em" />
+        </div>
+        <div>
+          <SvgDeck size="6em" />
+          <SvgStase size="6em" />
+        </div>
+        <p>Deux decks : tribu et stase</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 id="differentes-ressources">Les différentes ressources</h2>
+    <div class="col-right">
+      <div>
+        <p>
+          Le mécanisme principal de Prima-Era est de <b
+            >transformer des ressources en d'autres</b
+          >, en maximisant le taux de conversion, <b
+            >pour répondre aux priorités des joueur.euse(s)</b
+          >. Chacune ont des propriétés et usages spécifiques,
+        </p>
+        <h3>Propriétés des ressources</h3>
+        <p>
+          Représentées par des valeurs numériques. Pour ça, on utilise les
+          barrettes de ressources sur lesquels des jetons permettent de suivre
+          l'évolution des ressources, de leur <b>stock</b>, de leur <b
+            >production par cycle</b
+          > et, dans une moindre mesure, leur <b>temporalité</b>.
+        </p>
+      </div>
+      <div class="image-legende">
+        <SvgRessource size="10em" />
+      </div>
+    </div>
+    <div class="col-left">
+      <div class="image-legende">
+        <SvgStock size="4em" />
+        <SvgStockIndividuel size="4em" />
+        <SvgStockIndividuel size="4em" />
+        <SvgStockIndividuelIn size="4em" />
+        <SvgStockIndividuelOut size="4em" />
+        <p class="small">
+          Stocks, par fréquence : <b>global</b>,
+          <b>individuel</b>, <b>individuel clos</b>, <b
+            >individuel en collecte seulement</b
+          >
+          et <b>individuel en dépôt uniquement</b>.
+        </p>
+      </div>
+      <div>
+        <h4>Le stock</h4>
+        <h4>Production par cycle</h4>
+        <h4>Temporalité</h4>
+        <p>Progression de la ressource par cycle Les deux seuls exemples :</p>
+        <ul>
+          <li>
+            Les <Ressource id="enfants" plural={true} />
+            <b>deviennent des <Ressource id="zums" plural={true} /></b> au bout de
+            5 cycles,
+          </li>
+          <li>
+            L'<Ressource id="humus" />
+            <b>disparaît</b> au bout de 3 cycles.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <h3>Liste des ressources</h3>
+    <Eau />
+  </div>
+  <div class="section">
+    <h2 id="presentation-tribus">Présentation des tribus</h2>
+    <h3>WIP</h3>
+    <p>Une seule implémentée, mais une grande variété à venir :</p>
+    <h3>Tribus détaillées</h3>
+    <h4>La tribu kolokolo</h4>
+  </div>
+  <div class="section">
+    <h2 id="histoire-zums">L'histoire des zums</h2>
+  </div>
+</Layout>
+
+<style>
+  .image-legende {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    > p {
+      margin-top: 12px;
+    }
+  }
+</style>

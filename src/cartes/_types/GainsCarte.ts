@@ -1,5 +1,5 @@
-import type { IdRessource } from "../../types/ressources/IdRessource";
-import type { IdTribu } from "../../types/tribus/IdTribu";
+import type { IdRessource } from "../../ressources/IdRessource";
+import type { IdTribu } from "../../tribus/IdTribu";
 import type { ParRessource } from "./ParRessource";
 import type { PrerequisCarte } from "./PrerequisCarte";
 

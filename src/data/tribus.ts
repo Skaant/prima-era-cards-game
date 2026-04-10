@@ -1,4 +1,4 @@
-import type { IdTribu } from "../types/tribus/IdTribu";
+import type { IdTribu } from "../tribus/IdTribu";
 import type { Color } from "../types/Color";
 
 export type TribuData = {

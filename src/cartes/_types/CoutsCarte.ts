@@ -1,4 +1,4 @@
-import type { IdRessource } from "../../types/ressources/IdRessource";
+import type { IdRessource } from "../../ressources/IdRessource";
 import type { ParRessource } from "./ParRessource";
 
 export type CoutsCarte = {

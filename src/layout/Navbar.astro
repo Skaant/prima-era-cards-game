@@ -1,5 +1,5 @@
 ---
-type NavSlug = "comment-jouer" | "l-univers" | "les-tribus" | "les-ressources";
+type NavSlug = "manuel" | "l-univers" | "les-tribus" | "les-ressources";
 
 interface Props {
   currentPage?: NavSlug;
@@ -8,7 +8,7 @@ interface Props {
 const { currentPage } = Astro.props;
 
 const links: { slug: NavSlug; label: string }[] = [
-  { slug: "comment-jouer", label: "Comment jouer ?" },
+  { slug: "manuel", label: "Manuel" },
   { slug: "l-univers", label: "L'univers" },
   { slug: "les-tribus", label: "Les tribus" },
   { slug: "les-ressources", label: "Les ressources" },
@@ -18,7 +18,7 @@ const links: { slug: NavSlug; label: string }[] = [
 <nav>
   <img src="/banniere.svg" id="banniere" alt="" aria-hidden="true" />
   <a href="/" id="site-name">Prima-Era</a>
-  <div id="nav-links">
+  <div class="menu-liens">
     {
       links.map(({ slug, label }) =>
         slug === currentPage ? (
@@ -40,6 +40,9 @@ const links: { slug: NavSlug; label: string }[] = [
     padding: 1rem 1.5rem;
     margin-bottom: 16vh;
   }
+  :global(nav .menu-liens) {
+    margin-top: 0;
+  }
 
   #banniere {
     position: absolute;
@@ -53,24 +56,8 @@ const links: { slug: NavSlug; label: string }[] = [
 
   #site-name {
     font-family: "pangaia";
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     text-decoration: none;
     color: inherit;
-  }
-
-  #nav-links {
-    z-index: 1;
-    display: flex;
-    gap: 1.5rem;
-  }
-
-  #nav-links a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  #nav-links a:hover,
-  #site-name:hover {
-    text-decoration: underline;
   }
 </style>

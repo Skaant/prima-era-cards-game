@@ -22,8 +22,12 @@ h2 {
   margin-top: 2em;
 }
 h3 {
-  font-size: 1.8em;
-  margin-top: 1.6em;
+  font-size: 1.6em;
+  margin-top: 1.4em;
+}
+h4 {
+  font-size: 1.2em;
+  margin-top: 1em;
 }
 
 h1,
@@ -47,15 +51,44 @@ blockquote {
   }
 }
 
+.col-right,
 .col-left {
   width: 100%;
   display: flex;
   gap: 2%;
+  p {
+    margin-top: 0;
+  }
+}
+.col-left {
+  > :first-child {
+    width: 33%;
+  }
+  > :last-child {
+    width: 66%;
+  }
+}
+.col-right {
   > :first-child {
     width: 66%;
   }
   > :last-child {
     width: 33%;
+  }
+}
+
+.menu-liens {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+  > a,
+  > span {
+    background-color: #ddf;
+    padding: 8px 16px 4px;
+    color: #000;
+    font-family: "pangaia";
+    font-size: 1.2em;
+    text-decoration: none;
   }
 }
 

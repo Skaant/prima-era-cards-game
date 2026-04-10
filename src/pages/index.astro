@@ -1,55 +1,105 @@
 ---
-import Layout from "../components/Layout.astro";
+import SvgCarte from "../cartes/svg/SvgCarte.astro";
+import Layout from "../layout/Layout.astro";
+import Ressource from "../ressources/Ressource.astro";
+import SvgRessource from "../ressources/svg/SvgRessource.astro";
+import SvgCycle from "../svg/SvgCycle.astro";
 ---
 
 <Layout title="Remplir l'univers de vie">
   <div class="section">
     <h1>Remplir l'univers de vie</h1>
     <p>
-      Prima-Era est un jeu de cartes dans lequel vous incarnez <b>
-        des tribus de zums
-      </b>
-      partis à la conquête de l'univers pour le remplir de vie, et de conscience !
+      Prima-Era est un <b>jeu de cartes et de gestion de ressources</b> dans lequel
+      vous incarnez <b>
+        des tribus de <Ressource id="zums" plural={true} />
+      </b>, une espèce de singes très intelligent, dans un futur relativement
+      lointain. Unis par la <b>conscience collective</b>, et à bord de leur <b
+        >forêt spatiale</b
+      >, iels sont partis <b></b>à la conquête de l'univers pour le remplir de
+      vie, le <Ressource id="waild" />, et de conscience, pour générer de la <Ressource
+        id="data"
+      /> !
     </p>
-    <div id="navigation">
-      <a href="comment-jouer">Comment jouer ?</a>
-      <a href="l-univers">L'univers</a>
-      <a href="les-tribus">Les tribus</a>
-      <a href="les-ressources">Les ressources</a>
+    <div class="menu-liens">
+      <a href="#comment-jouer">Comment jouer ?</a>
+      <a href="#plus-sur-l-univers">Plus sur l'univers</a>
     </div>
   </div>
   <div class="section">
-    <h2 id="le-jeu">Le jeu</h2>
+    <h2 id="comment-jouer">Comment jouer ?</h2>
+    <div>
+      <blockquote>
+        Sur la page <a href="/manuel">Manuel</a>, vous pouvez télécharger les
+        règles, les cartes et les barettes de ressource à imprimer.
+      </blockquote>
+    </div>
+    <div class="col-right">
+      <div>
+        <p>
+          Une partie se joue en plusieurs tours, appellés <b>cycles</b>. Un
+          cycle se déroule en <b>trois phases</b> : pioche, pose de cartes et production
+          de ressources.
+        </p>
+      </div>
+      <SvgCycle size="6em" />
+    </div>
+    <br />
+    <div class="col-left">
+      <SvgCarte size="6em" />
+      <p>
+        Au début de chaque cycle, les joueur·euses piochent des <b>cartes</b> dans
+        les paquets de tribus jusqu'à remplir leur main. Iels peuvent ensuite les
+        jouer, <b
+          >en remplissant leur prérequis et en s'acquitant de leur coût</b
+        > en ressource, et ainsi bénéficier de leurs <b>productions et effets</b
+        >.
+      </p>
+    </div>
+    <br />
+    <div class="col-right">
+      <div>
+        <p>
+          Les <b>ressources</b> sont obtenues en jouant des cartes, en utilisant une
+          action, lorsqu'un effet passif se déclenche ou à la fin de chaque cycle
+          (lors de la phase de production).
+        </p>
+        <p>
+          Leur gestion est primordiale pour atteindre les <b
+            >objectifs de victoire</b
+          > et remporter la partie. Il y a pour l'instant deux façons de gagner :
+          rassembler 80 <Ressource id="waild" />
+          ou 200 <Ressource id="data" />. Mais attention ! Il va falloir prendre
+          des risques et ne pas figer votre stratégie pour réussir.
+        </p>
+      </div>
+      <SvgRessource size="6em" />
+    </div>
+    <br />
+    <div class="menu-liens">
+      <a href="/manuel">Manuel</a>
+      <a href="/les-regles">Les règles</a>
+      <a href="/les-ressources">Les ressources</a>
+      <a href="/les-cartes">Les cartes</a>
+    </div>
+  </div>
+  <div class="section">
+    <h2 id="plus-sur-l-univers">Plus sur l'univers</h2>
     <p>
-      Prima-Era prend place dans un univers de
-      <a href="l-univers"> science-fiction utopique </a> :
+      Prima-Era prend place dans un univers de science-fiction utopique. Les <Ressource
+        id="zums"
+        plural={true}
+      /> y ont recyclé leur planète d'origine, Tera, en une forêt spatiale, appellée
+      Grand-Grand-Arbre. Avec, ils peuvent voyager dans l'espace pour le remplir de
+      <Ressource id="waild" />, l'abondance d'êtres vivants de toutes sortes.
     </p>
     <p>
-      Les zums, une espèce de primates très intelligents, ont quitté leur
-      planète d'origine à bord d'une immense forêt spatiale pour ensemencer tous
-      les recoins de l'univers.
+      Derrière cette motivation, il y a le souhait de produire le plus d'idées
+      possible afin de réaliser l'Aïbs, l'Union Totale.
     </p>
-    <p>
-      Prima-Era se joue seul ou en coopération, en quelques dizaines de minutes.
-    </p>
-    <p>
-      Différents <a href="/comment-jouer#objectifs-de-victoire"
-        >objectifs de victoire</a
-      >
-      sont atteignables en accumulant <a href="/les-ressources"
-        >des ressources</a
-      > et en augmentant votre affinité avec <a href="/les-tribus">les tribus</a
-      >.
-    </p>
-    <h3>Aucune partie ne se ressemble</h3>
-    <p>
-      Les joueurs constituent leur deck progressivement, tout au long de la
-      partie.
-    </p>
-    <p>
-      Lors de phases de draft, les joueurs tirent plusieurs cartes et pour
-      choisissent lesquelles ajouter à leur deck, en tirant parti des
-      combinaisons possibles.
-    </p>
+    <div class="menu-liens">
+      <a href="/l-univers">L'univers</a>
+      <a href="/les-tribus">Les tribus</a>
+    </div>
   </div>
 </Layout>

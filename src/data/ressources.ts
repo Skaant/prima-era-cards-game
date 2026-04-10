@@ -1,4 +1,4 @@
-import type { IdRessource } from "../types/ressources/IdRessource";
+import type { IdRessource } from "../ressources/IdRessource";
 import type { Color } from "../types/Color";
 
 export type RessourceData = {

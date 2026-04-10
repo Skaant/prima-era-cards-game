@@ -1,4 +1,5 @@
 ---
+import SvgRessource from "../../../ressources/svg/SvgRessource.astro";
 import type { Carte } from "../../_types/Carte";
 import SvgAction from "./SvgAction.astro";
 import SvgAmeliorationDurable from "./SvgAmeliorationDurable.astro";
@@ -8,9 +9,12 @@ import SvgBatimentArtificiel from "./SvgBatimentArtificiel.astro";
 import SvgBatimentOrganique from "./SvgBatimentOrganique.astro";
 import SvgChampignon from "./SvgChampignon.astro";
 import SvgMeteo from "./SvgMeteo.astro";
-import SvgModule from "./SvgModule.astro";
+import SvgModuleArtificiel from "./SvgModuleArtificiel.astro";
+import SvgModuleOrganique from "./SvgModuleOrganique.astro";
 import SvgPlante from "./SvgPlante.astro";
-import SvgRessource from "./SvgRessource.astro";
+import SvgSaint from "./SvgSaint.astro";
+import SvgShraine from "./SvgShraine.astro";
+import SvgVault from "./SvgVault.astro";
 import SvgZum from "./SvgZum.astro";
 
 interface Props {
@@ -33,10 +37,13 @@ const svgMap: Record<
   "bâtiment-organique": SvgBatimentOrganique,
   champignon: SvgChampignon,
   météo: SvgMeteo,
-  "module-artificiel": SvgModule,
-  "module-organique": SvgModule,
+  "module-artificiel": SvgModuleArtificiel,
+  "module-organique": SvgModuleOrganique,
   plante: SvgPlante,
   ressource: SvgRessource,
+  saint: SvgSaint,
+  shraine: SvgShraine,
+  vault: SvgVault,
   zum: SvgZum,
 };
 

@@ -1,8 +1,8 @@
 ---
-import Layout from "../../components/Layout.astro";
-import Tribu from "../../components/Tribu.astro";
+import Layout from "../../layout/Layout.astro";
+import Tribu from "../../tribus/Tribu.astro";
 import { TRIBUS } from "../../data/tribus";
-import type { IdTribu } from "../../types/tribus/IdTribu";
+import type { IdTribu } from "../../tribus/IdTribu";
 
 const tribus = Object.keys(TRIBUS) as IdTribu[];
 ---
