@@ -1,15 +1,15 @@
 import type { IdTribu } from "../tribus/IdTribu";
-import type { Color } from "../types/Color";
+import type { IdColor } from "./IdColor";
 
 export type TribuData = {
   name: string;
-  color: Color;
+  color: IdColor;
 };
 
 export const TRIBUS: {
   [key in IdTribu]: TribuData;
 } = {
-  kolokolo: { name: "kolokolo", color: "dark-turquoize" },
+  kolokolo: { name: "kolokolo", color: "turquoize" },
   novina: { name: "novina", color: "light-blue" },
   permak: { name: "permak", color: "light-green" },
   washtu: { name: "washtu", color: "turquoize" },

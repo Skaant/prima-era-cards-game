@@ -1,0 +1,89 @@
+---
+import Ressource from "../../../ressources/Ressource.astro";
+import Tribu from "../../../tribus/Tribu.astro";
+import SvgStock from "../../../ressources/svg/stock/SvgStock.astro";
+import SvgStockIndividuel from "../../../ressources/svg/stock/SvgStockIndividuel.astro";
+import type { IdRessource } from "../../../ressources/IdRessource";
+import type { IdTribu } from "../../../tribus/IdTribu";
+import type { Carte } from "../../_types/Carte";
+import type { IdColor } from "../../../data/IdColor";
+
+interface Props {
+  prerequis: Carte["prerequis"];
+  couleur?: IdColor;
+}
+
+const { prerequis, couleur } = Astro.props;
+const tribus = prerequis?.tribus
+  ? (Object.entries(prerequis.tribus) as [IdTribu, number][])
+  : [];
+---
+
+{
+  prerequis &&
+    (tribus.length > 0 ||
+      (prerequis.ressources &&
+        Object.keys(prerequis.ressources).length > 0)) && (
+      <div class="prerequis">
+        <ul>
+          {tribus.length > 0 && (
+            <>
+              {tribus.map(([tribu, valeur], index) => (
+                <li>
+                  <Tribu id={tribu} plural={true} /> ⋝ {valeur}
+                </li>
+              ))}
+            </>
+          )}
+          {prerequis.ressources &&
+            Object.keys(prerequis.ressources).length > 0 && (
+              <>
+                {Object.entries(prerequis.ressources).map(
+                  ([
+                    id,
+                    { eq, min, max, stockPlein, stockIndividuelPlein },
+                  ]) => (
+                    <li>
+                      {min && max ? <span>{min} ⋜ </span> : ""}
+                      {stockPlein && <SvgStock />}
+                      {stockIndividuelPlein && <SvgStockIndividuel />}
+                      <Ressource
+                        id={id as IdRessource}
+                        plural={
+                          stockPlein ||
+                          stockIndividuelPlein ||
+                          (max || eq || min || 0) > 1 ||
+                          undefined
+                        }
+                      />
+                      {min && !max ? <span> ⋝ {min}</span> : ""}
+                      {eq ? <span> = {eq}</span> : ""}
+                      {max ? <span> ⋜ {max}</span> : ""}
+                      {(stockPlein || stockIndividuelPlein) && (
+                        <span> plein</span>
+                      )}
+                    </li>
+                  ),
+                )}
+              </>
+            )}
+        </ul>
+      </div>
+    )
+}
+
+<style>
+  .prerequis {
+    background-color: white;
+    padding: 3px 4px;
+    box-sizing: border-box;
+    ul {
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px 8px;
+      span {
+        font-size: 0.9em;
+      }
+    }
+  }
+</style>

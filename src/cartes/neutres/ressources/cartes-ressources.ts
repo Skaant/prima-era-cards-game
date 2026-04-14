@@ -6,6 +6,8 @@ export const CARTES_RESSOURCES: IndexCartes<IdCarteRessource> = {
     nom: "Eau",
     type: "ressource",
     gains: { ressources: [{ id: "eau", value: 1 }] },
+    histoire:
+      "Les bivaros sont une tribu dédiée à l'accumulation d'eau, grâce aux barrages notamment. Les novinas sont très fort pour en dégotter dans le désert. L'eau est une ressource si importante que la plupart des tribus ont des moyens d'en trouver.",
   },
   jing: {
     nom: "Jing",
@@ -13,6 +15,8 @@ export const CARTES_RESSOURCES: IndexCartes<IdCarteRessource> = {
     gains: {
       ressources: [{ id: "jing", value: 1 }],
     },
+    histoire:
+      "Fascinant de voir comme les composants les plus simples ont donné naissance à toute la diversité des êtres vivants. Le {{jing}} est la structure de toute matière organique.",
   },
   waild: {
     nom: "Waïld",

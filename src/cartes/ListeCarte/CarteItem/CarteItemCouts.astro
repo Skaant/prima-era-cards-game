@@ -1,0 +1,69 @@
+---
+import Ressource from "../../../ressources/Ressource.astro";
+import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
+import type { IdRessource } from "../../../ressources/IdRessource";
+import type { Carte } from "../../_types/Carte";
+
+interface Props {
+  couts: Carte["couts"];
+}
+
+const { couts } = Astro.props;
+---
+
+{
+  couts?.ressources && (
+    <div class="couts">
+      <ul>
+        {couts.ressources.map(({ id, value, parRessource, parCycle }) => (
+          <li class="cout">
+            <span>{value}</span>
+            <Ressource
+              id={id as IdRessource}
+              plural={value > 1 ? true : undefined}
+            />
+            {parRessource && (
+              <div class="cout-ressource">
+                / {parRessource.value ? `${parRessource.value}` : ""}
+                <Ressource id={parRessource.id} />
+              </div>
+            )}
+            {parCycle && <span class="cout-cycle">/ cycle</span>}
+          </li>
+        ))}
+        {couts.autres?.map((autre) => (
+          <DynamicString value={autre} />
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+<style>
+  .couts {
+    background-color: white;
+    padding: 3px 4px;
+    box-sizing: border-box;
+    ul {
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px 8px;
+      span {
+        font-size: 0.9em;
+      }
+    }
+  }
+  .cout {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cout-ressource {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cout-cycle {
+    margin: 0 0.4em 0 0;
+  }
+</style>

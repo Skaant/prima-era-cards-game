@@ -1,0 +1,75 @@
+---
+import CarteItem from "../../../cartes/ListeCarte/CarteItem/CarteItem.astro";
+import { TOUTES_CARTES } from "../../../cartes/toutes-cartes";
+import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
+
+const CARDS_PER_PAGE = 9;
+const pages: (typeof KOLOKOLO_DECK)[] = [];
+for (let i = 0; i < KOLOKOLO_DECK.length; i += CARDS_PER_PAGE) {
+  pages.push(KOLOKOLO_DECK.slice(i, i + CARDS_PER_PAGE));
+}
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kolokolo — Cartes (impression)</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    {
+      pages.map((page) => (
+        <div class="print-page">
+          {page.map((id) => (
+            <CarteItem {id} carte={TOUTES_CARTES[id]} />
+          ))}
+        </div>
+      ))
+    }
+  </body>
+</html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ccc;
+  }
+
+  .print-page {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: calc(3 * 265px + 2 * 2px);
+    margin: 16px auto;
+    background: white;
+  }
+
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    body {
+      background: white;
+    }
+
+    .print-page {
+      margin: 0;
+      break-after: page;
+    }
+
+    .print-page:last-child {
+      break-after: auto;
+    }
+  }
+</style>

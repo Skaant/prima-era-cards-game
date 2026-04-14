@@ -1,12 +1,11 @@
-import type { Color } from "../types/Color";
-export type { Color };
+import type { IdColor } from "./IdColor";
 
 type ColorData = {
   hexa: string;
   textWhite?: boolean;
 };
 
-export const COLORS: { [color in Color]: ColorData } = {
+export const COLORS: { [color in IdColor]: ColorData } = {
   light: { hexa: "#eee" },
   muted: { hexa: "#6c757d", textWhite: true },
   dark: { hexa: "#111", textWhite: true },

@@ -1,0 +1,109 @@
+---
+import type { Carte } from "../../_types/Carte";
+import CarteItemPrerequis from "./CarteItemPrerequis.astro";
+import CarteItemGains from "./CarteItemGains.astro";
+import CarteItemActions from "./CarteItemActions.astro";
+import CarteItemCouts from "./CarteItemCouts.astro";
+import CarteItemTextes from "./CarteItemTextes.astro";
+import CarteItemTypeEtNom from "./CarteItemTypeEtNom.astro";
+import type { IdCarte } from "../../_types/IdCarte";
+import { COLORS } from "../../../data/colors";
+import { TRIBUS } from "../../../data/tribus";
+import { RESSOURCES } from "../../../data/ressources";
+import type { IdColor } from "../../../data/IdColor";
+import CarteItemStockIndividuel from "./CarteItemStockIndividuel.astro";
+import CarteItemIllustration from "./CarteItemIllustration.astro";
+
+interface Props {
+  id: IdCarte;
+  carte: Carte;
+}
+
+const { carte } = Astro.props;
+const { nom, prerequis, couts, gains, actions, ...data } = carte;
+
+const couleur: IdColor =
+  carte.type === "plante"
+    ? "dark-green"
+    : carte.type === "animal"
+      ? "skin"
+      : carte.gains
+        ? carte.gains.tribus
+          ? TRIBUS[carte.gains.tribus[0].id].color
+          : carte.gains.ressources
+            ? RESSOURCES[carte.gains.ressources[0].id].color
+            : "muted"
+        : "muted";
+---
+
+<div class="carte-item" style={`background: ${COLORS[couleur].hexa}`}>
+  <CarteItemTypeEtNom type={data.type} {nom} {couleur} />
+  <CarteItemIllustration />
+  <CarteItemPrerequis {prerequis} {couleur} />
+  <CarteItemCouts {couts} />
+  <div class="gains-actions-notes">
+    <CarteItemGains {gains} />
+    <CarteItemActions {actions} {couleur} />
+    {
+      data.notes && data.notes.length > 0 && (
+        <CarteItemTextes textes={data.notes} />
+      )
+    }
+  </div>
+  {
+    data.histoire && (
+      <div class="histoire">
+        <CarteItemTextes textes={[data.histoire]} />
+      </div>
+    )
+  }
+  <CarteItemStockIndividuel {gains} />
+</div>
+
+<style>
+  .carte-item {
+    display: flex;
+    width: 265px;
+    height: 370px;
+    padding: 8px;
+    font-size: 0.8em;
+    flex-direction: column;
+    border-radius: 6px;
+    box-sizing: border-box;
+    gap: 6px;
+    > .prerequis {
+      margin-bottom: 0;
+    }
+    .gains-actions-notes,
+    .histoire {
+      background-color: white;
+    }
+    .histoire {
+      padding: 4px;
+    }
+    .gains-actions-notes {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 2px 4px 4px;
+    }
+    span.legend {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      .badge {
+        text-transform: none;
+      }
+    }
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 4px;
+      padding-left: 0;
+      margin: 0;
+      ul {
+        margin: 0;
+      }
+    }
+  }
+</style>

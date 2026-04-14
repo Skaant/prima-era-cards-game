@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv CarteItemTypeEtNom.astro CarteLineTypeEtNom.astro)",
+      "Bash(mv CarteItemActions.astro CarteLineActions.astro)",
+      "Bash(mv CarteItemNotesEtHistoire.astro CarteLineNotesEtHistoire.astro)",
+      "Bash(mv CarteItemCouts.astro CarteLineCouts.astro)",
+      "Bash(mv CarteItemGains.astro CarteLineGains.astro)",
+      "Bash(node -e ':*)"
+    ]
+  }
+}

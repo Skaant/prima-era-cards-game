@@ -1,0 +1,30 @@
+---
+import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
+
+interface Props {
+  textes: string[];
+}
+
+const { textes } = Astro.props;
+---
+
+{
+  textes.length > 0 && (
+    <ul>
+      {textes.map((texte) => (
+        <li>
+          <i>
+            <DynamicString value={texte} />
+          </i>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  ul {
+    flex-direction: column;
+    line-height: 1em;
+  }
+</style>

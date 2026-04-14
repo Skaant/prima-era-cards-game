@@ -1,0 +1,46 @@
+---
+import { COLORS } from "../../../data/colors";
+import type { IdColor } from "../../../data/IdColor";
+import type { Carte } from "../../_types/Carte";
+import TypesCarteSvgSwitch from "../../type-carte/svg/TypesCarteSvgSwitch.astro";
+
+interface Props {
+  type: Carte["type"];
+  nom: string;
+  couleur: IdColor;
+}
+
+const { type, nom, couleur } = Astro.props;
+
+const hexa = COLORS[couleur].hexa;
+---
+
+<div class="carte-item-type-et-nom">
+  <TypesCarteSvgSwitch
+    {type}
+    size="42px"
+    fill={COLORS[couleur].textWhite ? "#fff" : "#000"}
+  />
+  <span>{nom}</span>
+</div>
+
+<style>
+  .carte-item-type-et-nom {
+    display: flex;
+    align-items: stretch;
+    font-family: "pangaia";
+    font-size: 1.3em;
+    line-height: 1.1em;
+    > svg {
+      padding: 4px;
+      border: solid 4px white;
+    }
+    span {
+      flex-grow: 1;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+    }
+  }
+</style>

@@ -1,8 +1,9 @@
 ---
-import ListeCartes from "../../cartes/ListeCarte/ListeCartes.astro";
-import Layout from "../../layout/Layout.astro";
-import Ressource from "../../ressources/Ressource.astro";
-import Tribu from "../../tribus/Tribu.astro";
+import ListeCartesItem from "../../../cartes/ListeCarte/CarteItem/ListeCartesItem.astro";
+import Layout from "../../../layout/Layout.astro";
+import Ressource from "../../../ressources/Ressource.astro";
+import Tribu from "../../../tribus/Tribu.astro";
+import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
 ---
 
 <Layout title="La tribu Kolokolo">
@@ -134,84 +135,7 @@ import Tribu from "../../tribus/Tribu.astro";
   </div>
   <div class="section">
     <h2>Cartes</h2>
-    <ListeCartes
-      ids={[
-        "petit-dom",
-        "entrepot-stockage",
-        "citerne",
-        "haie-mature",
-        "glaneur",
-        "jing",
-        "godosava-petites-aiguilles",
-        "poche-impermeable",
-        "cellier",
-        "mousse-epaisse",
-        "treille",
-        "extension-habitable",
-        "ambiance-forestiere",
-        "ecole",
-        "pepiniere",
-        "avant-poste",
-        "station-purin",
-        "eau",
-        "confiance-mutuelle",
-        "brasero",
-        "vault-cooperation",
-        "coeur-colonie",
-        "chiouf-cordial",
-        "liberateur-du-waild",
-        "skarabara-gratgrat",
-        "balise-pshf",
-        "salon-confortable",
-        "vault-comemorative",
-        "faculte",
-        "ludotheque",
-        "serre",
-        "reduction-utile",
-        "banquet",
-        "magicien-decharge",
-        "curieux-plantes",
-        "gingin-jingong",
-        "grand-panus-opaque",
-        "flotib-capsules",
-        "bullo-grand-rave",
-        "kokimo-souple",
-        "radu-long-blanc",
-        "fermenteur",
-        "potagiste",
-        "ensorceleur",
-        "farmi-groutaliniere",
-        "pique-pique-crete-bleue",
-        "galegou-criard",
-        "lazazar-souzelar",
-        "groakon-mares",
-        "gris-argente-sous-cailloux",
-        "maakiri-voulvoulnavier",
-        "babou-replanteur",
-        "troute-vifevonte",
-        "protection-waild",
-        "spikologue-animalier",
-        "médecin-fin",
-        "waild",
-        "data",
-        "experience-terrain",
-        "grande-porte-haie",
-        "vault-concorde",
-        "naissance",
-        "auto-conteneur",
-        "dom-tronc",
-        "enclos",
-        "chloro-atelier",
-        "précieuse-shraine-clairiere",
-        "grande-porte-haie",
-        "vault-concorde",
-        "condenser-vie",
-        "rite-fertilite",
-        "conditions-propices",
-        "haie-toit",
-        "gueule-waild",
-        "dom-suspendu",
-      ]}
-    />
+    <p><a href="/les-tribus/kolokolo/cartes">Version impression</a></p>
+    <ListeCartesItem ids={KOLOKOLO_DECK} />
   </div>
 </Layout>

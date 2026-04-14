@@ -1,8 +1,7 @@
 ---
-import Ressource from "../../ressources/Ressource.astro";
-import type { IdCarte } from "../_types/IdCarte";
-import { TOUTES_CARTES } from "../toutes-cartes";
-import ListeCarteItem from "./ListeCarteItem.astro";
+import type { IdCarte } from "../../_types/IdCarte";
+import { TOUTES_CARTES } from "../../toutes-cartes";
+import CarteLine from "./../CarteLine/CarteLine.astro";
 
 interface Props {
   ids: IdCarte[];
@@ -26,7 +25,7 @@ const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
       </tr>
     </thead>
     <tbody>
-      {cartes.map(({ id, carte }) => <ListeCarteItem {id} {carte} />)}
+      {cartes.map(({ id, carte }) => <CarteLine {id} {carte} />)}
     </tbody>
   </table>
 </div>

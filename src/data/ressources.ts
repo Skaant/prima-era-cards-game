@@ -1,10 +1,10 @@
 import type { IdRessource } from "../ressources/IdRessource";
-import type { Color } from "../types/Color";
+import type { IdColor } from "./IdColor";
 
 export type RessourceData = {
   name: string;
   plural?: string;
-  color: Color;
+  color: IdColor;
 };
 
 export const RESSOURCES: {

@@ -1,0 +1,80 @@
+---
+import { COLORS } from "../../../data/colors";
+import type { IdColor } from "../../../data/IdColor";
+import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
+import type { Carte } from "../../_types/Carte";
+import CarteItemCouts from "./CarteItemCouts.astro";
+import CarteItemGains from "./CarteItemGains.astro";
+
+interface Props {
+  actions: Carte["actions"];
+  couleur: IdColor;
+}
+
+const { actions, couleur } = Astro.props;
+---
+
+{
+  actions && actions.length > 0 && (
+    <ul class="actions">
+      {actions.map(({ nom, couts, gains, notes }) => (
+        <li class="action" style={`border: 6px solid ${COLORS[couleur].hexa}`}>
+          <div style={`background-color: ${COLORS[couleur].hexa}`}>
+            <span
+              style={`color: ${COLORS[couleur].textWhite ? "white" : "black"}`}
+            >
+              {nom}
+            </span>
+            <CarteItemCouts couts={couts} />
+          </div>
+          <CarteItemGains gains={gains} />
+          {notes && (
+            <div class="notes">
+              {notes.map((note) => (
+                <DynamicString value={note} />
+              ))}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+  }
+  .action {
+    + .action {
+      margin-top: 6px;
+    }
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    > :first-child {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding-bottom: 6px;
+      box-sizing: border-box;
+      > span {
+        font-family: "pangaia";
+      }
+      > :last-child {
+        flex-grow: 1;
+      }
+    }
+    > :nth-child(2) {
+      padding: 2px 4px 4px;
+    }
+  }
+  .notes {
+    margin-top: -6px;
+    padding: 4px;
+    line-height: 1em;
+  }
+</style>

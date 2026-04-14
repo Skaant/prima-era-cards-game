@@ -1,0 +1,26 @@
+---
+import type { IdCarte } from "../../_types/IdCarte";
+import { TOUTES_CARTES } from "../../toutes-cartes";
+import CarteLine from "./../CarteLine/CarteLine.astro";
+import CarteItem from "./CarteItem.astro";
+
+interface Props {
+  ids: IdCarte[];
+}
+
+const { ids } = Astro.props;
+const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
+---
+
+<div>{cartes.length} cartes</div>
+<div class="liste-cartes">
+  {cartes.map(({ id, carte }) => <CarteItem {id} {carte} />)}
+</div>
+
+<style>
+  .liste-cartes {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+</style>

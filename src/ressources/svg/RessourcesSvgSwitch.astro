@@ -1,0 +1,45 @@
+---
+import type { IdRessource } from "../IdRessource";
+import SvgAction from "./SvgAction.astro";
+import SvgBourgeonsTopipotents from "./SvgBourgeonsTopipotents.astro";
+import SvgBranches from "./SvgBranches.astro";
+import SvgData from "./SvgData.astro";
+import SvgEau from "./SvgEau.astro";
+import SvgEnfants from "./SvgEnfants.astro";
+import SvgHumus from "./SvgHumus.astro";
+import SvgJing from "./SvgJing.astro";
+import SvgProtectionWaild from "./SvgProtectionWaild.astro";
+import SvgProtectionWaildMoins from "./SvgProtectionWaildMoins.astro";
+import SvgProtectionWaildPlus from "./SvgProtectionWaildPlus.astro";
+import SvgWaild from "./SvgWaild.astro";
+
+interface Props {
+  id: IdRessource;
+  size?: string;
+  fill?: string;
+}
+
+const { id, size, fill } = Astro.props;
+const svgProps = { size, fill };
+
+const svgMap: Partial<
+  Record<IdRessource, (_props: Record<string, unknown>) => unknown>
+> = {
+  actions: SvgAction,
+  "bourgeons-totipotents": SvgBourgeonsTopipotents,
+  branches: SvgBranches,
+  data: SvgData,
+  eau: SvgEau,
+  enfants: SvgEnfants,
+  humus: SvgHumus,
+  jing: SvgJing,
+  "protection-waild": SvgProtectionWaild,
+  "protection-waild-min": SvgProtectionWaildMoins,
+  "protection-waild-max": SvgProtectionWaildPlus,
+  waild: SvgWaild,
+};
+
+const SvgComponent = svgMap[id];
+---
+
+{SvgComponent && <SvgComponent {...svgProps} />}

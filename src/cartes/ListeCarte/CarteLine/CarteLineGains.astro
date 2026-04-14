@@ -1,12 +1,12 @@
 ---
-import Ressource from "../../ressources/Ressource.astro";
-import Tribu from "../../tribus/Tribu.astro";
-import StockSvgSwitch from "../../ressources/svg/stock/StockSvgSwitch.astro";
-import SvgStockIndividuel from "../../ressources/svg/stock/SvgStockIndividuel.astro";
-import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
-import type { IdTribu } from "../../tribus/IdTribu";
-import type { Carte } from "../_types/Carte";
-import CarteItemPrerequis from "./CarteItemPrerequis.astro";
+import Ressource from "../../../ressources/Ressource.astro";
+import Tribu from "../../../tribus/Tribu.astro";
+import StockSvgSwitch from "../../../ressources/svg/stock/StockSvgSwitch.astro";
+import SvgStockIndividuel from "../../../ressources/svg/stock/SvgStockIndividuel.astro";
+import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
+import type { IdTribu } from "../../../tribus/IdTribu";
+import type { Carte } from "../../_types/Carte";
+import CarteLinePrerequis from "./CarteLinePrerequis.astro";
 
 interface Props {
   gains: Carte["gains"];
@@ -60,7 +60,7 @@ const { gains } = Astro.props;
                       <div class="inline-prerequis">
                         <i>
                           Si
-                          <CarteItemPrerequis prerequis={ress.prerequis} /> :
+                          <CarteLinePrerequis prerequis={ress.prerequis} /> :
                         </i>
                       </div>
                     </>

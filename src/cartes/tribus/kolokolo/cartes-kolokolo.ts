@@ -42,6 +42,12 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "jing", value: 3 }] },
     gains: {
+      tribus: [
+        {
+          id: "kolokolo",
+          value: 1,
+        },
+      ],
       ressources: [
         {
           stock: true,
@@ -63,6 +69,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "jing", value: 2 }] },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "eau", value: 5, stock: true }],
     },
   },
@@ -76,6 +83,12 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [
+        {
+          id: "kolokolo",
+          value: 1,
+        },
+      ],
       autres: [
         "+1 {{eau}} ou {{jing}} / cycle",
         "Peut collecter 2 ressources pour 1 {{actions}}",
@@ -95,6 +108,12 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [
+        {
+          id: "kolokolo",
+          value: 1,
+        },
+      ],
       ressources: [
         { id: "branches", stockIndividuel: true, value: 2, stock: true },
         { id: "branches", stockIndividuel: true, value: 1, parCycle: true },
@@ -145,6 +164,12 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "eau", value: 1 }] },
     gains: {
+      tribus: [
+        {
+          id: "kolokolo",
+          value: 1,
+        },
+      ],
       ressources: [{ id: "eau", stock: true, value: 2 }],
     },
     notes: ["Compatible seulement avec un bâtiment organique"],
@@ -164,6 +189,12 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "jing", value: 1 }] },
     gains: {
+      tribus: [
+        {
+          id: "kolokolo",
+          value: 1,
+        },
+      ],
       ressources: [{ id: "jing", stock: true, value: 2 }],
     },
     notes: ["Compatible seulement avec un bâtiment artificiel"],
@@ -183,6 +214,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "eau", value: 1 }] },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "waild", stock: true, value: 1 },
         { id: "jing", stock: true, stockIndividuel: "out", value: 2 },
@@ -235,6 +267,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "jing", parCycle: true, value: 1 }],
     },
     actions: [
@@ -272,6 +305,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "eau", value: 1 }] },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "zums", value: 1, stock: true }],
     },
     notes: ["Compatible seulement avec un bâtiment organique"],
@@ -286,6 +320,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: { ressources: [{ id: "data", value: 20 }] },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: [
         "+1 bâtiment organique → +1 {{waild}} / cycle",
         "+1 module organique → +2 {{waild}}",
@@ -308,6 +343,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [
         {
           id: "data",
@@ -338,6 +374,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [
         {
           id: "bourgeons-totipotents",
@@ -359,6 +396,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       },
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         {
           id: "data",
@@ -391,6 +429,9 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
           value: 2,
         },
       ],
+    },
+    gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
     },
     actions: [
       {
@@ -427,6 +468,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ressources: [{ id: "data", value: 12 }],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "waild", value: 1 },
         { id: "protection-waild", value: 1 },
@@ -449,6 +491,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "humus", value: 1, parCycle: true },
         { id: "protection-waild", value: 6 },
@@ -470,6 +513,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 4 }],
       ressources: [
         { id: "protection-waild", value: 12 },
         {
@@ -501,6 +545,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 3 }],
       ressources: [
         {
           id: "data",
@@ -525,6 +570,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 3 }],
       ressources: [{ id: "humus", value: 2, parCycle: true }],
     },
     actions: [
@@ -555,6 +601,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "branches", stock: true, stockIndividuel: true, value: 3 },
         {
@@ -608,6 +655,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "enfants", parCycle: true, value: 0.3 }],
     },
     notes: ["Compatible seulement avec un bâtiment organique"],
@@ -635,6 +683,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 4 }],
       ressources: [
         {
           id: "data",
@@ -674,6 +723,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: [
         "+1 {{waild}} / {{enfants}} avec maturité ⋝ 2 / cycle",
         "+1 {{actions}} / {{enfants}} avec maturité ⋝ 2 / cycle",
@@ -691,6 +741,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [
         {
           id: "data",
@@ -750,7 +801,10 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         { id: "waild", value: 1 },
       ],
     },
-    gains: { ressources: [{ id: "jing", value: 3 }] },
+    gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
+      ressources: [{ id: "jing", value: 3 }],
+    },
   },
   "reduction-utile": {
     nom: "Réduction utile",
@@ -763,6 +817,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "eau", value: 1 },
         { id: "jing", value: 1 },
@@ -785,6 +840,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "enfants", value: 0.5 },
         { id: "data", value: 5 },
@@ -805,7 +861,10 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         { id: "jing", value: 1 },
       ],
     },
-    gains: { ressources: [{ id: "jing", value: 2, parCycle: true }] },
+    gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
+      ressources: [{ id: "jing", value: 2, parCycle: true }],
+    },
   },
   "magicien-decharge": {
     nom: "Magicien de la décharge",
@@ -818,6 +877,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: ["+1 {{batiments}} → +1 {{eau}} ou +1 {{jing}}"],
     },
     actions: [
@@ -844,6 +904,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: ["+1 {{plantes}} → +1 {{data}} / {{zums}} {{kolokolo}}"],
     },
   },
@@ -857,7 +918,10 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         { id: "data", value: 5 },
       ],
     },
-    gains: { ressources: [{ id: "jing", value: 2, stock: true }] },
+    gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
+      ressources: [{ id: "jing", value: 2, stock: true }],
+    },
     actions: [
       {
         nom: "Faire fermenter",
@@ -883,6 +947,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       autres: ["+1 {{waild}} → +1 {{data}}, *max 5 fois / cycle*"],
     },
     actions: [
@@ -910,6 +975,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [{ id: "enfants", value: 0.3, parCycle: true }],
       autres: [
         "{{enfants}} *devient* {{zums}} → +0.1 {{enfants}} / cycle",
@@ -928,6 +994,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: [
         "-1 {{eau}} ou -1 {{jing}} sur coût des animaux",
         "+1 animal → +5 {{data}}",
@@ -955,6 +1022,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [{ id: "jing", value: 1, parCycle: true }],
       autres: ["+1 {{jing}} lors de la collecte sur des animaux"],
     },
@@ -967,6 +1035,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ressources: [{ id: "data", value: 35 }],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: ["**x2** gains des cartes **Ressources**"],
     },
     notes: ["*Les coefficients multiplicateurs s'additionnent.*"],
@@ -987,6 +1056,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [
         { id: "zums", stock: true, value: 1 },
         {
@@ -1016,6 +1086,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "enfants", value: 1 }],
     },
   },
@@ -1030,6 +1101,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       autres: ["+1 ressource de cartes **Ressources** → +1 stock"],
     },
   },
@@ -1047,6 +1119,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "jing", value: 1, parCycle: true }],
       autres: ["+4 {{protection-waild}} pour les animaux"],
     },
@@ -1067,6 +1140,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 4 }],
       ressources: [
         { id: "jing", value: 4, parCycle: true },
         { id: "data", value: 10, parCycle: true },
@@ -1088,6 +1162,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 4 }],
       ressources: [
         { id: "jing", value: 5, parCycle: true },
         { id: "waild", value: 5, parCycle: true },
@@ -1119,6 +1194,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 4 }],
       ressources: [
         { id: "waild", value: 2, parCycle: true },
         { id: "data", value: 1, parRessource: { id: "etres-vivants" } },
@@ -1138,6 +1214,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ressources: [{ id: "waild", value: 2 }],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [{ id: "bourgeons-totipotents", value: 1 }],
     },
   },
@@ -1152,6 +1229,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [{ id: "enfants", value: 0.1, parCycle: true }],
     },
   },
@@ -1163,6 +1241,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ressources: [{ id: "data", value: 25 }],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       autres: ["Pendant le cycle : +1 {{waild}} → +1 {{waild}}"],
     },
   },
@@ -1174,6 +1253,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ressources: [{ id: "eau", value: 1 }],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [
         { id: "waild", value: 1 },
         { id: "protection-waild", value: 1 },
@@ -1191,6 +1271,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [
         { id: "humus", stock: true, stockIndividuel: true, value: 4 },
         {
@@ -1224,6 +1305,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
     },
     gains: {
+      tribus: [{ id: "kolokolo", value: 2 }],
       ressources: [
         { id: "zums", value: 6 },
         {
@@ -1264,7 +1346,8 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ressources: [{ id: "jing", value: 2 }],
     },
     gains: {
-      autres: ["Si aucune action utilisée pendant le cycle : +1 {{waïld}}"],
+      tribus: [{ id: "kolokolo", value: 2 }],
+      autres: ["Si aucune action utilisée pendant le cycle : +1 {{waild}}"],
     },
     actions: [
       {

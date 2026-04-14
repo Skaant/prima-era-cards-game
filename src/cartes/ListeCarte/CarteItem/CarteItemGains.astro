@@ -1,0 +1,175 @@
+---
+import Ressource from "../../../ressources/Ressource.astro";
+import Tribu from "../../../tribus/Tribu.astro";
+import StockSvgSwitch from "../../../ressources/svg/stock/StockSvgSwitch.astro";
+import SvgStockIndividuel from "../../../ressources/svg/stock/SvgStockIndividuel.astro";
+import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
+import type { IdTribu } from "../../../tribus/IdTribu";
+import type { Carte } from "../../_types/Carte";
+import CarteItemPrerequis from "./CarteItemPrerequis.astro";
+
+interface Props {
+  gains: Carte["gains"];
+}
+
+const { gains } = Astro.props;
+
+const ressources = gains?.ressources?.filter(
+  (ress) => !(ress.stock && ress.stockIndividuel),
+);
+---
+
+<div class="gains">
+  {
+    gains &&
+      ((gains.tribus?.length || 0) > 0 ||
+        (ressources && ressources.length > 0) ||
+        (gains.autres && gains.autres.length > 0)) && (
+        <>
+          {gains.tribus && gains.tribus.length > 0 && (
+            <ul class="gains-tribus">
+              {gains.tribus.map(({ id, value, parCycle, parRessource }) => (
+                <li>
+                  {" "}
+                  +{value}{" "}
+                  <Tribu id={id as IdTribu} plural={value > 1 || undefined} />
+                  {parRessource && (
+                    <>
+                      / {parRessource.value ? `${parRessource.value}` : ""}{" "}
+                      {parRessource.stockIndividuel && (
+                        <>
+                          <SvgStockIndividuel />{" "}
+                        </>
+                      )}
+                      <Ressource
+                        id={parRessource.id}
+                        plural={
+                          (parRessource.value && parRessource.value > 1) ||
+                          undefined
+                        }
+                      />
+                    </>
+                  )}
+                  {parCycle && <span>/ cycle</span>}
+                </li>
+              ))}
+            </ul>
+          )}
+          {ressources && ressources.length > 0 && (
+            <ul class="gains-ressources">
+              {ressources
+                .filter((ress) => !(ress.stock && ress.stockIndividuel))
+                .map((ress) => (
+                  <li>
+                    {"prerequis" in ress && ress.prerequis && (
+                      <>
+                        <div class="inline-prerequis">
+                          <CarteItemPrerequis prerequis={ress.prerequis} /> :
+                        </div>
+                      </>
+                    )}
+                    {`${
+                      ress.value &&
+                      !("stockIndividuel" in ress) &&
+                      ress.value > 0
+                        ? "+"
+                        : ""
+                    }${ress.value}`}
+                    {("stockIndividuel" in ress &&
+                      ress.stockIndividuel &&
+                      (ress.stockIndividuel === true ? (
+                        <StockSvgSwitch type="indiv" />
+                      ) : ress.stockIndividuel === "in" ? (
+                        <StockSvgSwitch type="indiv-in" />
+                      ) : (
+                        <StockSvgSwitch type="indiv-out" />
+                      ))) ||
+                      ("stock" in ress && <StockSvgSwitch />)}
+                    <Ressource
+                      id={ress.id}
+                      plural={
+                        ress.value && (ress.value > 1 || ress.value < -1)
+                          ? true
+                          : undefined
+                      }
+                    />
+                    {"parRessource" in ress && ress.parRessource && (
+                      <>
+                        /{" "}
+                        {ress.parRessource.value
+                          ? `${ress.parRessource.value}`
+                          : ""}{" "}
+                        {ress.parRessource.stockIndividuel && (
+                          <>
+                            <SvgStockIndividuel />{" "}
+                          </>
+                        )}
+                        <Ressource
+                          id={ress.parRessource.id}
+                          plural={
+                            (ress.parRessource.value &&
+                              ress.parRessource.value > 1) ||
+                            undefined
+                          }
+                        />
+                      </>
+                    )}
+                    {"parCycle" in ress && <span>/ cycle</span>}
+                  </li>
+                ))}
+            </ul>
+          )}
+          {gains.autres && gains.autres.length > 0 && (
+            <ul class="autres">
+              {gains.autres.map((autre) => (
+                <li>
+                  <DynamicString value={autre} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )
+  }
+</div>
+
+<style>
+  .gains {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    :global(.prerequis) {
+      padding: 0;
+      li {
+        display: flex;
+        align-content: center;
+        gap: 4px;
+      }
+    }
+    > ul {
+      gap: 2px;
+      flex-wrap: wrap;
+      gap: 2px;
+      justify-content: start;
+      flex-direction: column;
+      &.autres {
+        margin-top: 0;
+      }
+      + ul {
+        margin-top: 2px;
+      }
+      > li {
+        display: flex;
+        align-items: center;
+        gap: 0 2px;
+        flex-wrap: wrap;
+        line-height: 1em;
+        .inline-prerequis {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+    }
+  }
+</style>

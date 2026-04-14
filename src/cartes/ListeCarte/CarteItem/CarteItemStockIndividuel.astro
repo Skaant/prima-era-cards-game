@@ -1,0 +1,61 @@
+---
+import StockSvgSwitch from "../../../ressources/svg/stock/StockSvgSwitch.astro";
+import RessourcesSvgSwitch from "../../../ressources/svg/RessourcesSvgSwitch.astro";
+import type { Carte } from "../../_types/Carte";
+import { COLORS } from "../../../data/colors";
+import { RESSOURCES } from "../../../data/ressources";
+
+interface Props {
+  gains: Carte["gains"];
+}
+
+const { gains } = Astro.props;
+
+const stockIndividuelRessources = (gains?.ressources ?? []).filter(
+  (ress) => ress.stock === true && ress.stockIndividuel,
+);
+---
+
+<div class="stock-individuel">
+  {
+    stockIndividuelRessources.length > 0 && (
+      <ul>
+        {stockIndividuelRessources.map(({ id, value }) => {
+          const couleur = COLORS[RESSOURCES[id].color];
+          const couleurTexte = couleur.textWhite ? "white" : "black";
+          return (
+            <li
+              style={`background-color: ${couleur.hexa}; color: ${couleurTexte}`}
+            >
+              {value}
+              <StockSvgSwitch type="indiv" fill={couleurTexte} size="1.6em" />
+              <RessourcesSvgSwitch {id} fill={couleurTexte} size="1.6em" />
+            </li>
+          );
+        })}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  ul {
+    display: flex;
+    gap: 4px;
+    justify-content: end;
+    align-items: stretch;
+    flex-direction: column;
+  }
+  li {
+    border: solid 4px white;
+    height: 42px;
+    padding: 4px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 4px;
+    flex-wrap: wrap;
+    font-size: 1.2em;
+  }
+</style>

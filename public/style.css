@@ -95,6 +95,9 @@ blockquote {
 .small {
   font-size: 0.8em;
 }
+.opacity-8 {
+  opacity: 0.8;
+}
 
 /* Background color classes */
 .bg-light {

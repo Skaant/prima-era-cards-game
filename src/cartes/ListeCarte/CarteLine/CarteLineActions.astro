@@ -1,8 +1,8 @@
 ---
-import DynamicString from "../../semantique/DynamicString/DynamicString.astro";
-import type { Carte } from "../_types/Carte";
-import CarteItemCouts from "./CarteItemCouts.astro";
-import CarteItemGains from "./CarteItemGains.astro";
+import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
+import type { Carte } from "../../_types/Carte";
+import CarteLineCouts from "./CarteLineCouts.astro";
+import CarteLineGains from "./CarteLineGains.astro";
 
 interface Props {
   actions: Carte["actions"];
@@ -21,9 +21,9 @@ const { actions } = Astro.props;
               <li>
                 <div>
                   <i>{nom}</i> :
-                  <CarteItemCouts couts={couts} />→
+                  <CarteLineCouts couts={couts} />→
                 </div>
-                <CarteItemGains gains={gains} />
+                <CarteLineGains gains={gains} />
                 {notes?.map((note) => (
                   <>
                     <br />
