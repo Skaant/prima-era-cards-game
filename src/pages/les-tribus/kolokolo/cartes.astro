@@ -2,6 +2,7 @@
 import CarteItem from "../../../cartes/ListeCarte/CarteItem/CarteItem.astro";
 import { TOUTES_CARTES } from "../../../cartes/toutes-cartes";
 import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
+import Barrette from "../../../ressources/barrettes/Barrette.astro";
 
 const CARDS_PER_PAGE = 9;
 const pages: (typeof KOLOKOLO_DECK)[] = [];
@@ -10,7 +11,7 @@ for (let i = 0; i < KOLOKOLO_DECK.length; i += CARDS_PER_PAGE) {
 }
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -28,6 +29,26 @@ for (let i = 0; i < KOLOKOLO_DECK.length; i += CARDS_PER_PAGE) {
         </div>
       ))
     }
+    <div class="print-page barrettes-page">
+      <div>
+        <Barrette id="eau" />
+        <Barrette id="data" />
+        <Barrette id="actions" />
+        <Barrette id="bourgeons-totipotents" />
+      </div>
+      <div>
+        <Barrette id="jing" />
+        <Barrette id="zums" />
+        <Barrette id="enfants" />
+      </div>
+      <div>
+        <Barrette id="waild" />
+        <Barrette id="humus" />
+        <Barrette id="protection-waild" />
+        <Barrette id="protection-waild-min" />
+        <Barrette id="protection-waild-max" />
+      </div>
+    </div>
   </body>
 </html>
 
@@ -51,6 +72,14 @@ for (let i = 0; i < KOLOKOLO_DECK.length; i += CARDS_PER_PAGE) {
     width: calc(3 * 265px + 2 * 2px);
     margin: 16px auto;
     background: white;
+  }
+
+  .barrettes-page {
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
   }
 
   @media print {

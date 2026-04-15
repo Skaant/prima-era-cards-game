@@ -1,0 +1,111 @@
+---
+import { COLORS } from "../../data/colors";
+import { RESSOURCES } from "../../data/ressources";
+import type { IdRessource } from "../IdRessource";
+import RessourcesSvgSwitch from "../svg/RessourcesSvgSwitch.astro";
+import SvgStock from "../svg/stock/SvgStock.astro";
+import SvgStockIndividuel from "../svg/stock/SvgStockIndividuel.astro";
+import SvgCycle from "../../svg/SvgCycle.astro";
+import SwitchResumeRessources from "../resumes/SwitchResumeRessources.astro";
+
+interface Props {
+  id: IdRessource;
+}
+
+const { id } = Astro.props;
+const ressource = RESSOURCES[id];
+const couleur = COLORS[ressource.color];
+
+const svgProps = { size: "2em" };
+
+const temporaliteSquares = ressource.temporalite
+  ? Array.from({ length: ressource.temporalite - 1 }, (_, i) => i + 2)
+  : [];
+---
+
+<div class="barrette" style={`background-color: ${couleur.hexa}`}>
+  <div
+    class="ressource-header"
+    style={`color: ${couleur.textWhite ? "white" : "black"}`}
+  >
+    <div>
+      <RessourcesSvgSwitch
+        id={id}
+        size="1.6em"
+        fill={couleur.textWhite ? "white" : "black"}
+      />
+      <h3>{RESSOURCES[id].plural || RESSOURCES[id].name}</h3>
+    </div>
+    <div class="small">
+      <SwitchResumeRessources id={id} />
+    </div>
+  </div>
+  {temporaliteSquares.map((label) => <div class="tempo">{label}</div>)}
+  {
+    ressource.stockGlobal && (
+      <div>
+        <SvgStock {...svgProps} />
+      </div>
+    )
+  }
+  {
+    ressource.stockIndividuel && (
+      <div>
+        <SvgStockIndividuel {...svgProps} />
+      </div>
+    )
+  }
+  {
+    ressource.parCycle && (
+      <div>
+        <SvgCycle {...svgProps} />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .barrette {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 6px;
+    width: 265px;
+    height: max-content;
+    > div {
+      display: flex;
+      justify-content: center;
+      &:not(:first-child) {
+        align-items: center;
+        height: 48px;
+        background-color: white;
+      }
+    }
+  }
+  .ressource-header {
+    flex-direction: column;
+    > :first-child {
+      margin: auto;
+      display: flex;
+      gap: 12px;
+      padding-top: 6px;
+      > h3 {
+        margin: 0;
+      }
+    }
+    > :last-child {
+      padding: 0 4px 2px;
+      p {
+        margin: 0;
+        &:last-child {
+          margin-top: 6px;
+        }
+      }
+    }
+  }
+  .tempo {
+    font-family: "pangaia";
+    font-size: 1.4em;
+  }
+</style>

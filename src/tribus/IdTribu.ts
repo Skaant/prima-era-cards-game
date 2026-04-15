@@ -7,6 +7,7 @@ export type IdTribu =
   | "oumtataoum"
   | "psikix"
   | "mikori"
+  | "roamar"
   | "abzu"
   | "zingazong"
   | "oraton"

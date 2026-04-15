@@ -18,6 +18,7 @@ export const TRIBUS: {
   psikix: { name: "psikix", color: "purple" },
   mikori: { name: "mikori", color: "dark-purple" },
   abzu: { name: "abzu", color: "turquoize" },
+  roamar: { name: "roamar", color: "skin" },
   zingazong: { name: "zingazong", color: "turquoize" },
   oraton: { name: "oraton", color: "dark-turquoize" },
   tribili: { name: "tribili", color: "skin" },

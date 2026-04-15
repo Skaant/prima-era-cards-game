@@ -5,24 +5,46 @@ export type RessourceData = {
   name: string;
   plural?: string;
   color: IdColor;
+  stockGlobal?: true;
+  stockIndividuel?: true;
+  temporalite?: number;
+  parCycle?: true;
 };
 
 export const RESSOURCES: {
   [key in IdRessource]: RessourceData;
 } = {
-  eau: { name: "eau", color: "blue" },
-  jing: { name: "jing", color: "skin" },
-  waild: { name: "waild", color: "dark-green" },
-  data: { name: "data", color: "turquoize" },
+  eau: { name: "eau", color: "blue", stockGlobal: true, parCycle: true },
+  jing: { name: "jing", color: "skin", stockGlobal: true, parCycle: true },
+  waild: { name: "waild", color: "dark-green", parCycle: true },
+  data: { name: "data", color: "turquoize", parCycle: true },
   aibs: { name: "aïbs", color: "gold" },
-  zums: { name: "zum", plural: "zums", color: "skin" },
-  actions: { name: "action", plural: "actions", color: "skin" },
-  enfants: { name: "enfant", plural: "enfants", color: "light-skin" },
+  zums: { name: "zum", plural: "zums", color: "skin", stockGlobal: true },
+  actions: {
+    name: "action",
+    plural: "actions",
+    color: "skin",
+    stockGlobal: true,
+    parCycle: true,
+  },
+  enfants: {
+    name: "enfant",
+    plural: "enfants",
+    color: "light-skin",
+    stockGlobal: true,
+    temporalite: 5,
+    parCycle: true,
+  },
   psik: { name: "psik", color: "purple" },
   joie: { name: "joie", color: "gold" },
   "waild-entretenu": { name: "waild entretenu", color: "light-green" },
-  humus: { name: "humus", color: "brown" },
-  branches: { name: "branche", plural: "branches", color: "light-brown" },
+  humus: { name: "humus", color: "brown", temporalite: 3, parCycle: true },
+  branches: {
+    name: "branche",
+    plural: "branches",
+    color: "light-brown",
+    stockIndividuel: true,
+  },
   miko: { name: "miko", color: "dark-purple" },
   "inerte-supervisé": {
     name: "inerte supervisé",
@@ -61,6 +83,7 @@ export const RESSOURCES: {
     name: "bourgeon totipotent",
     plural: "bourgeons totipotents",
     color: "light-green",
+    parCycle: true,
   },
   "protection-waild": {
     name: "protection waïld",

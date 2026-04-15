@@ -1,0 +1,42 @@
+---
+import type { IdRessource } from "../IdRessource";
+import ResumeActions from "./ResumeActions.astro";
+import ResumeBourgeonsTopipotents from "./ResumeBourgeonsTopipotents.astro";
+import ResumeData from "./ResumeData.astro";
+import ResumeEau from "./ResumeEau.astro";
+import ResumeEnfants from "./ResumeEnfants.astro";
+import ResumeHumus from "./ResumeHumus.astro";
+import ResumeJing from "./ResumeJing.astro";
+import ResumeProtectionWaild from "./ResumeProtectionWaild.astro";
+import ResumeProtectionWaildMax from "./ResumeProtectionWaildMax.astro";
+import ResumeProtectionWaildMin from "./ResumeProtectionWaildMin.astro";
+import ResumeWaild from "./ResumeWaild.astro";
+import ResumeZums from "./ResumeZums.astro";
+
+interface Props {
+  id: IdRessource;
+}
+
+const { id } = Astro.props;
+
+const resumeMap: Partial<
+  Record<IdRessource, (_props: Record<string, unknown>) => unknown>
+> = {
+  eau: ResumeEau,
+  jing: ResumeJing,
+  waild: ResumeWaild,
+  data: ResumeData,
+  zums: ResumeZums,
+  humus: ResumeHumus,
+  actions: ResumeActions,
+  enfants: ResumeEnfants,
+  "protection-waild": ResumeProtectionWaild,
+  "protection-waild-min": ResumeProtectionWaildMin,
+  "protection-waild-max": ResumeProtectionWaildMax,
+  "bourgeons-totipotents": ResumeBourgeonsTopipotents,
+};
+
+const ResumeComponent = resumeMap[id];
+---
+
+{ResumeComponent && <ResumeComponent />}

@@ -16,9 +16,9 @@ const stockIndividuelRessources = (gains?.ressources ?? []).filter(
 );
 ---
 
-<div class="stock-individuel">
-  {
-    stockIndividuelRessources.length > 0 && (
+{
+  stockIndividuelRessources.length > 0 && (
+    <div class="stock-individuel">
       <ul>
         {stockIndividuelRessources.map(({ id, value }) => {
           const couleur = COLORS[RESSOURCES[id].color];
@@ -34,9 +34,9 @@ const stockIndividuelRessources = (gains?.ressources ?? []).filter(
           );
         })}
       </ul>
-    )
-  }
-</div>
+    </div>
+  )
+}
 
 <style>
   ul {

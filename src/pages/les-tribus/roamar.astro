@@ -1,0 +1,24 @@
+---
+import ListeCartesItem from "../../cartes/ListeCarte/CarteItem/ListeCartesItem.astro";
+import Layout from "../../layout/Layout.astro";
+import Ressource from "../../ressources/Ressource.astro";
+import Tribu from "../../tribus/Tribu.astro";
+import { KOLOKOLO_DECK } from "../../tribus/kolokolo/deck";
+---
+
+<Layout title="La tribu Roamar">
+  <div class="section">
+    <p><a href="/les-tribus" class="small">Retour aux tribus</a></p>
+    <h1>Tribu <Tribu id="roamar" /></h1>
+    <div class="col-right">
+      <div>
+        <blockquote>Connecter les territoires</blockquote>
+        <p>Mènent des expéditions vers des points d'intérêt (type de carte).</p>
+      </div>
+      <div>
+        <h2>Mécaniques</h2>
+        <ul></ul>
+      </div>
+    </div>
+  </div>
+</Layout>
