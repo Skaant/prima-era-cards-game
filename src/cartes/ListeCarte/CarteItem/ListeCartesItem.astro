@@ -1,15 +1,16 @@
 ---
-import type { IdCarte } from "../../_types/IdCarte";
+import type { Deck } from "../../_types/Deck";
 import { TOUTES_CARTES } from "../../toutes-cartes";
-import CarteLine from "./../CarteLine/CarteLine.astro";
 import CarteItem from "./CarteItem.astro";
 
 interface Props {
-  ids: IdCarte[];
+  deck: Deck;
 }
 
-const { ids } = Astro.props;
-const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
+const { deck } = Astro.props;
+const cartes = deck.flatMap(({ id, quantite }) =>
+  Array.from({ length: quantite }, () => ({ id, carte: TOUTES_CARTES[id] })),
+);
 ---
 
 <div>{cartes.length} cartes</div>

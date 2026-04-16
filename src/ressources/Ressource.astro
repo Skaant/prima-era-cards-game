@@ -2,6 +2,7 @@
 import { RESSOURCES } from "../data/ressources";
 import { COLORS } from "../data/colors";
 import type { IdRessource } from "../ressources/IdRessource";
+import RessourcesSvgSwitch from "./svg/RessourcesSvgSwitch.astro";
 
 interface Props {
   id: IdRessource;
@@ -21,5 +22,10 @@ const color = COLORS[ressource.color];
     ? `border-color: ${color.textWhite ? "#eee" : "#111"}`
     : undefined}
 >
-  {plural && ressource.plural ? ressource.plural : ressource.name}
+  <RessourcesSvgSwitch
+    {id}
+    fill={color.textWhite ? "white" : "black"}
+    size="1em"
+  />
+  {/* plural && ressource.plural ? ressource.plural : ressource.name */}
 </a>

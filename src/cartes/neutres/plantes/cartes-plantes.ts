@@ -174,7 +174,7 @@ export const CARTES_PLANTES: IndexCartes<IdCartePlante> = {
     },
   },
   "flotib-capsules": {
-    nom: "Flotib capsules",
+    nom: "Flotib à capsules",
     type: "plante",
     prerequis: {
       ressources: { eau: { min: 15, max: 60 }, waild: { min: 10, max: 35 } },

@@ -4,10 +4,13 @@ import { TOUTES_CARTES } from "../../../cartes/toutes-cartes";
 import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
 import Barrette from "../../../ressources/barrettes/Barrette.astro";
 
+const EXPANDED = KOLOKOLO_DECK.flatMap(({ id, quantite }) =>
+  Array.from({ length: quantite }, () => id)
+);
 const CARDS_PER_PAGE = 9;
-const pages: (typeof KOLOKOLO_DECK)[] = [];
-for (let i = 0; i < KOLOKOLO_DECK.length; i += CARDS_PER_PAGE) {
-  pages.push(KOLOKOLO_DECK.slice(i, i + CARDS_PER_PAGE));
+const pages: (typeof EXPANDED)[] = [];
+for (let i = 0; i < EXPANDED.length; i += CARDS_PER_PAGE) {
+  pages.push(EXPANDED.slice(i, i + CARDS_PER_PAGE));
 }
 ---
 

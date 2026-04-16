@@ -1,14 +1,18 @@
 ---
-import type { IdCarte } from "../../_types/IdCarte";
+import type { Deck } from "../../_types/Deck";
 import { TOUTES_CARTES } from "../../toutes-cartes";
 import CarteLine from "./../CarteLine/CarteLine.astro";
 
 interface Props {
-  ids: IdCarte[];
+  deck: Deck;
 }
 
-const { ids } = Astro.props;
-const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
+const { deck } = Astro.props;
+const cartes = deck.map(({ id, quantite }) => ({
+  id,
+  quantite,
+  carte: TOUTES_CARTES[id],
+}));
 ---
 
 <div>{cartes.length} cartes</div>
@@ -17,6 +21,7 @@ const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
     <thead>
       <tr>
         <th>carte</th>
+        <th>quantité</th>
         <th>prérequis</th>
         <th>coûts</th>
         <th>gains</th>
@@ -25,7 +30,7 @@ const cartes = ids.map((id) => ({ id, carte: TOUTES_CARTES[id] }));
       </tr>
     </thead>
     <tbody>
-      {cartes.map(({ id, carte }) => <CarteLine {id} {carte} />)}
+      {cartes.map(({ id, carte, quantite }) => <CarteLine {id} {carte} {quantite} />)}
     </tbody>
   </table>
 </div>

@@ -11,14 +11,16 @@ import type { IdCarte } from "../../_types/IdCarte";
 interface Props {
   id: IdCarte;
   carte: Carte;
+  quantite: number;
 }
 
-const { carte } = Astro.props;
+const { carte, quantite } = Astro.props;
 const { nom, ...data } = carte;
 ---
 
 <tr class="carte-item">
   <CarteLineTypeEtNom type={data.type} nom={nom} />
+  <td class="quantite">{quantite}</td>
   <td><CarteLinePrerequis prerequis={data.prerequis} /></td>
   <td><CarteLineCouts couts={data.couts} /></td>
   <td><CarteLineGains gains={data.gains} /></td>
