@@ -1,0 +1,87 @@
+---
+import CarteItem from "../../cartes/ListeCarte/CarteItem/CarteItem.astro";
+import { TOUS_DECKS } from "../../cartes/decks/tous.decks";
+import type { Deck } from "../../cartes/decks/Deck";
+import type { IdDecks } from "../../cartes/decks/IdDecks";
+import type { IdCartes } from "../../cartes/decks/IdCartes";
+import { TOUTES_CARTES } from "../../cartes/decks/toutes.cartes";
+import Layout from "../../layout/Layout.astro";
+
+export function getStaticPaths() {
+  return (Object.keys(TOUS_DECKS) as IdDecks[]).map((idDeck) => ({
+    params: { idDeck },
+    props: { deck: TOUS_DECKS[idDeck] },
+  }));
+}
+
+interface Props {
+  deck: Deck;
+}
+
+const { deck } = Astro.props;
+
+const CARDS_PER_PAGE = 9;
+const cartes = Object.entries(deck.cartes).flatMap(([id, quantite]) =>
+  Array.from({ length: quantite }, () => id as IdCartes),
+);
+const pages: IdCartes[][] = [];
+for (let i = 0; i < cartes.length; i += CARDS_PER_PAGE) {
+  pages.push(cartes.slice(i, i + CARDS_PER_PAGE));
+}
+---
+
+<Layout title={`Deck ${deck.id}`} disabledNavbar={true}>
+    {
+      pages.map((page) => (
+        <div class="print-page">
+          {page.map((id) => (
+            <CarteItem {id} carte={TOUTES_CARTES[id]} />
+          ))}
+        </div>
+      ))
+    }
+  </body>
+</html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ccc;
+  }
+
+  .print-page {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: calc(3 * 265px + 2 * 2px);
+    margin: 16px auto;
+    background: white;
+  }
+
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    body {
+      background: white;
+    }
+
+    .print-page {
+      margin: 0;
+      break-after: page;
+    }
+
+    .print-page:last-child {
+      break-after: auto;
+    }
+  }
+</style>

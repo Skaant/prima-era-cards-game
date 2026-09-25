@@ -6,16 +6,16 @@ import CarteItemActions from "./CarteItemActions.astro";
 import CarteItemCouts from "./CarteItemCouts.astro";
 import CarteItemTextes from "./CarteItemTextes.astro";
 import CarteItemTypeEtNom from "./CarteItemTypeEtNom.astro";
-import type { IdCarte } from "../../_types/IdCarte";
 import { COLORS } from "../../../data/colors";
 import { TRIBUS } from "../../../data/tribus";
 import { RESSOURCES } from "../../../data/ressources";
 import type { IdColor } from "../../../data/IdColor";
 import CarteItemStockIndividuel from "./CarteItemStockIndividuel.astro";
 import CarteItemIllustration from "./CarteItemIllustration.astro";
+import type { IdCartes } from "../../decks/IdCartes";
 
 interface Props {
-  id: IdCarte;
+  id: IdCartes  ;
   carte: Carte;
 }
 

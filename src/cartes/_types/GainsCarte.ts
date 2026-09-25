@@ -4,6 +4,10 @@ import type { ParRessource } from "./ParRessource";
 import type { PrerequisCarte } from "./PrerequisCarte";
 
 export type GainsCarte = {
+  declencheur?: {
+    id: IdRessource;
+    value: number;
+  },
   tribus?: {
     id: IdTribu;
     value: number;
