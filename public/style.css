@@ -183,6 +183,9 @@ blockquote {
 .bg-orange {
   background-color: #ff9900;
 }
+.bg-gradient-gold-light-purple {
+  background: radial-gradient(circle at 20% 85%, #ffcd5c 0%, #c579ff 100%);
+}
 
 /* Inline list */
 .inline-list {
@@ -219,4 +222,56 @@ blockquote {
 
 b .badge {
   font-weight: normal;
+}
+
+/** Cartouche */
+.cartouche {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 3px white solid;
+  border-radius: 24px;
+  line-height: 1em;
+  &.cartouche-prerequis {
+    display: flex;
+    border-color: black;
+    > * {
+      padding: 0;
+    }
+  }
+  > * {
+    padding: 4px 6px;
+
+    &.svg {
+      padding: 2px 4px 1px;
+      text-decoration: none;
+      &:first-child {
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
+        padding-left: 6px;
+      }
+      &:last-child {
+        border-top-right-radius: inherit;
+        border-bottom-right-radius: inherit;
+        padding-right: 6px;
+      }
+      & + .svg {
+        padding-left: 0;
+      }
+    }
+    &.par {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding-left: 4px !important;
+    }
+  }
+  > span {
+    &:first-child {
+      padding-left: 10px;
+    }
+    &:last-child {
+      padding-right: 10px;
+    }
+  }
 }

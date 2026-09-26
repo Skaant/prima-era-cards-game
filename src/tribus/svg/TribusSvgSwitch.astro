@@ -1,0 +1,23 @@
+---
+import type { IdTribu } from "../IdTribu";
+import SvgKolokolo from "./SvgKolokolo.astro";
+
+interface Props {
+  id: IdTribu;
+  size?: string;
+  fill?: string;
+}
+
+const { id, size, fill } = Astro.props;
+const svgProps = { size, fill };
+
+const svgMap: Partial<
+  Record<IdTribu, (_props: Record<string, unknown>) => unknown>
+> = {
+  kolokolo: SvgKolokolo,
+};
+
+const SvgComponent = svgMap[id];
+---
+
+{SvgComponent && <SvgComponent {...svgProps} />}

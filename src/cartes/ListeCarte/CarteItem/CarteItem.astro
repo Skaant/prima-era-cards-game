@@ -1,7 +1,7 @@
 ---
 import type { Carte } from "../../_types/Carte";
-import CarteItemPrerequis from "./CarteItemPrerequis.astro";
-import CarteItemGains from "./CarteItemGains.astro";
+import CarteItemPrerequis from "./prerequis/CarteItemPrerequis.astro";
+import CarteItemGains from "./gains/CarteItemGains.astro";
 import CarteItemActions from "./CarteItemActions.astro";
 import CarteItemCouts from "./CarteItemCouts.astro";
 import CarteItemTextes from "./CarteItemTextes.astro";
@@ -38,9 +38,11 @@ const couleur: IdColor =
 
 <div class="carte-item" style={`background: ${COLORS[couleur].hexa}`}>
   <CarteItemTypeEtNom type={data.type} {nom} {couleur} />
-  <CarteItemIllustration />
-  <CarteItemPrerequis {prerequis} {couleur} />
-  <CarteItemCouts {couts} />
+  <!-- CarteItemIllustration /-->
+  <ul>
+    <CarteItemPrerequis {prerequis} {couleur} />
+    <CarteItemCouts {couts} />
+  </ul>
   <div class="gains-actions-notes">
     <CarteItemGains {gains} />
     <CarteItemActions {actions} {couleur} />
@@ -74,18 +76,21 @@ const couleur: IdColor =
     > .prerequis {
       margin-bottom: 0;
     }
-    .gains-actions-notes,
-    .histoire {
-      background-color: white;
+    > ul {
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px 4px;
+      border-bottom: solid 3px #fffb;
+      padding-bottom: 5px;
     }
     .histoire {
+      background-color: white;
       padding: 4px;
     }
     .gains-actions-notes {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      padding: 2px 4px 4px;
     }
     span.legend {
       font-size: 0.7em;

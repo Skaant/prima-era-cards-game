@@ -4,20 +4,24 @@ import type { ParRessource } from "./ParRessource";
 import type { PrerequisCarte } from "./PrerequisCarte";
 
 export type GainsCarte = {
-  tribus?: {
-    id: IdTribu;
-    value: number;
-    parRessource?: ParRessource;
-    parCycle?: true;
-  }[];
-  ressources?: {
-    prerequis?: PrerequisCarte;
-    id: IdRessource;
-    value: number;
-    stockIndividuel?: true | "in" | "out";
-    stock?: true;
-    parRessource?: ParRessource;
-    parCycle?: true;
-  }[];
+  tribus?: GainTribu[];
+  ressources?: GainRessource[];
   autres?: string[];
+};
+
+export type GainTribu = {
+  id: IdTribu;
+  value: number;
+  parRessource?: ParRessource;
+  parCycle?: true;
+};
+
+export type GainRessource = {
+  prerequis?: PrerequisCarte;
+  id: IdRessource;
+  value: number;
+  stockIndividuel?: true | "in" | "out";
+  stock?: true;
+  parRessource?: ParRessource;
+  parCycle?: true;
 };

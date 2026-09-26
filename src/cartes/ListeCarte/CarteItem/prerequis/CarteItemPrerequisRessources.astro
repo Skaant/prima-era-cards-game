@@ -1,0 +1,40 @@
+---
+import Ressource from "../../../../ressources/Ressource.astro";
+import SvgStock from "../../../../ressources/svg/stock/SvgStock.astro";
+import SvgStockIndividuel from "../../../../ressources/svg/stock/SvgStockIndividuel.astro";
+import type { IdRessource } from "../../../../ressources/IdRessource";
+import type { PrerequisCarte } from "../../../_types/PrerequisCarte";
+
+interface Props {
+  ressources: NonNullable<PrerequisCarte["ressources"]>;
+}
+
+const { ressources } = Astro.props;
+---
+
+{Object.entries(ressources).map(
+  ([id, { eq, min, max, stockPlein, stockIndividuelPlein }]) => (
+    <li>
+      <div class="cartouche">
+        {min && max ? <span>{min} ⋜ </span> : ""}
+        {stockPlein && <SvgStock />}
+        {stockIndividuelPlein && <SvgStockIndividuel />}
+        <Ressource
+          id={id as IdRessource}
+          plural={
+            stockPlein ||
+            stockIndividuelPlein ||
+            (max || eq || min || 0) > 1 ||
+            undefined
+          }
+        />
+        {min && !max ? <span> ⋝ {min}</span> : ""}
+        {eq ? <span> = {eq}</span> : ""}
+        {max ? <span> ⋜ {max}</span> : ""}
+        {(stockPlein || stockIndividuelPlein) && (
+          <span> plein</span>
+        )}
+      </div>
+    </li>
+  ),
+)}

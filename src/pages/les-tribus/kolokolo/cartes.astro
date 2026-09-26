@@ -2,10 +2,10 @@
 import CarteItem from "../../../cartes/ListeCarte/CarteItem/CarteItem.astro";
 import { TOUTES_CARTES } from "../../../cartes/toutes-cartes";
 import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
-import Barrette from "../../../ressources/barrettes/Barrette.astro";
+import BarretteSwitch from "../../../ressources/barrettes/BarretteSwitch.astro";
 
 const EXPANDED = KOLOKOLO_DECK.flatMap(({ id, quantite }) =>
-  Array.from({ length: quantite }, () => id)
+  Array.from({ length: quantite }, () => id),
 );
 const CARDS_PER_PAGE = 9;
 const pages: (typeof EXPANDED)[] = [];
@@ -34,22 +34,24 @@ for (let i = 0; i < EXPANDED.length; i += CARDS_PER_PAGE) {
     }
     <div class="print-page barrettes-page">
       <div>
-        <Barrette id="eau" />
-        <Barrette id="data" />
-        <Barrette id="actions" />
-        <Barrette id="bourgeons-totipotents" />
+        <BarretteSwitch id="eau" />
+        <BarretteSwitch id="data" />
+        <BarretteSwitch id="actions" />
+        <BarretteSwitch id="bourgeons-totipotents" />
+        <BarretteSwitch id="branches" />
       </div>
       <div>
-        <Barrette id="jing" />
-        <Barrette id="zums" />
-        <Barrette id="enfants" />
+        <BarretteSwitch id="jing" />
+        <BarretteSwitch id="zums" />
+        <BarretteSwitch id="enfants" />
+        <BarretteSwitch type="tribu" id="kolokolo" />
       </div>
       <div>
-        <Barrette id="waild" />
-        <Barrette id="humus" />
-        <Barrette id="protection-waild" />
-        <Barrette id="protection-waild-min" />
-        <Barrette id="protection-waild-max" />
+        <BarretteSwitch id="waild" />
+        <BarretteSwitch id="humus" />
+        <BarretteSwitch id="protection-waild" />
+        <BarretteSwitch id="protection-waild-min" />
+        <BarretteSwitch id="protection-waild-max" />
       </div>
     </div>
   </body>

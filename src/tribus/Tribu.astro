@@ -2,24 +2,39 @@
 import { TRIBUS } from "../data/tribus";
 import { COLORS } from "../data/colors";
 import type { IdTribu } from "../tribus/IdTribu";
+import TribusSvgSwitch from "./svg/TribusSvgSwitch.astro";
+import SvgTribu from "./svg/SvgTribu.astro";
 
 interface Props {
   id: IdTribu;
+  size?: string;
   plural?: true;
   outline?: true;
 }
 
-const { id, plural, outline } = Astro.props;
+const { id, size, plural, outline } = Astro.props;
 const tribu = TRIBUS[id];
 const color = COLORS[tribu.color];
+const couleurTexte = color.textWhite ? "white" : "black";
 ---
 
 <a
   href={`/les-tribus/${id}`}
-  class={`badge bg-${tribu.color} ${COLORS[tribu.color].textWhite ? "text-light" : "text-dark"}`}
+  class={`svg bg-${tribu.color} ${COLORS[tribu.color].textWhite ? "text-light" : "text-dark"}`}
   style={outline
     ? `border-color: ${color.textWhite ? "#eee" : "#111"}`
     : undefined}
 >
-  {tribu.name}{plural ? "s" : ""}
+  <SvgTribu fill={couleurTexte} /><TribusSvgSwitch
+    {id}
+    {size}
+    fill={couleurTexte}
+  />
+  {/* tribu.name}{plural ? "s" : "" */}
 </a>
+
+<style>
+  a {
+    text-transform: none;
+  }
+</style>

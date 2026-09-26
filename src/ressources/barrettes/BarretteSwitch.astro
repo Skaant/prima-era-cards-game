@@ -1,0 +1,21 @@
+---
+import type { IdTribu } from "../../tribus/IdTribu";
+import type { IdRessource } from "../IdRessource";
+import BarretteRessource from "./BarretteRessource.astro";
+import BarretteTribu from "./BarretteTribu.astro";
+
+interface Props {
+  id: IdRessource | IdTribu;
+  type?: "ressource" | "tribu";
+}
+
+const { id, type = "ressource" } = Astro.props;
+---
+
+{
+  type === "tribu" ? (
+    <BarretteTribu id={id as IdTribu} />
+  ) : (
+    <BarretteRessource id={id as IdRessource} />
+  )
+}

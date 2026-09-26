@@ -1,0 +1,13 @@
+---
+import type { IdColor } from "../data/IdColor";
+
+interface Props {
+  sections: {
+    contenu: Astro;
+    couleurFond: IdColor;
+    couleurTexte?: "white" | "black";
+  }[];
+}
+
+const { sections } = Astro.props;
+---

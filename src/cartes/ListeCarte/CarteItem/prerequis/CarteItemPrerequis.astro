@@ -1,0 +1,46 @@
+---
+import CarteItemPrerequisTribus from "./CarteItemPrerequisTribus.astro";
+import CarteItemPrerequisRessources from "./CarteItemPrerequisRessources.astro";
+import type { IdTribu } from "../../../../tribus/IdTribu";
+import type { Carte } from "../../../_types/Carte";
+import type { IdColor } from "../../../../data/IdColor";
+
+interface Props {
+  prerequis: Carte["prerequis"];
+  couleur?: IdColor;
+}
+
+const { prerequis, couleur } = Astro.props;
+const tribus = prerequis?.tribus
+  ? (Object.entries(prerequis.tribus) as [IdTribu, number][])
+  : [];
+---
+
+{
+  prerequis &&
+    (tribus.length > 0 ||
+      (prerequis.ressources &&
+        Object.keys(prerequis.ressources).length > 0)) && (
+      <>
+        {tribus.length > 0 && <CarteItemPrerequisTribus tribus={tribus} />}
+        {prerequis.ressources &&
+          Object.keys(prerequis.ressources).length > 0 && (
+            <CarteItemPrerequisRessources ressources={prerequis.ressources} />
+          )}
+      </>
+    )
+}
+
+<style>
+  .prerequis {
+    box-sizing: border-box;
+    ul {
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2px 8px;
+      span {
+        font-size: 0.9em;
+      }
+    }
+  }
+</style>

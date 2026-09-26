@@ -1,0 +1,83 @@
+---
+import { COLORS } from "../../../../data/colors";
+import { RESSOURCES } from "../../../../data/ressources";
+import Ressource from "../../../../ressources/Ressource.astro";
+import StockSvgSwitch from "../../../../ressources/svg/stock/StockSvgSwitch.astro";
+import SvgStockIndividuel from "../../../../ressources/svg/stock/SvgStockIndividuel.astro";
+import SvgCycle from "../../../../svg/SvgCycle.astro";
+import type { GainRessource } from "../../../_types/GainsCarte";
+
+interface Props {
+  ress: GainRessource;
+}
+
+const { ress } = Astro.props;
+
+const couleur = RESSOURCES[ress.id].color;
+const couleurTexte = COLORS[couleur].textWhite ? "white" : "black";
+---
+
+<span>
+  {
+    ress.value &&
+    !("stockIndividuel" in ress && "stock" in ress) &&
+    ress.value > 0
+      ? `+${ress.value}`
+      : ress.value
+  }
+</span>
+{
+  ("stockIndividuel" in ress || "stock" in ress) && (
+    <span class={`svg bg-${couleur}`}>
+      {("stockIndividuel" in ress &&
+        ress.stockIndividuel &&
+        (ress.stockIndividuel === true ? (
+          <StockSvgSwitch type="indiv" fill={couleurTexte} />
+        ) : ress.stockIndividuel === "in" ? (
+          <StockSvgSwitch type="indiv-in" fill={couleurTexte} />
+        ) : (
+          <StockSvgSwitch type="indiv-out" fill={couleurTexte} />
+        ))) ||
+        ("stock" in ress && <StockSvgSwitch fill={couleurTexte} />)}
+    </span>
+  )
+}
+<Ressource
+  id={ress.id}
+  plural={ress.value && (ress.value > 1 || ress.value < -1) ? true : undefined}
+/>
+{
+  "parRessource" in ress && ress.parRessource && (
+    <>
+      <span
+        class={` par bg-${RESSOURCES[ress.parRessource.id].color} text-${
+          COLORS[RESSOURCES[ress.parRessource.id].color].textWhite
+            ? "white"
+            : "text"
+        }`}
+      >
+        /
+        {ress.parRessource.stockIndividuel && (
+          <SvgStockIndividuel fill={couleurTexte} />
+        )}
+        {ress.parRessource.value && <span>{ress.parRessource.value}</span>}
+      </span>
+      <Ressource
+        id={ress.parRessource.id}
+        plural={
+          (ress.parRessource.value && ress.parRessource.value > 1) || undefined
+        }
+      />
+    </>
+  )
+}
+{
+  "parCycle" in ress && (
+    <>
+      <span class="svg par">
+        /
+        <SvgCycle fill="black" />
+      </span>
+    </>
+  )
+}

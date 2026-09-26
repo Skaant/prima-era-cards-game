@@ -99,6 +99,9 @@ export const CARTES_PLANTES: IndexCartes<IdCartePlante> = {
               id: "branches",
               value: 1,
               stockIndividuel: true,
+              parRessource: {
+                id: "branches",
+              },
             },
           ],
         },
@@ -162,8 +165,8 @@ export const CARTES_PLANTES: IndexCartes<IdCartePlante> = {
           value: 1,
           parRessource: {
             id: "branches",
+            value: 4,
           },
-          parCycle: true,
         },
       ],
       autres: [

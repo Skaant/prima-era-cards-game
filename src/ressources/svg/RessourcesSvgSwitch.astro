@@ -1,7 +1,9 @@
 ---
+import SvgPlante from "../../cartes/type-carte/svg/SvgPlante.astro";
 import SvgZum from "../../cartes/type-carte/svg/SvgZum.astro";
 import type { IdRessource } from "../IdRessource";
 import SvgAction from "./SvgAction.astro";
+import SvgBatiment from "./SvgBatiment.astro";
 import SvgBourgeonsTopipotents from "./SvgBourgeonsTopipotents.astro";
 import SvgBranches from "./SvgBranches.astro";
 import SvgData from "./SvgData.astro";
@@ -9,9 +11,11 @@ import SvgEau from "./SvgEau.astro";
 import SvgEnfants from "./SvgEnfants.astro";
 import SvgHumus from "./SvgHumus.astro";
 import SvgJing from "./SvgJing.astro";
+import SvgPluie from "./SvgPluie.astro";
 import SvgProtectionWaild from "./SvgProtectionWaild.astro";
 import SvgProtectionWaildMoins from "./SvgProtectionWaildMoins.astro";
 import SvgProtectionWaildPlus from "./SvgProtectionWaildPlus.astro";
+import SvgSoleil from "./SvgSoleil.astro";
 import SvgWaild from "./SvgWaild.astro";
 
 interface Props {
@@ -39,6 +43,10 @@ const svgMap: Partial<
   "protection-waild-min": SvgProtectionWaildMoins,
   "protection-waild-max": SvgProtectionWaildPlus,
   waild: SvgWaild,
+  soleil: SvgSoleil,
+  pluie: SvgPluie,
+  batiments: SvgBatiment,
+  plantes: SvgPlante,
 };
 
 const SvgComponent = svgMap[id];

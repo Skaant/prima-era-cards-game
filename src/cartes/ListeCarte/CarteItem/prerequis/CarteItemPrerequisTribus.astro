@@ -1,0 +1,19 @@
+---
+import Tribu from "../../../../tribus/Tribu.astro";
+import type { IdTribu } from "../../../../tribus/IdTribu";
+
+interface Props {
+  tribus: [IdTribu, number][];
+}
+
+const { tribus } = Astro.props;
+---
+
+{tribus.map(([tribu, valeur]) => (
+  <li>
+    <div class="cartouche">
+      <Tribu id={tribu} plural={true} />
+      <span>⋝ {valeur}</span>
+    </div>
+  </li>
+))}

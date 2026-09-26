@@ -1,0 +1,145 @@
+---
+import Ressource from "../../../../ressources/Ressource.astro";
+import Tribu from "../../../../tribus/Tribu.astro";
+import StockSvgSwitch from "../../../../ressources/svg/stock/StockSvgSwitch.astro";
+import SvgStockIndividuel from "../../../../ressources/svg/stock/SvgStockIndividuel.astro";
+import DynamicString from "../../../../_components/DynamicString/DynamicString.astro";
+import SvgCycle from "../../../../svg/SvgCycle.astro";
+import type { IdTribu } from "../../../../tribus/IdTribu";
+import type { Carte } from "../../../_types/Carte";
+import CarteItemPrerequis from "../prerequis/CarteItemPrerequis.astro";
+import { COLORS } from "../../../../data/colors";
+import { RESSOURCES } from "../../../../data/ressources";
+import CarteItemGainValue from "./CarteItemGainValue.astro";
+
+interface Props {
+  gains: Carte["gains"];
+  nested?: true;
+}
+
+const { gains } = Astro.props;
+
+const ressources = gains?.ressources?.filter(
+  (ress) => !(ress.stock && ress.stockIndividuel),
+);
+---
+
+<ul class="gains">
+  {
+    gains &&
+      ((gains.tribus?.length || 0) > 0 ||
+        (ressources && ressources.length > 0) ||
+        (gains.autres && gains.autres.length > 0)) && (
+        <>
+          {gains.tribus && gains.tribus.length > 0 && (
+            <>
+              {gains.tribus.map(({ id, value, parCycle, parRessource }) => (
+                <li>
+                  <div class="cartouche">
+                    <span>+{value}</span>
+                    <Tribu id={id as IdTribu} plural={value > 1 || undefined} />
+                    {parRessource && (
+                      <>
+                        / {parRessource.value ? `${parRessource.value}` : ""}{" "}
+                        {parRessource.stockIndividuel && (
+                          <>
+                            <SvgStockIndividuel />{" "}
+                          </>
+                        )}
+                        <Ressource
+                          id={parRessource.id}
+                          plural={
+                            (parRessource.value && parRessource.value > 1) ||
+                            undefined
+                          }
+                        />
+                      </>
+                    )}
+                    {parCycle && <span>/ cycle</span>}
+                  </div>
+                </li>
+              ))}
+            </>
+          )}
+          {ressources && ressources.length > 0 && (
+            <>
+              {ressources
+                .filter((ress) => !(ress.stock && ress.stockIndividuel))
+                .map((ress) => {
+                  const prerequis = "prerequis" in ress && ress.prerequis;
+                  return (
+                    <li>
+                      <div
+                        class={`cartouche${prerequis ? " cartouche-prerequis" : ""}`}
+                      >
+                        {prerequis && (
+                          <>
+                            <ul>
+                              <CarteItemPrerequis prerequis={ress.prerequis} />
+                            </ul>
+                            <span>→</span>
+                          </>
+                        )}
+                        {prerequis ? (
+                          <div class="cartouche">
+                            <CarteItemGainValue {ress} />
+                          </div>
+                        ) : (
+                          <CarteItemGainValue {ress} />
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+            </>
+          )}
+          {gains.autres && gains.autres.length > 0 && (
+            <>
+              {gains.autres.map((autre) => (
+                <li>
+                  <div class="cartouche">
+                    <DynamicString value={autre} />
+                  </div>
+                </li>
+              ))}
+            </>
+          )}
+        </>
+      )
+  }
+</ul>
+
+<style>
+  .gains {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    :global(.prerequis) {
+      padding: 0;
+      li {
+        display: flex;
+        align-content: center;
+        gap: 4px;
+      }
+    }
+    > ul {
+      flex-wrap: wrap;
+      gap: 2px;
+      justify-content: start;
+      flex-direction: column;
+      &.autres {
+        margin-top: 0;
+      }
+      + ul {
+        margin-top: 2px;
+      }
+      > li {
+        display: flex;
+        align-items: center;
+        gap: 0 2px;
+        flex-wrap: wrap;
+        line-height: 1em;
+      }
+    }
+  }
+</style>

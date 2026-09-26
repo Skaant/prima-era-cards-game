@@ -1,0 +1,46 @@
+---
+import { COLORS } from "../../data/colors";
+import { TRIBUS } from "../../data/tribus";
+import type { IdTribu } from "../../tribus/IdTribu";
+import TribusSvgSwitch from "../../tribus/svg/TribusSvgSwitch.astro";
+
+interface Props {
+  id: IdTribu;
+}
+
+const { id } = Astro.props;
+const tribu = TRIBUS[id];
+const couleur = COLORS[tribu.color];
+const fill = couleur.textWhite ? "white" : "black";
+---
+
+<div class="barrette" style={`background-color: ${couleur.hexa}`}>
+  <div class="tribu-header" style={`color: ${fill}`}>
+    <TribusSvgSwitch id={id} size="1.6em" fill={fill} />
+    <h3>{tribu.name}</h3>
+  </div>
+</div>
+
+<style>
+  .barrette {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 6px;
+    width: 265px;
+    height: max-content;
+  }
+
+  .tribu-header {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+
+    h3 {
+      margin: 0;
+    }
+  }
+</style>
