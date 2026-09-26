@@ -1,6 +1,6 @@
-import type { IdCarte } from "./IdCarte";
+import type { IdCartes } from "../decks/IdCartes";
 
 export type Deck = {
-  id: IdCarte;
+  id: IdCartes;
   quantite: number;
 }[];
