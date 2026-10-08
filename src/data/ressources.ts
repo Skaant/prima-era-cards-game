@@ -19,13 +19,18 @@ export const RESSOURCES: {
   waild: { name: "waild", color: "dark-green", parCycle: true },
   data: { name: "data", color: "turquoize", parCycle: true },
   aibs: { name: "aïbs", color: "gold" },
-  zums: { name: "zum", plural: "zums", color: "skin", stockGlobal: true },
+  zums: {
+    name: "zum",
+    plural: "zums",
+    color: "skin",
+    stockGlobal: true,
+    parCycle: true,
+  },
   actions: {
     name: "action",
     plural: "actions",
     color: "skin",
     stockGlobal: true,
-    parCycle: true,
   },
   enfants: {
     name: "enfant",

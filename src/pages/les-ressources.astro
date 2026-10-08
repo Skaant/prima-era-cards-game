@@ -3,6 +3,7 @@ import Layout from "../layout/Layout.astro";
 import Ressource from "../ressources/Ressource.astro";
 import { RESSOURCES } from "../data/ressources";
 import type { IdRessource } from "../ressources/IdRessource";
+import Barrette from "../ressources/barrettes/Barrette.astro";
 ---
 
 <Layout title="Les ressources">
@@ -24,6 +25,7 @@ import type { IdRessource } from "../ressources/IdRessource";
         ))
       }
     </ul>
+    <Barrette id="eau" />
   </div>
   <div class="section">
     <h2>La génèse des ressources</h2>

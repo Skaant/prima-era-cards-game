@@ -2,6 +2,7 @@
 import type { IdRessource } from "../IdRessource";
 import ResumeActions from "./ResumeActions.astro";
 import ResumeBourgeonsTopipotents from "./ResumeBourgeonsTopipotents.astro";
+import ResumeBranches from "./ResumeBranches.astro";
 import ResumeData from "./ResumeData.astro";
 import ResumeEau from "./ResumeEau.astro";
 import ResumeEnfants from "./ResumeEnfants.astro";
@@ -24,11 +25,12 @@ const resumeMap: Partial<
 > = {
   eau: ResumeEau,
   jing: ResumeJing,
-  waild: ResumeWaild,
   data: ResumeData,
   zums: ResumeZums,
-  humus: ResumeHumus,
+  branches: ResumeBranches,
+  waild: ResumeWaild,
   actions: ResumeActions,
+  humus: ResumeHumus,
   enfants: ResumeEnfants,
   "protection-waild": ResumeProtectionWaild,
   "protection-waild-min": ResumeProtectionWaildMin,

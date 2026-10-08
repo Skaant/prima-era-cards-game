@@ -28,40 +28,41 @@ const temporaliteSquares = ressource.temporalite
     class="ressource-header"
     style={`color: ${couleur.textWhite ? "white" : "black"}`}
   >
-    <div>
+    <div class="ressource-titre">
       <RessourcesSvgSwitch
         id={id}
-        size="1.6em"
+        size="1.8em"
         fill={couleur.textWhite ? "white" : "black"}
       />
       <h3>{RESSOURCES[id].plural || RESSOURCES[id].name}</h3>
     </div>
-    <div class="small">
-      <SwitchResumeRessources id={id} />
+    <div class="small ressource-portee">
+      {ressource.stockGlobal ? "Globale" : "Partagée"}
     </div>
   </div>
-  {temporaliteSquares.map((label) => <div class="tempo">{label}</div>)}
-  {
-    ressource.stockGlobal && (
-      <div>
-        <SvgStock {...svgProps} />
-      </div>
-    )
-  }
-  {
-    ressource.stockIndividuel && (
-      <div>
-        <SvgStockIndividuel {...svgProps} />
-      </div>
-    )
-  }
-  {
-    ressource.parCycle && (
-      <div>
-        <SvgCycle {...svgProps} />
-      </div>
-    )
-  }
+  <div
+    class="small resume"
+    style={{ color: couleur.textWhite ? "white" : "black" }}
+  >
+    <SwitchResumeRessources id={id} />
+  </div>
+  <div class="ressource-contenu">
+    {temporaliteSquares.map((label) => <div class="tempo">{label}</div>)}
+    {
+      ressource.stockGlobal && (
+        <div class="barrette-ligne">
+          <SvgStock {...svgProps} />
+        </div>
+      )
+    }
+    {
+      ressource.parCycle && (
+        <div class="barrette-ligne">
+          <SvgCycle {...svgProps} />
+        </div>
+      )
+    }
+  </div>
 </div>
 
 <style>
@@ -73,39 +74,54 @@ const temporaliteSquares = ressource.temporalite
     padding: 6px;
     width: 265px;
     height: max-content;
+  }
+  .ressource-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0 2px;
+  }
+  .ressource-titre {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    > h3 {
+      margin: 0;
+    }
+  }
+  .ressource-portee {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .resume {
+    padding: 0 4px;
+  }
+  .ressource-contenu {
+    display: flex;
+    gap: 6px;
+    flex-direction: column;
     > div {
       display: flex;
       justify-content: center;
-      &:not(:first-child) {
-        align-items: center;
-        height: 48px;
-        background-color: white;
-      }
-    }
-  }
-  .ressource-header {
-    flex-direction: column;
-    > :first-child {
-      margin: auto;
-      display: flex;
-      gap: 12px;
-      padding-top: 6px;
-      > h3 {
-        margin: 0;
-      }
-    }
-    > :last-child {
-      padding: 0 4px 2px;
-      p {
-        margin: 0;
-        &:last-child {
-          margin-top: 6px;
-        }
-      }
+      align-items: center;
+      height: 48px;
+      background-color: white;
+      border-radius: 4px;
     }
   }
   .tempo {
     font-family: "charlevoix";
     font-size: 1.4em;
+  }
+</style>
+
+<style is:global>
+  .resume > p {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    > svg {
+      margin-bottom: -3px;
+    }
   }
 </style>

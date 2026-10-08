@@ -1,0 +1,73 @@
+---
+import Layout from "../../layout/Layout.astro";
+import Barrette from "../../ressources/barrettes/Barrette.astro";
+import type { IdRessource } from "../../ressources/IdRessource";
+
+const ids: IdRessource[] = [
+  "eau",
+  "jing",
+  "data",
+  "zums",
+  "branches",
+  "actions",
+];
+const colonnes = [0, 1, 2].map((c) => ids.filter((_, i) => i % 3 === c));
+---
+
+<Layout title="Barrettes de ressources" disabledNavbar={true}>
+  <div class="print-page">
+    {
+      colonnes.map((colonne) => (
+        <div class="colonne">
+          {colonne.map((id) => (
+            <Barrette id={id} />
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</Layout>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ccc;
+  }
+
+  .print-page {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    width: calc(3 * 265px + 2 * 2px);
+    margin: 16px auto;
+    background: white;
+  }
+
+  .colonne {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    body {
+      background: white;
+    }
+
+    .print-page {
+      margin: 0;
+    }
+  }
+</style>

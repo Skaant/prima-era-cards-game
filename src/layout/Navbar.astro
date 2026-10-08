@@ -1,5 +1,5 @@
 ---
-type NavSlug = "manuel" | "l-univers" | "les-tribus" | "les-ressources";
+type NavSlug = "manuel" | "cartes";
 
 interface Props {
   currentPage?: NavSlug;
@@ -9,9 +9,7 @@ const { currentPage } = Astro.props;
 
 const links: { slug: NavSlug; label: string }[] = [
   { slug: "manuel", label: "Manuel" },
-  { slug: "l-univers", label: "L'univers" },
-  { slug: "les-tribus", label: "Les tribus" },
-  { slug: "les-ressources", label: "Les ressources" },
+  { slug: "cartes", label: "Cartes" },
 ];
 ---
 
