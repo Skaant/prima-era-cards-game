@@ -13,14 +13,14 @@ interface Props {
   couleur?: IdColor;
 }
 
-const { prerequis, couleur } = Astro.props;
+const { prerequis } = Astro.props;
 const tribus = prerequis?.tribus
   ? (Object.entries(prerequis.tribus) as [IdTribu, number][])
   : [];
 ---
 
 {
-  prerequis &&
+  prerequis ? (
     (tribus.length > 0 ||
       (prerequis.ressources &&
         Object.keys(prerequis.ressources).length > 0)) && (
@@ -70,12 +70,15 @@ const tribus = prerequis?.tribus
         </ul>
       </div>
     )
+  ) : (
+    <div />
+  )
 }
 
 <style>
   .prerequis {
     background-color: white;
-    padding: 3px 4px;
+    padding: 0 2px;
     box-sizing: border-box;
     ul {
       align-items: center;

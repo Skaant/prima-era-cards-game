@@ -7,6 +7,8 @@ import DynamicString from "../../../semantique/DynamicString/DynamicString.astro
 import type { IdTribu } from "../../../tribus/IdTribu";
 import type { Carte } from "../../_types/Carte";
 import CarteItemPrerequis from "./CarteItemPrerequis.astro";
+import SvgStock from "../../../ressources/svg/stock/SvgStock.astro";
+import SvgBatimentArtificiel from "../../type-carte/svg/SvgBatimentArtificiel.astro";
 
 interface Props {
   gains: Carte["gains"];
@@ -84,7 +86,11 @@ const ressources = gains?.ressources?.filter(
                       ) : (
                         <StockSvgSwitch type="indiv-out" />
                       ))) ||
-                      ("stock" in ress && <StockSvgSwitch />)}
+                      ("stock" in ress && ress.id === "zums" ? (
+                        <SvgBatimentArtificiel />
+                      ) : (
+                        <StockSvgSwitch />
+                      ))}
                     <Ressource
                       id={ress.id}
                       plural={
@@ -99,6 +105,11 @@ const ressources = gains?.ressources?.filter(
                         {ress.parRessource.value
                           ? `${ress.parRessource.value}`
                           : ""}{" "}
+                        {ress.parRessource.stock && (
+                          <>
+                            <SvgStock />{" "}
+                          </>
+                        )}
                         {ress.parRessource.stockIndividuel && (
                           <>
                             <SvgStockIndividuel />{" "}
@@ -123,7 +134,25 @@ const ressources = gains?.ressources?.filter(
             <ul class="autres">
               {gains.autres.map((autre) => (
                 <li>
-                  <DynamicString value={autre} />
+                  {typeof autre === "string" ? (
+                    <DynamicString value={autre} />
+                  ) : (
+                    <>
+                      (
+                      {autre.resources.map(({ id, value }, index) => (
+                        <>
+                          {index > 0 && " ou "}
+                          {value > 0 ? "+" : ""}
+                          {value}{" "}
+                          <Ressource
+                            {id}
+                            plural={Math.abs(value) > 1 || undefined}
+                          />
+                        </>
+                      ))}
+                      ) {autre.parCycle && <span>/ cycle</span>}
+                    </>
+                  )}
                 </li>
               ))}
             </ul>

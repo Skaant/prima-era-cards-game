@@ -20,7 +20,7 @@ interface Props {
 
 const { deck } = Astro.props;
 
-const CARDS_PER_PAGE = 9;
+const CARDS_PER_PAGE = 16;
 const cartes = Object.entries(deck.cartes).flatMap(([id, quantite]) =>
   Array.from({ length: quantite }, () => id as IdCartes),
 );
@@ -31,17 +31,16 @@ for (let i = 0; i < cartes.length; i += CARDS_PER_PAGE) {
 ---
 
 <Layout title={`Deck ${deck.id}`} disabledNavbar={true}>
-    {
-      pages.map((page) => (
-        <div class="print-page">
-          {page.map((id) => (
-            <CarteItem {id} carte={TOUTES_CARTES[id]} />
-          ))}
-        </div>
-      ))
-    }
-  </body>
-</html>
+  {
+    pages.map((page) => (
+      <div class="print-page">
+        {page.map((id) => (
+          <CarteItem {id} carte={TOUTES_CARTES[id]} />
+        ))}
+      </div>
+    ))
+  }
+</Layout>
 
 <style is:global>
   * {

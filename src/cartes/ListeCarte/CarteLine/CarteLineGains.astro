@@ -117,7 +117,25 @@ const { gains } = Astro.props;
             <ul class="autres">
               {gains.autres.map((autre) => (
                 <li>
-                  <DynamicString value={autre} />
+                  {typeof autre === "string" ? (
+                    <DynamicString value={autre} />
+                  ) : (
+                    <>
+                      (
+                      {autre.resources.map(({ id, value }, index) => (
+                        <>
+                          {index > 0 && " ou "}
+                          {value > 0 ? "+" : ""}
+                          {value}{" "}
+                          <Ressource
+                            {id}
+                            plural={Math.abs(value) > 1 || undefined}
+                          />
+                        </>
+                      ))}
+                      ) {autre.parCycle && <span>/ cycle</span>}
+                    </>
+                  )}
                 </li>
               ))}
             </ul>

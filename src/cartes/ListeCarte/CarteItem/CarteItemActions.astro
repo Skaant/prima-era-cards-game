@@ -1,6 +1,7 @@
 ---
 import { COLORS } from "../../../data/colors";
 import type { IdColor } from "../../../data/IdColor";
+import Ressource from "../../../ressources/Ressource.astro";
 import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
 import type { Carte } from "../../_types/Carte";
 import CarteItemCouts from "./CarteItemCouts.astro";
@@ -17,14 +18,10 @@ const { actions, couleur } = Astro.props;
 {
   actions && actions.length > 0 && (
     <ul class="actions">
-      {actions.map(({ nom, couts, gains, notes }) => (
-        <li class="action" style={`border: 6px solid ${COLORS[couleur].hexa}`}>
-          <div style={`background-color: ${COLORS[couleur].hexa}`}>
-            <span
-              style={`color: ${COLORS[couleur].textWhite ? "white" : "black"}`}
-            >
-              {nom}
-            </span>
+      {actions.map(({ nom, couts, gains, notes, fois }) => (
+        <li class="action">
+          <div>
+            <span>{nom}</span>
             <CarteItemCouts couts={couts} />
           </div>
           <CarteItemGains gains={gains} />
@@ -33,6 +30,26 @@ const { actions, couleur } = Astro.props;
               {notes.map((note) => (
                 <DynamicString value={note} />
               ))}
+            </div>
+          )}
+          {fois && (
+            <div class="fois">
+              Max {fois.value} fois
+              {fois.parRessource && (
+                <>
+                  /{" "}
+                  {fois.parRessource.value ? `${fois.parRessource.value}` : ""}
+                  <Ressource
+                    id={fois.parRessource.id}
+                    plural={
+                      (fois.parRessource.value &&
+                        fois.parRessource.value > 1) ||
+                      undefined
+                    }
+                  />
+                </>
+              )}
+              / cycle
             </div>
           )}
         </li>
@@ -48,24 +65,24 @@ const { actions, couleur } = Astro.props;
     gap: 0 !important;
   }
   .action {
+    border: 2px solid black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 6px;
+    flex-direction: column;
     + .action {
       margin-top: 6px;
     }
-    display: flex;
-    align-items: start;
-    flex-direction: column;
     > :first-child {
       display: flex;
-      align-items: center;
+      justify-content: space-between;
       gap: 8px;
       width: 100%;
       padding-bottom: 6px;
       box-sizing: border-box;
       > span {
-        font-family: "pangaia";
-      }
-      > :last-child {
-        flex-grow: 1;
+        font-family: "charlevoix";
       }
     }
     > :nth-child(2) {
@@ -76,5 +93,9 @@ const { actions, couleur } = Astro.props;
     margin-top: -6px;
     padding: 4px;
     line-height: 1em;
+  }
+  .fois {
+    margin-top: 2px;
+    font-size: 0.85em;
   }
 </style>

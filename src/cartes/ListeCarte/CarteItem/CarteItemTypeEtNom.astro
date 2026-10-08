@@ -16,11 +16,7 @@ const hexa = COLORS[couleur].hexa;
 ---
 
 <div class="carte-item-type-et-nom">
-  <TypesCarteSvgSwitch
-    {type}
-    size="42px"
-    fill={COLORS[couleur].textWhite ? "#fff" : "#000"}
-  />
+  <TypesCarteSvgSwitch {type} size="24px" fill="black" />
   <span>{nom}</span>
 </div>
 
@@ -28,13 +24,9 @@ const hexa = COLORS[couleur].hexa;
   .carte-item-type-et-nom {
     display: flex;
     align-items: stretch;
-    font-family: "pangaia";
-    font-size: 1.3em;
+    font-family: "charlevoix";
     line-height: 1.1em;
-    > svg {
-      padding: 4px;
-      border: solid 4px white;
-    }
+    font-size: 1.1em;
     span {
       flex-grow: 1;
       background-color: #fff;

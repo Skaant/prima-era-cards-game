@@ -15,17 +15,13 @@ const ressource = RESSOURCES[id];
 const color = COLORS[ressource.color];
 ---
 
-<a
-  href={`/les-ressources#${id}`}
-  class={`badge bg-${ressource.color} ${color.textWhite ? "text-light" : "text-dark"}`}
-  style={outline
-    ? `border-color: ${color.textWhite ? "#eee" : "#111"}`
-    : undefined}
->
-  <RessourcesSvgSwitch
-    {id}
-    fill={color.textWhite ? "white" : "black"}
-    size="1em"
-  />
+<a href={`/les-ressources#${id}`}>
+  <RessourcesSvgSwitch {id} fill="black" size="1.2em" />
   {/* plural && ressource.plural ? ressource.plural : ressource.name */}
 </a>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>

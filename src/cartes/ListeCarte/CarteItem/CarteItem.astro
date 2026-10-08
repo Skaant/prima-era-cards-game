@@ -15,7 +15,7 @@ import CarteItemIllustration from "./CarteItemIllustration.astro";
 import type { IdCartes } from "../../decks/IdCartes";
 
 interface Props {
-  id: IdCartes  ;
+  id: IdCartes;
   carte: Carte;
 }
 
@@ -36,11 +36,13 @@ const couleur: IdColor =
         : "muted";
 ---
 
-<div class="carte-item" style={`background: ${COLORS[couleur].hexa}`}>
+<div class="carte-item">
+  <div class="carte-prerequis-et-cout">
+    <CarteItemPrerequis {prerequis} {couleur} />
+    <CarteItemCouts {couts} />
+  </div>
   <CarteItemTypeEtNom type={data.type} {nom} {couleur} />
   <CarteItemIllustration />
-  <CarteItemPrerequis {prerequis} {couleur} />
-  <CarteItemCouts {couts} />
   <div class="gains-actions-notes">
     <CarteItemGains {gains} />
     <CarteItemActions {actions} {couleur} />
@@ -63,16 +65,22 @@ const couleur: IdColor =
 <style>
   .carte-item {
     display: flex;
-    width: 265px;
-    height: 370px;
+    width: 194px;
+    height: 250px;
+    margin: 2px;
     padding: 8px;
     font-size: 0.8em;
     flex-direction: column;
-    border-radius: 6px;
+    border: solid 2px black;
+    border-radius: 5px;
     box-sizing: border-box;
     gap: 6px;
     > .prerequis {
       margin-bottom: 0;
+    }
+    .carte-prerequis-et-cout {
+      display: flex;
+      justify-content: space-between;
     }
     .gains-actions-notes,
     .histoire {
@@ -85,7 +93,6 @@ const couleur: IdColor =
       display: flex;
       flex-direction: column;
       gap: 6px;
-      padding: 2px 4px 4px;
     }
     span.legend {
       font-size: 0.7em;

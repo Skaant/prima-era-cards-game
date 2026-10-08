@@ -1,15 +1,15 @@
 @font-face {
-  font-family: "pangaia";
-  src: url("/public/fonts/PPPangaia-Bold.otf");
+  font-family: "charlevoix";
+  src: url("/public/fonts/PPCharlevoix-Bold.otf");
 }
 
 @font-face {
-  font-family: "open";
-  src: url("/public/fonts/OpenSans-Regular.ttf");
+  font-family: "pier";
+  src: url("/public/fonts/PPPierSans-Regular.otf");
 }
 
 body {
-  font-family: "open";
+  font-family: "pier";
   margin: 0;
 }
 
@@ -34,7 +34,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "pangaia";
+  font-family: "charlevoix";
 }
 
 blockquote {
@@ -86,7 +86,7 @@ blockquote {
     background-color: #ddf;
     padding: 8px 16px 4px;
     color: #000;
-    font-family: "pangaia";
+    font-family: "charlevoix";
     font-size: 1.2em;
     text-decoration: none;
   }
@@ -203,7 +203,7 @@ blockquote {
 
 /* Badge */
 .badge {
-  font-family: "pangaia";
+  font-family: "charlevoix";
   display: inline-block;
   margin: 0 0.05rem;
   padding: 0.1em 0.45em 0;

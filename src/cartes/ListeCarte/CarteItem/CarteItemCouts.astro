@@ -3,6 +3,7 @@ import Ressource from "../../../ressources/Ressource.astro";
 import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
 import type { IdRessource } from "../../../ressources/IdRessource";
 import type { Carte } from "../../_types/Carte";
+import { undefined } from "astro:schema";
 
 interface Props {
   couts: Carte["couts"];
@@ -25,7 +26,12 @@ const { couts } = Astro.props;
             {parRessource && (
               <div class="cout-ressource">
                 / {parRessource.value ? `${parRessource.value}` : ""}
-                <Ressource id={parRessource.id} />
+                <Ressource
+                  id={parRessource.id}
+                  plural={
+                    (parRessource.value && parRessource.value > 1) || undefined
+                  }
+                />
               </div>
             )}
             {parCycle && <span class="cout-cycle">/ cycle</span>}
@@ -42,7 +48,7 @@ const { couts } = Astro.props;
 <style>
   .couts {
     background-color: white;
-    padding: 3px 4px;
+    padding: 0 2px;
     box-sizing: border-box;
     ul {
       align-items: center;

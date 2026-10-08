@@ -23,5 +23,12 @@ export type GainsCarte = {
     parRessource?: ParRessource;
     parCycle?: true;
   }[];
-  autres?: string[];
+  autres?: (
+    | string
+    | {
+        type: "or";
+        resources: { id: IdRessource; value: number }[];
+        parCycle?: true;
+      }
+  )[];
 };
