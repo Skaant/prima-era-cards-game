@@ -6,9 +6,10 @@ interface Props {
   title: string;
   currentPage?: ComponentProps<typeof Navbar>["currentPage"];
   disabledNavbar?: true
+  compactNavbar?: boolean;
 }
 
-const { title, currentPage, disabledNavbar } = Astro.props;
+const { title, currentPage, disabledNavbar, compactNavbar } = Astro.props;
 ---
 
 <html lang="en">
@@ -22,7 +23,7 @@ const { title, currentPage, disabledNavbar } = Astro.props;
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    {!disabledNavbar && <Navbar currentPage={currentPage} />}
+    {!disabledNavbar && <Navbar currentPage={currentPage} compact={compactNavbar} />}
     <slot />
   </body>
 </html>

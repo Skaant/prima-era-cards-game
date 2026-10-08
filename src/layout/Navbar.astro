@@ -1,19 +1,21 @@
 ---
-type NavSlug = "manuel" | "cartes";
+type NavSlug = "manuel" | "cartes" | "jouer";
 
 interface Props {
   currentPage?: NavSlug;
+  compact?: boolean;
 }
 
-const { currentPage } = Astro.props;
+const { currentPage, compact } = Astro.props;
 
 const links: { slug: NavSlug; label: string }[] = [
   { slug: "manuel", label: "Manuel" },
   { slug: "cartes", label: "Cartes" },
+  { slug: "jouer", label: "Jouer" },
 ];
 ---
 
-<nav>
+<nav class:list={{ compact }}>
   <img src="/banniere.svg" id="banniere" alt="" aria-hidden="true" />
   <a href="/" id="site-name">Prima-Era</a>
   <div class="menu-liens">
@@ -37,6 +39,9 @@ const links: { slug: NavSlug; label: string }[] = [
     align-items: center;
     padding: 1rem 1.5rem;
     margin-bottom: 16vh;
+  }
+  nav.compact {
+    margin-bottom: 0;
   }
   :global(nav .menu-liens) {
     margin-top: 0;

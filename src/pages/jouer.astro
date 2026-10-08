@@ -1,0 +1,44 @@
+---
+import Layout from "../layout/Layout.astro";
+import Jeu from "../jeu/Jeu";
+import CarteItem from "../cartes/ListeCarte/CarteItem/CarteItem.astro";
+import { BASE_DECK } from "../cartes/decks/base/base.deck";
+import { TOUTES_CARTES } from "../cartes/decks/toutes.cartes";
+import type { IdCartes } from "../cartes/decks/IdCartes";
+
+// Les composants Astro ne peuvent pas être utilisés dans un îlot : chaque carte
+// du deck est rendue ici en HTML, l'îlot clone le modèle correspondant.
+const ids = Object.keys(BASE_DECK.cartes) as IdCartes[];
+---
+
+<Layout title="Jouer" currentPage="jouer" compactNavbar={true}>
+  <div hidden>
+    {
+      ids.map((id) => (
+        <template data-modele-carte={id}>
+          <CarteItem {id} carte={TOUTES_CARTES[id]} />
+        </template>
+      ))
+    }
+  </div>
+  <main>
+    <Jeu client:only="preact" />
+  </main>
+</Layout>
+
+<style is:global>
+  body:has(main > astro-island) {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+</style>
+
+<style>
+  main {
+    flex: 1;
+    min-height: 0;
+  }
+</style>

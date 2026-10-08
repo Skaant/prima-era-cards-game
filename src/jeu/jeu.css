@@ -1,0 +1,77 @@
+.jeu {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.jeu-table {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+.jeu-pioche {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1rem 1.2rem;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+  border: 1px solid #0004;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.jeu-pioche:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.jeu-pioche span {
+  font-size: 1.4em;
+}
+
+.jeu-main {
+  list-style: none;
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+}
+
+.jeu-carte {
+  flex: 0 0 auto;
+}
+
+.jeu-ressources {
+  list-style: none;
+  margin: 0;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  background: #062451;
+  color: #fefbe7;
+}
+.jeu-ressources li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.jeu-ressource-nom {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.jeu-ressource-stock {
+  font-size: 1.5em;
+}
+.jeu-ressource-cycle {
+  font-size: 0.8em;
+  opacity: 0.8;
+}

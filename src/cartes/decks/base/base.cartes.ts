@@ -8,7 +8,7 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
     prerequis: {
       ressources: {
         waild: {
-          max: 25,
+          max: 55,
         },
       },
     },
