@@ -1,7 +1,7 @@
-import type { Deck } from "../Deck";
+import type { Paquet } from "../Paquet";
 import type { IdCartesBase } from "./IdCartesBase";
 
-export const BASE_DECK: Deck<IdCartesBase> = {
+export const BASE_PAQUET: Paquet<IdCartesBase> = {
     id: 'base',
     cartes: {
         'dom': 3,

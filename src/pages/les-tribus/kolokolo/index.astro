@@ -3,7 +3,7 @@ import ListeCartesItem from "../../../cartes/ListeCarte/CarteItem/ListeCartesIte
 import Layout from "../../../layout/Layout.astro";
 import Ressource from "../../../ressources/Ressource.astro";
 import Tribu from "../../../tribus/Tribu.astro";
-import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
+import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
 ---
 
 <Layout title="La tribu Kolokolo">
@@ -136,6 +136,6 @@ import { KOLOKOLO_DECK } from "../../../tribus/kolokolo/deck";
   <div class="section">
     <h2>Cartes</h2>
     <p><a href="/les-tribus/kolokolo/cartes">Version impression</a></p>
-    <ListeCartesItem deck={KOLOKOLO_DECK} />
+    <ListeCartesItem paquet={KOLOKOLO_PAQUET} />
   </div>
 </Layout>

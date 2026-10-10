@@ -1,6 +1,6 @@
-import { BASE_DECK } from "../cartes/decks/base/base.deck";
-import type { Deck } from "../cartes/decks/Deck";
-import type { IdCartes } from "../cartes/decks/IdCartes";
+import { BASE_PAQUET } from "../cartes/paquets/base/base.paquet";
+import type { Paquet } from "../cartes/paquets/Paquet";
+import type { IdCartes } from "../cartes/paquets/IdCartes";
 import type { IdRessource } from "../ressources/IdRessource";
 import { creerPioche, piocher } from "./piocher";
 
@@ -29,8 +29,8 @@ export type EtatJeu = {
 
 export type ActionJeu = { type: "piocher"; nombre: number };
 
-export function etatInitial(deck: Deck<IdCartes> = BASE_DECK): EtatJeu {
-  const { pioche, main } = piocher(creerPioche(deck), [], TAILLE_MAIN_INITIALE);
+export function etatInitial(paquet: Paquet<IdCartes> = BASE_PAQUET): EtatJeu {
+  const { pioche, main } = piocher(creerPioche(paquet), [], TAILLE_MAIN_INITIALE);
   return {
     pioche,
     main,

@@ -1,5 +1,5 @@
 import { useReducer } from "preact/hooks";
-import type { IdCartes } from "../cartes/decks/IdCartes";
+import type { IdCartes } from "../cartes/paquets/IdCartes";
 import { RESSOURCES } from "../data/ressources";
 import { etatInitial, reducteur, RESSOURCES_GLOBALES } from "./etat";
 import "./jeu.css";

@@ -1,6 +1,6 @@
-import type { Deck } from "../../cartes/_types/Deck";
+import type { Paquet } from "../../cartes/_types/Paquet";
 
-export const KOLOKOLO_DECK: Deck = [
+export const KOLOKOLO_PAQUET: Paquet = [
   { id: "petit-dom", quantite: 2 },
   { id: "entrepot-stockage", quantite: 2 },
   { id: "citerne", quantite: 2 },

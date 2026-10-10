@@ -1,5 +1,5 @@
-import type { Deck } from "../cartes/decks/Deck";
-import type { IdCartes } from "../cartes/decks/IdCartes";
+import type { Paquet } from "../cartes/paquets/Paquet";
+import type { IdCartes } from "../cartes/paquets/IdCartes";
 
 /** Mélange de Fisher-Yates, sans modifier le tableau d'origine. */
 export function melanger<T>(elements: readonly T[]): T[] {
@@ -11,10 +11,10 @@ export function melanger<T>(elements: readonly T[]): T[] {
   return resultat;
 }
 
-/** Crée une pioche : les cartes du deck (selon leur nombre) dans un ordre aléatoire. */
-export function creerPioche(deck: Deck<IdCartes>): IdCartes[] {
+/** Crée une pioche : les cartes du paquet (selon leur nombre) dans un ordre aléatoire. */
+export function creerPioche(paquet: Paquet<IdCartes>): IdCartes[] {
   const cartes = (
-    Object.entries(deck.cartes) as [IdCartes, number][]
+    Object.entries(paquet.cartes) as [IdCartes, number][]
   ).flatMap(([id, nombre]) => Array<IdCartes>(nombre).fill(id));
   return melanger(cartes);
 }

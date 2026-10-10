@@ -2,13 +2,13 @@
 import Layout from "../layout/Layout.astro";
 import Jeu from "../jeu/Jeu";
 import CarteItem from "../cartes/ListeCarte/CarteItem/CarteItem.astro";
-import { BASE_DECK } from "../cartes/decks/base/base.deck";
-import { TOUTES_CARTES } from "../cartes/decks/toutes.cartes";
-import type { IdCartes } from "../cartes/decks/IdCartes";
+import { BASE_PAQUET } from "../cartes/paquets/base/base.paquet";
+import { TOUTES_CARTES } from "../cartes/paquets/toutes.cartes";
+import type { IdCartes } from "../cartes/paquets/IdCartes";
 
 // Les composants Astro ne peuvent pas être utilisés dans un îlot : chaque carte
-// du deck est rendue ici en HTML, l'îlot clone le modèle correspondant.
-const ids = Object.keys(BASE_DECK.cartes) as IdCartes[];
+// du paquet est rendue ici en HTML, l'îlot clone le modèle correspondant.
+const ids = Object.keys(BASE_PAQUET.cartes) as IdCartes[];
 ---
 
 <Layout title="Jouer" currentPage="jouer" compactNavbar={true}>

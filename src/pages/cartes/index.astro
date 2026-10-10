@@ -1,17 +1,17 @@
 ---
 import Layout from "../../layout/Layout.astro";
-import { TOUS_DECKS } from "../../cartes/decks/tous.decks";
-import type { IdDecks } from "../../cartes/decks/IdDecks";
+import { TOUS_PAQUETS } from "../../cartes/paquets/tous.paquets";
+import type { IdPaquets } from "../../cartes/paquets/IdPaquets";
 
-const decks = Object.keys(TOUS_DECKS) as IdDecks[];
+const paquets = Object.keys(TOUS_PAQUETS) as IdPaquets[];
 ---
 
-<Layout title="Les decks">
+<Layout title="Les paquets">
   <div class="section">
-    <h1>Les decks</h1>
+    <h1>Les paquets</h1>
     <ul>
       {
-        decks.map((id) => (
+        paquets.map((id) => (
           <li>
             <a href={`/cartes/${id}`}>{id}</a>
           </li>

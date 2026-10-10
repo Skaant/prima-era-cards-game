@@ -1,27 +1,27 @@
 ---
 import CarteItem from "../../cartes/ListeCarte/CarteItem/CarteItem.astro";
-import { TOUS_DECKS } from "../../cartes/decks/tous.decks";
-import type { Deck } from "../../cartes/decks/Deck";
-import type { IdDecks } from "../../cartes/decks/IdDecks";
-import type { IdCartes } from "../../cartes/decks/IdCartes";
-import { TOUTES_CARTES } from "../../cartes/decks/toutes.cartes";
+import { TOUS_PAQUETS } from "../../cartes/paquets/tous.paquets";
+import type { Paquet } from "../../cartes/paquets/Paquet";
+import type { IdPaquets } from "../../cartes/paquets/IdPaquets";
+import type { IdCartes } from "../../cartes/paquets/IdCartes";
+import { TOUTES_CARTES } from "../../cartes/paquets/toutes.cartes";
 import Layout from "../../layout/Layout.astro";
 
 export function getStaticPaths() {
-  return (Object.keys(TOUS_DECKS) as IdDecks[]).map((idDeck) => ({
-    params: { idDeck },
-    props: { deck: TOUS_DECKS[idDeck] },
+  return (Object.keys(TOUS_PAQUETS) as IdPaquets[]).map((idPaquet) => ({
+    params: { idPaquet },
+    props: { paquet: TOUS_PAQUETS[idPaquet] },
   }));
 }
 
 interface Props {
-  deck: Deck;
+  paquet: Paquet;
 }
 
-const { deck } = Astro.props;
+const { paquet } = Astro.props;
 
 const CARDS_PER_PAGE = 16;
-const cartes = Object.entries(deck.cartes).flatMap(([id, quantite]) =>
+const cartes = Object.entries(paquet.cartes).flatMap(([id, quantite]) =>
   Array.from({ length: quantite }, () => id as IdCartes),
 );
 const pages: IdCartes[][] = [];
@@ -30,7 +30,7 @@ for (let i = 0; i < cartes.length; i += CARDS_PER_PAGE) {
 }
 ---
 
-<Layout title={`Deck ${deck.id}`} disabledNavbar={true}>
+<Layout title={`Paquet ${paquet.id}`} disabledNavbar={true}>
   {
     pages.map((page) => (
       <div class="print-page">
