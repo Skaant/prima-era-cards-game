@@ -14,10 +14,10 @@ Les cartes sont extraites de la fin de la Pioche par [Piocher](piocher.md) et aj
 
 ## Recyclage
 
-Quand la Pioche est vide, la [Défausse](defausse.md) est mélangée et ajoutée à la Pioche : voir [Recyclage](recyclage.md) (non implémenté).
+Quand la Pioche est vide, la [Défausse](defausse.md) est mélangée et ajoutée à la Pioche : voir [Recyclage](recyclage.md).
 
 ## Implémentation
 
 - `src/jeu/piocher.ts` : `creerPioche(paquet)`, `melanger`.
 - `src/jeu/etat.ts` : champ `pioche` de l'état du jeu.
-- `src/jeu/Jeu.tsx` : le bouton « Pioche » affiche le nombre de cartes restantes et pioche 1 carte.
+- `src/jeu/Jeu.tsx` : la Pioche (bas gauche) affiche le nombre de cartes restantes ; on pioche via la phase de pioche du [Cycle](cycle.md), avec recyclage.

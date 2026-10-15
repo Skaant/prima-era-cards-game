@@ -8,13 +8,13 @@ Les cartes y sont ajoutées à la fin par [Piocher](piocher.md), depuis la [Pioc
 
 ## Sortie
 
-Les cartes quittent la Main quand elles sont [jouées](jouer-une-carte.md) (non implémenté).
+Les cartes quittent la Main quand elles sont [jouées](jouer-une-carte.md).
 
 ## Début de partie
 
-La Main est initialisée en piochant 5 cartes (`TAILLE_MAIN_INITIALE`).
+La Main est remplie jusqu'à 8 cartes (`TAILLE_MAIN`) par la phase de pioche du premier [Cycle](cycle.md), puis à chaque nouveau cycle.
 
 ## Implémentation
 
-- `src/jeu/etat.ts` : champ `main` de l'état du jeu, `TAILLE_MAIN_INITIALE`.
-- `src/jeu/Jeu.tsx` : liste `jeu-main`.
+- `src/jeu/etat.ts` : champ `main` de l'état du jeu, `TAILLE_MAIN`.
+- `src/jeu/Jeu.tsx` : liste `jeu-main` ; cliquer une carte la joue.

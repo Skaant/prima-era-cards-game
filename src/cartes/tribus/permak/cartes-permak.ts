@@ -10,7 +10,7 @@ export const CARTES_PERMAK: IndexCartes<IdCartePermak> = {
   },
   jardin: {
     nom: "Jardin",
-    type: "bâtiment-artificiel",
+    type: "bâtiment",
     description:
       '-1 waïld, -1 eau, +2 waïld entretenu. *Barettes "conduit" et "récolté"*',
   },

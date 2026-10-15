@@ -4,7 +4,7 @@ export type _TypeCarte =
   | "météo"
   | "action"
   | "zum"
-  | "bâtiment-artificiel"
+  | "bâtiment"
   | "animal"
   | "champignon"
   | "amélioration-ponctuelle"

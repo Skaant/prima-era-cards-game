@@ -6,4 +6,5 @@ Le mélange est le même que pour la création de la Pioche (`melanger`, `src/je
 
 ## Implémentation
 
-Pas encore implémenté. Aujourd'hui, [Piocher](piocher.md) sur une Pioche vide ne fait rien.
+- `src/jeu/piocher.ts` : `piocherAvecRecyclage(pioche, defausse, main, x)`. Si la Pioche se vide en cours de pioche, la Défausse est mélangée et on continue.
+- Le bouton Pioche n'est désactivé que si Pioche et Défausse sont vides.

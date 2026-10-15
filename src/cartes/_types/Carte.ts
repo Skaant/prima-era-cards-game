@@ -1,5 +1,5 @@
 import type { _TypeCarte } from "../type-carte/TypeCarte";
-import type { CarteBatimentOrganique } from "../type-carte/CarteBatimentOrganique";
+import type { CarteBatiment } from "../type-carte/CarteBatiment";
 import type { CartePlante } from "../type-carte/CartePlante";
 import type { GainsCarte } from "./GainsCarte";
 import type { PrerequisCarte } from "./PrerequisCarte";
@@ -13,7 +13,7 @@ export type Carte = {
       type: _TypeCarte;
     }
   | CartePlante
-  | CarteBatimentOrganique
+  | CarteBatiment
 ) & {
     prerequis?: PrerequisCarte;
     couts?: CoutsCarte;

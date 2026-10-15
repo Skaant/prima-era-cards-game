@@ -9,6 +9,7 @@ export const BASE_PAQUET: Paquet<IdCartesBase> = {
         'decouvreureuse': 3,
         'flaqueureuse': 3,
         'ramasseureuse': 2,
-        'senseureuse': 3
+        'senseureuse': 3,
+        'vaisseau-graine': 1
     }
 };

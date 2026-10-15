@@ -4,7 +4,7 @@ import type { IdCarteKolokolo } from "./IdCarteKolokolo";
 export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   "petit-dom": {
     nom: "Petit dom",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       ressources: { waild: { min: 10, max: 25 } },
     },
@@ -36,7 +36,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "entrepot-stockage": {
     nom: "Entrepôt de stockage",
-    type: "bâtiment-artificiel",
+    type: "bâtiment",
     prerequis: {
       ressources: { waild: { max: 25 } },
     },
@@ -59,7 +59,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   citerne: {
     nom: "Citerne",
-    type: "bâtiment-artificiel",
+    type: "bâtiment",
     prerequis: {
       ressources: {
         waild: {
@@ -91,13 +91,13 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
       autres: [
         "+1 {{eau}} ou {{jing}} / cycle",
-        "Peut collecter 2 ressources pour 1 {{actions}}",
+        "Peut collecter 2 ressources pour 1 {{energie}}",
       ],
     },
   },
   "haie-mature": {
     nom: "Haie mature",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       ressources: { waild: { min: 5, max: 50 } },
     },
@@ -172,7 +172,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
       ressources: [{ id: "eau", stock: true, value: 2 }],
     },
-    notes: ["Compatible seulement avec un bâtiment organique"],
+    notes: ["Compatible seulement avec un bâtiment"],
   },
   cellier: {
     nom: "Cellier",
@@ -197,7 +197,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       ],
       ressources: [{ id: "jing", stock: true, value: 2 }],
     },
-    notes: ["Compatible seulement avec un bâtiment artificiel"],
+    notes: ["Compatible seulement avec un bâtiment"],
   },
   "mousse-epaisse": {
     nom: "Mousse épaisse",
@@ -308,7 +308,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "zums", value: 1, stock: true }],
     },
-    notes: ["Compatible seulement avec un bâtiment organique"],
+    notes: ["Compatible seulement avec un bâtiment"],
   },
   "ambiance-forestiere": {
     nom: "Ambiance forestière",
@@ -322,14 +322,14 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     gains: {
       tribus: [{ id: "kolokolo", value: 2 }],
       autres: [
-        "+1 bâtiment organique → +1 {{waild}} / cycle",
+        "+1 bâtiment → +1 {{waild}} / cycle",
         "+1 module organique → +2 {{waild}}",
       ],
     },
   },
   ecole: {
     nom: "Ecole",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       tribus: {
         kolokolo: 10,
@@ -361,7 +361,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   pepiniere: {
     nom: "Pépinière",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       tribus: {
         kolokolo: 10,
@@ -383,13 +383,13 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         },
       ],
       autres: [
-        "Réduit de 1 le coût d'une plante ou d'un bâtiment organique, *une fois / cycle*",
+        "Réduit de 1 le coût d'une plante ou d'un bâtiment, *une fois / cycle*",
       ],
     },
   },
   "avant-poste": {
     nom: "Avant-poste",
-    type: "bâtiment-artificiel",
+    type: "bâtiment",
     prerequis: {
       tribus: {
         kolokolo: 5,
@@ -416,7 +416,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "station-purin": {
     nom: "Station à purin",
-    type: "bâtiment-artificiel",
+    type: "bâtiment",
     prerequis: {
       tribus: {
         kolokolo: 8,
@@ -477,7 +477,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   brasero: {
     nom: "Brasero",
-    type: "bâtiment-artificiel",
+    type: "bâtiment",
     prerequis: {
       tribus: { kolokolo: 5 },
     },
@@ -588,7 +588,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "balise-pshf": {
     nom: "Balise pshf",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       tribus: {
         kolokolo: 6,
@@ -658,7 +658,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       tribus: [{ id: "kolokolo", value: 1 }],
       ressources: [{ id: "enfants", parCycle: true, value: 0.3 }],
     },
-    notes: ["Compatible seulement avec un bâtiment organique"],
+    notes: ["Compatible seulement avec un bâtiment"],
   },
   "vault-comemorative": {
     nom: "Vault comémorative",
@@ -714,7 +714,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   faculte: {
     nom: "Faculté",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: { tribus: { kolokolo: 15 }, ressources: { data: { min: 40 } } },
     couts: {
       ressources: [
@@ -726,13 +726,13 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       tribus: [{ id: "kolokolo", value: 2 }],
       autres: [
         "+1 {{waild}} / {{enfants}} avec maturité ⋝ 2 / cycle",
-        "+1 {{actions}} / {{enfants}} avec maturité ⋝ 2 / cycle",
+        "+1 {{energie}} / {{enfants}} avec maturité ⋝ 2 / cycle",
       ],
     },
   },
   ludotheque: {
     nom: "Ludothèque",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: { tribus: { kolokolo: 8 }, ressources: { data: { min: 20 } } },
     couts: {
       ressources: [
@@ -759,7 +759,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         couts: {
           ressources: [
             {
-              id: "actions",
+              id: "energie",
               value: 1,
               parRessource: {
                 id: "enfants",
@@ -797,7 +797,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: {
       ressources: [
-        { id: "actions", value: 1 },
+        { id: "energie", value: 1 },
         { id: "waild", value: 1 },
       ],
     },
@@ -812,7 +812,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     prerequis: { tribus: { kolokolo: 4 } },
     couts: {
       ressources: [
-        { id: "actions", value: 1 },
+        { id: "energie", value: 1 },
         { id: "branches", value: 1 },
       ],
     },
@@ -834,7 +834,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     couts: {
       ressources: [
-        { id: "actions", value: 1 },
+        { id: "energie", value: 1 },
         { id: "eau", value: 1 },
         { id: "jing", value: 1 },
       ],
@@ -850,7 +850,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   serre: {
     nom: "Serre",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       tribus: { kolokolo: 10 },
       ressources: { waild: { min: 8, max: 30 } },
@@ -883,7 +883,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     actions: [
       {
         nom: "Recycler",
-        couts: { ressources: [{ id: "actions", value: 1 }] },
+        couts: { ressources: [{ id: "energie", value: 1 }] },
         gains: {
           autres: [
             "Récupère 2 ressources du coût d'un bâtiment ou d'une plante, jusqu'à épuisement. *La carte devient* en recyclage *.*",
@@ -927,7 +927,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         nom: "Faire fermenter",
         couts: {
           ressources: [
-            { id: "actions", value: 1 },
+            { id: "energie", value: 1 },
             { id: "eau", value: 1 },
             { id: "jing", value: 1 },
           ],
@@ -956,7 +956,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
         couts: {
           ressources: [
             { id: "soleil", value: 1 },
-            { id: "actions", value: 1 },
+            { id: "energie", value: 1 },
           ],
         },
         gains: { ressources: [{ id: "jing", value: 3 }] },
@@ -1004,7 +1004,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
       {
         nom: "Parler",
         couts: {
-          ressources: [{ id: "actions", value: 1 }],
+          ressources: [{ id: "energie", value: 1 }],
         },
         gains: { ressources: [{ id: "data", value: 3 }] },
         notes: ["*Une fois par animal par cycle.*"],
@@ -1042,7 +1042,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "dom-tronc": {
     nom: "Dom dans le tronc",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       tribus: { kolokolo: 8 },
       ressources: {
@@ -1080,7 +1080,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     prerequis: { tribus: { kolokolo: 5 } },
     couts: {
       ressources: [
-        { id: "actions", value: 3 },
+        { id: "energie", value: 3 },
         { id: "eau", value: 1 },
         { id: "jing", value: 1 },
       ],
@@ -1107,7 +1107,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   enclos: {
     nom: "Enclos",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       tribus: { kolokolo: 10 },
       ressources: { waild: { min: 8, max: 60 } },
@@ -1173,7 +1173,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
     },
     notes: [
       "Requiert 4 haies.",
-      "{{etres-vivants}} *: zums, animaux, plantes, bâtiments organiques, champignons.*",
+      "{{etres-vivants}} *: zums, animaux, plantes, bâtiments, champignons.*",
     ],
   },
   "vault-concorde": {
@@ -1262,7 +1262,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "gueule-waild": {
     nom: "Gueule de waïld",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: { tribus: { kolokolo: 10 } },
     couts: {
       ressources: [
@@ -1296,7 +1296,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "dom-suspendu": {
     nom: "Dom suspendu",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: { tribus: { kolokolo: 12 }, ressources: { waild: { min: 30 } } },
     couts: {
       ressources: [
@@ -1318,7 +1318,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
           },
         },
         {
-          id: "actions",
+          id: "energie",
           parCycle: true,
           value: -1,
           parRessource: {
@@ -1340,7 +1340,7 @@ export const CARTES_KOLOKOLO: Record<IdCarteKolokolo, Carte> = {
   },
   "chloro-atelier": {
     nom: "Chloro-atelier",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: { tribus: { kolokolo: 10 } },
     couts: {
       ressources: [{ id: "jing", value: 2 }],

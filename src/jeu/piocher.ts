@@ -35,3 +35,22 @@ export function piocher(
     main: [...main, ...pioche.slice(restant)],
   };
 }
+
+/**
+ * Pioche X cartes avec recyclage : quand la pioche est vide, la défausse est mélangée
+ * et devient la nouvelle pioche, puis on continue de piocher.
+ */
+export function piocherAvecRecyclage(
+  pioche: readonly IdCartes[],
+  defausse: readonly IdCartes[],
+  main: readonly IdCartes[],
+  x: number,
+): { pioche: IdCartes[]; defausse: IdCartes[]; main: IdCartes[] } {
+  const premier = piocher(pioche, main, x);
+  const manquant = Math.max(0, x) - (premier.main.length - main.length);
+  if (manquant === 0 || defausse.length === 0) {
+    return { ...premier, defausse: [...defausse] };
+  }
+  const second = piocher(melanger(defausse), premier.main, manquant);
+  return { pioche: second.pioche, defausse: [], main: second.main };
+}

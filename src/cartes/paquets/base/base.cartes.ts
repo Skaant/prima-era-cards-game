@@ -4,7 +4,7 @@ import type { IdCartesBase } from "./IdCartesBase";
 export const BASE_CARTES: IndexCartes<IdCartesBase> = {
   dom: {
     nom: "Dom",
-    type: "bâtiment-organique",
+    type: "bâtiment",
     prerequis: {
       ressources: {
         waild: {
@@ -51,7 +51,7 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
         couts: {
           ressources: [
             {
-              id: "actions",
+              id: "energie",
               value: 1,
             },
           ],
@@ -77,7 +77,7 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
     nom: "Collecte du wa",
     type: "action",
     couts: {
-      ressources: [{ id: "actions", value: 1 }],
+      ressources: [{ id: "energie", value: 1 }],
     },
     gains: {
       ressources: [
@@ -135,6 +135,25 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
           ],
           parCycle: true,
         },
+      ],
+    },
+  },
+  "vaisseau-graine": {
+    nom: "Vaisseau-graine",
+    type: "bâtiment",
+    notes: ["Posée automatiquement sur le terrain au début de la partie."],
+    gains: {
+      ressources: [
+        { id: "eau", value: 2 },
+        { id: "eau", stock: true, value: 5 },
+        { id: "jing", value: 2 },
+        { id: "jing", stock: true, value: 5 },
+        { id: "data", value: 5 },
+        { id: "zums", value: 3 },
+        { id: "zums", stock: true, value: 3 },
+        { id: "eau", value: 1, parCycle: true },
+        { id: "jing", value: 1, parCycle: true },
+        { id: "zums", value: 0.2, parCycle: true },
       ],
     },
   },

@@ -2,7 +2,7 @@
 import SvgCarte from "../../cartes/svg/SvgCarte.astro";
 import SvgPaquet from "../../cartes/svg/SvgPaquet.astro";
 import SvgStase from "../../cartes/svg/SvgStase.astro";
-import SvgBatimentOrganique from "../../cartes/type-carte/svg/SvgBatimentOrganique.astro";
+import SvgBatiment from "../../cartes/type-carte/svg/SvgBatiment.astro";
 import SvgPlante from "../../cartes/type-carte/svg/SvgPlante.astro";
 import Eau from "../../content/ressources/eau.ressource.astro";
 import Layout from "../../layout/Layout.astro";
@@ -186,6 +186,16 @@ import SvgTribu from "../../tribus/svg/SvgTribu.astro";
           L'action est répétée jusqu'à ce que la main soit pleine (8 cartes). On
           passe alors à la phase suivante
         </p>
+        <p>
+          Les cartes piochées sont extraites de la fin de la <b>pioche</b>, une
+          liste de cartes mélangée au début de la partie : le hasard vient de ce
+          mélange. Si la pioche contient moins de cartes que demandé, on prend
+          toutes les cartes restantes.
+        </p>
+        <p>
+          Quand la pioche est vide, la <b>défausse</b> est mélangée puis ajoutée
+          à la pioche : c'est le <b>recyclage</b>. La défausse devient alors vide.
+        </p>
       </div>
       <div class="image-legende">
         <div>
@@ -199,11 +209,94 @@ import SvgTribu from "../../tribus/svg/SvgTribu.astro";
         <p>Deux paquets : tribu et stase</p>
       </div>
     </div>
+    <div class="col-left">
+      <div>
+        <h4>Phase de pose de cartes et actions</h4>
+        <p>
+          Lae joueur·euse joue des cartes de sa <b>main</b> vers le <b
+            >terrain</b
+          >. Pour jouer une carte, son <b>prérequis</b> doit être respecté ; on
+          paie ses <b>coûts</b> et on récolte ses <b>gains</b> en ressources.
+        </p>
+        <ul>
+          <li>
+            <b>Première fois :</b> la carte reste sur le terrain, sauf les cartes
+            de type <b>Action</b>, qui vont directement dans la défausse.
+          </li>
+          <li>
+            <b>Fois suivantes :</b> on ajoute un <b>exemplaire</b> à la carte
+            déjà au terrain, puis la carte jouée va dans la défausse.
+          </li>
+        </ul>
+        <p>
+          Les cartes en jeu peuvent aussi proposer des <b>actions</b>, que l'on
+          utilise en dépensant de l'<Ressource id="energie" />.
+        </p>
+        <h4>Phase de production</h4>
+        <p>
+          On compte les gains de ressources du cycle : la <b
+            >production par cycle</b
+          > de chaque ressource est ajoutée à son stock.
+        </p>
+      </div>
+      <div>
+        <h4>Les zones de jeu</h4>
+        <ul>
+          <li>
+            <b>Terrain</b> (en haut) : les cartes jouées et leurs jetons,
+          </li>
+          <li>
+            <b>Pioche</b> (en bas à gauche), <b>main</b> (au milieu) et <b
+              >défausse</b
+            > (à droite).
+          </li>
+        </ul>
+        <h4>Les exemplaires</h4>
+        <p>
+          Une carte jouée plusieurs fois reste une seule carte au terrain, avec
+          un <b>exemplaire</b> par fois jouée. Les exemplaires sont empilés, le
+          premier devant ; chacun a ses propres jetons.
+        </p>
+        <h4>Les jetons</h4>
+        <p>
+          Posés sur un exemplaire pour compter des valeurs qui lui sont
+          propres :
+        </p>
+        <ul>
+          <li>
+            <b>Jeton Branche :</b> le niveau de croissance d'une plante ou d'un bâtiment.
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="section">
-    <h2 id="differentes-ressources">Propriétés des cartes</h2>
+    <h2 id="proprietes-cartes">Propriétés des cartes</h2>
     <div class="col-left">
-      <div></div>
+      <div>
+        <p>Une carte est décrite par :</p>
+        <ul>
+          <li>un <b>nom</b> et un <b>type</b>,</li>
+          <li>
+            un <b>prérequis</b> (optionnel) à respecter pour la jouer,
+          </li>
+          <li>
+            des <b>coûts</b> à payer et des <b>gains</b> récoltés quand on la joue
+            (optionnels),
+          </li>
+          <li>
+            des <b>actions</b> (optionnel), chacune avec son nom, ses coûts, ses
+            gains, éventuellement un prérequis et un nombre d'utilisations par
+            tour,
+          </li>
+          <li>des notes et un texte d'histoire (optionnels).</li>
+        </ul>
+        <p>
+          Les cartes sont rassemblées en <b>paquets</b> qui indiquent quelles
+          cartes les composent et en quelle quantité. Le paquet de base sert à
+          constituer la pioche.
+        </p>
+      </div>
       <div class="image-legende">
         <SvgCarte size="10em" />
       </div>
@@ -211,7 +304,7 @@ import SvgTribu from "../../tribus/svg/SvgTribu.astro";
     <div class="col-right">
       <div class="image-legende">
         <SvgPlante />
-        <SvgBatimentOrganique />
+        <SvgBatiment />
         <SvgWaild />
         <p class="small">
           De nombreuses cartes requièrent un niveau de <Ressource id="waild" /> minimum
@@ -263,13 +356,32 @@ import SvgTribu from "../../tribus/svg/SvgTribu.astro";
       <div>
         <h4>Le stock</h4>
         <p>
-          Limite d'accueil de <b>certaines ressources</b>. Stock global, stock
-          individuel (-> donc <b>Collecte</b> et in/out).
+          Limite d'accueil de <b>certaines ressources</b>. Le stock est <b
+            >global</b
+          >
+          (un seul pour toute la partie : <Ressource id="eau" />, <Ressource
+            id="jing"
+          />, <Ressource id="zums" plural={true} />, <Ressource id="energie" />) ou <b>individuel</b> (lié à une carte ou à ses jetons : seules les
+          <b>branches</b> pour l'instant). La <Ressource id="data" /> n'a pas de
+          stock : elle est comptée pour l'objectif de victoire.
+        </p>
+        <p>
+          Certaines ressources ont un <b>stock max</b> qu'elles ne peuvent
+          jamais dépasser : l'<Ressource id="eau" />, le <Ressource
+            id="jing"
+          />, les <Ressource id="zums" plural={true} /> et les branches (stock max
+          propre à chaque carte ou jeton).
         </p>
         <h4>Production par cycle</h4>
         <p>
-          Lors de la phase de production, ajoute des ressources au stock, dans
-          la limite de la disponibilité
+          Lors de la phase de production, ajoute des ressources au stock. Les
+          ressources concernées sont l'<Ressource id="eau" />, le <Ressource
+            id="jing"
+          />, la <Ressource id="data" /> et les <Ressource
+            id="zums"
+            plural={true}
+          />. Chaque <Ressource id="zums" /> produit +1 <Ressource id="data" /> et
+          +1 énergie par cycle.
         </p>
         <h4>Temporalité</h4>
         <p>Progression de la ressource par cycle Les deux seuls exemples :</p>
@@ -288,7 +400,11 @@ import SvgTribu from "../../tribus/svg/SvgTribu.astro";
     </div>
     <h3>Liste des ressources</h3>
     <Eau />
-    <p>Actions : générée par les zums. Pas de conservation entre les cycles.</p>
+    <p>
+      Énergie : générée par les zums, elle sert à jouer les cartes Action
+      ou à utiliser les actions des cartes en jeu. Pas de conservation entre les
+      cycles.
+    </p>
   </div>
   <div class="section">
     <h2 id="presentation-tribus">Présentation des tribus</h2>

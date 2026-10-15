@@ -26,9 +26,8 @@ export const RESSOURCES: {
     stockGlobal: true,
     parCycle: true,
   },
-  actions: {
-    name: "action",
-    plural: "actions",
+  energie: {
+    name: "énergie",
     color: "skin",
     stockGlobal: true,
   },

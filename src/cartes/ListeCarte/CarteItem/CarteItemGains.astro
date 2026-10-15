@@ -8,7 +8,7 @@ import type { IdTribu } from "../../../tribus/IdTribu";
 import type { Carte } from "../../_types/Carte";
 import CarteItemPrerequis from "./CarteItemPrerequis.astro";
 import SvgStock from "../../../ressources/svg/stock/SvgStock.astro";
-import SvgBatimentArtificiel from "../../type-carte/svg/SvgBatimentArtificiel.astro";
+import SvgLogement from "../../type-carte/svg/SvgLogement.astro";
 
 interface Props {
   gains: Carte["gains"];
@@ -86,11 +86,12 @@ const ressources = gains?.ressources?.filter(
                       ) : (
                         <StockSvgSwitch type="indiv-out" />
                       ))) ||
-                      ("stock" in ress && ress.id === "zums" ? (
-                        <SvgBatimentArtificiel />
-                      ) : (
-                        <StockSvgSwitch />
-                      ))}
+                      (ress.stock &&
+                        (ress.id === "zums" ? (
+                          <SvgLogement />
+                        ) : (
+                          <StockSvgSwitch />
+                        )))}
                     <Ressource
                       id={ress.id}
                       plural={

@@ -17,4 +17,5 @@ En bas à droite de l'interface, à droite de la [Main](main.md).
 
 ## Implémentation
 
-Pas encore implémenté.
+- `src/jeu/etat.ts` : champ `defausse`.
+- `src/jeu/Jeu.tsx` : compteur « Défausse » en bas à droite.

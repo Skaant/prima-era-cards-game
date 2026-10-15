@@ -5,15 +5,27 @@
   min-height: 0;
 }
 
-.jeu-table {
+.jeu-terrain {
   flex: 1;
   min-height: 0;
-  display: flex;
-  align-items: center;
+  list-style: none;
+  margin: 0;
   padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.75rem;
+  overflow-y: auto;
 }
 
-.jeu-pioche {
+.jeu-bas {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.5rem;
+}
+
+.jeu-paquet {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,28 +36,88 @@
   background: #fff;
   border: 1px solid #0004;
   border-radius: 2px;
+}
+button.jeu-paquet {
   cursor: pointer;
 }
-.jeu-pioche:disabled {
+.jeu-paquet:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-.jeu-pioche span {
+.jeu-paquet span {
   font-size: 1.4em;
+}
+
+.jeu-carte {
+  flex: 0 0 auto;
+  position: relative;
+}
+.jeu-carte-bouton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+.jeu-carte-bouton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Pile d'exemplaires : le premier est devant, chaque exemplaire suivant est une carte
+   derrière qui dépasse par le haut (le fond blanc masque les cartes derrière). */
+.jeu-pile {
+  --pas: 1.5rem;
+  padding-top: calc(var(--derriere) * var(--pas));
+}
+.jeu-exemplaire {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc((var(--derriere) - var(--rang)) * var(--pas));
+  z-index: calc(100 - var(--rang));
+  background: #fff;
+  border-radius: 2px;
+}
+.jeu-exemplaire:first-child {
+  position: relative;
+  top: 0;
+}
+/* Jetons Branche de l'exemplaire, en haut de sa carte. */
+.jeu-jetons-branche {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.3rem;
+  display: flex;
+  gap: 0.15rem;
+}
+.jeu-jeton-branche {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  padding: 0.15rem;
+  box-sizing: border-box;
+  background: #fefbe7;
+  border: 1px solid #062451;
+  border-radius: 50%;
+}
+.jeu-jeton-branche svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .jeu-main {
   list-style: none;
   margin: 0;
-  padding: 0.75rem 1.5rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0;
   display: flex;
   justify-content: center;
   gap: 0.75rem;
   overflow-x: auto;
-}
-
-.jeu-carte {
-  flex: 0 0 auto;
 }
 
 .jeu-ressources {
@@ -53,8 +125,8 @@
   margin: 0;
   padding: 0.6rem 1.5rem;
   display: flex;
-  justify-content: space-around;
-  gap: 1rem;
+  justify-content: center;
+  gap: 2.5rem;
   background: #062451;
   color: #fefbe7;
 }
@@ -74,4 +146,20 @@
 .jeu-ressource-cycle {
   font-size: 0.8em;
   opacity: 0.8;
+}
+
+.jeu-haut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem;
+}
+.jeu-cycle {
+  padding: 0.5rem 1.2rem;
+  font: inherit;
+  color: #fefbe7;
+  background: #062451;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
 }

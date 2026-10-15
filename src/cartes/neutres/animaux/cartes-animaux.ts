@@ -34,7 +34,7 @@ export const CARTES_ANIMAUX: { [key in IdCarteAnimal]: Carte } = {
       {
         nom: "Flatter",
         couts: {
-          ressources: [{ id: "actions", value: 1 }],
+          ressources: [{ id: "energie", value: 1 }],
         },
         gains: {
           ressources: [{ id: "jing", value: 2 }],

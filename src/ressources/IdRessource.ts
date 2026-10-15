@@ -6,7 +6,7 @@ export type IdRessource =
   | "enfants"
   | "data"
   | "aibs"
-  | "actions"
+  | "energie"
   | "waild-entretenu"
   | "joie"
   | "humus"
