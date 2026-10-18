@@ -12,9 +12,14 @@ Les cartes quittent la Main quand elles sont [jouées](jouer-une-carte.md).
 
 ## Début de partie
 
-La Main est remplie jusqu'à 8 cartes (`TAILLE_MAIN`) par la phase de pioche du premier [Cycle](cycle.md), puis à chaque nouveau cycle.
+La Main de départ contient uniquement le **Vaisseau-graine** (`CARTES_DE_DEPART`). La [Pioche](pioche.md) existe dès le début ; la phase de pioche de chaque [Cycle](cycle.md) ajoute des cartes à la Main (0 tant que le Vaisseau-graine n'est pas posé, `cartesParTour` valant 0).
+
+## Taille
+
+Le nombre de cartes piochées à chaque cycle n'est plus fixe : il est égal à `cartesParTour`, la ressource « cartes par tour » produite par les cartes du Terrain (le Vaisseau-graine en produit 2 par cycle). Elle est affichée dans le bouton Main de l'interface, à côté du nombre de cartes en main.
 
 ## Implémentation
 
-- `src/jeu/etat.ts` : champ `main` de l'état du jeu, `TAILLE_MAIN`.
-- `src/jeu/Jeu.tsx` : liste `jeu-main` ; cliquer une carte la joue.
+- `src/jeu/etat.ts` : champ `main` de l'état du jeu ; `CARTES_DE_DEPART` ; champ `cartesParTour`.
+- `src/jeu/production.ts` : `recalculerProduction` calcule `cartesParTour` à partir des gains `cartes-par-tour` (`parCycle`) des cartes du Terrain.
+- `src/jeu/Jeu.tsx` : liste `jeu-main` ; cliquer une carte la joue ; bouton Main affiche `cartesParTour`.

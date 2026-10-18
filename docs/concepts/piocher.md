@@ -12,10 +12,15 @@ Piocher est le mécanisme qui consiste à prendre X cartes au hasard dans la [Pi
 
 ## Début de partie
 
-La Pioche est créée depuis le paquet, puis la phase de pioche du premier [Cycle](cycle.md) remplit la Main jusqu'à 8 cartes (`TAILLE_MAIN`). Dans l'interface, la Pioche n'est plus cliquable : on ne pioche qu'en phase de pioche.
+La Main de départ ne contient que le **Vaisseau-graine**, et la [Pioche](pioche.md) contient le reste du paquet. La phase de pioche de chaque cycle pioche `cartesParTour` cartes (la ressource produite par le Vaisseau-graine, voir [Ressource](ressource.md)). En dehors de la phase de pioche, on peut piocher 1 carte via l'action de la Pioche (voir ci-dessous).
+
+## Action Piocher (dialog)
+
+Cliquer sur la Pioche remplace la bottom bar par un dialog : à gauche le bouton « Piocher {x} [data] », à droite une croix pour fermer. Le coût **x = 1 + le nombre de fois où l'action a déjà été utilisée ce cycle** (compteur `piochesPayantes`, remis à 0 à chaque nouveau cycle). Le bouton est désactivé si Pioche et Défausse sont vides, ou si la data est insuffisante.
 
 ## Implémentation
 
 - `src/jeu/piocher.ts` : `piocher(pioche, main, x)` (fonction pure).
 - `src/jeu/etat.ts` : action `{ type: "piocher", nombre }`.
-- `src/jeu/Jeu.tsx` : le bouton « Pioche » pioche 1 carte.
+- `src/jeu/etat.ts` : action `piocher-payant`, `coutPiocher`, `peutPiocherPayant`, champ `piochesPayantes`.
+- `src/jeu/Jeu.tsx` : le bouton « Pioche » ouvre le dialog.

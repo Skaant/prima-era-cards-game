@@ -1,5 +1,6 @@
 ---
 import SvgZum from "../../cartes/type-carte/svg/SvgZum.astro";
+import SvgCarte from "../../cartes/svg/SvgCarte.astro";
 import type { IdRessource } from "../IdRessource";
 import SvgEnergie from "./SvgEnergie.astro";
 import SvgBourgeonsTopipotents from "./SvgBourgeonsTopipotents.astro";
@@ -26,6 +27,7 @@ const svgProps = { size, fill };
 const svgMap: Partial<
   Record<IdRessource, (_props: Record<string, unknown>) => unknown>
 > = {
+  "cartes-par-tour": SvgCarte,
   energie: SvgEnergie,
   "bourgeons-totipotents": SvgBourgeonsTopipotents,
   branches: SvgBranches,

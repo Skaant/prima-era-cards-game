@@ -18,6 +18,8 @@ export type Carte = {
     prerequis?: PrerequisCarte;
     couts?: CoutsCarte;
     gains?: GainsCarte;
+    /** Une fois jouée, la carte disparaît : pas de défausse, ne peut pas être rejouée ni repiochée. */
+    unique?: boolean;
     actions?: {
       prerequis?: PrerequisCarte;
       nom: string;

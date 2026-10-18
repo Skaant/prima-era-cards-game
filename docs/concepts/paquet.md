@@ -11,7 +11,7 @@ Le type `Paquet` (`src/cartes/paquets/Paquet.ts`) :
 
 ### Paquet de base
 
-`BASE_PAQUET` (`src/cartes/paquets/base/base.paquet.ts`) contient : dom ×3, collecte du wa ×2, decouvreureuse ×3, flaqueureuse ×3, ramasseureuse ×2, senseureuse ×3, vaisseau-graine ×1 (posé au départ sur le [Terrain](terrain.md), jamais dans la Pioche). Ses ids de cartes sont typés par `IdCartesBase` (`src/cartes/paquets/base/IdCartesBase.ts`).
+`BASE_PAQUET` (`src/cartes/paquets/base/base.paquet.ts`) contient : dom ×3, collecte du wa ×2, decouvreureuse ×3, flaqueureuse ×3, ramasseureuse ×2, senseureuse ×3, vaisseau-graine ×1 (donné dans la [Main](main.md) de départ, jamais dans la Pioche). Ses ids de cartes sont typés par `IdCartesBase` (`src/cartes/paquets/base/IdCartesBase.ts`).
 
 ## Références
 
@@ -21,7 +21,7 @@ Le type `Paquet` (`src/cartes/paquets/Paquet.ts`) :
 ## Usage
 
 - [Pioche](pioche.md) : `creerPioche(paquet)` (`src/jeu/piocher.ts`) crée la Pioche depuis un paquet.
-- Début de partie : `etatInitial(paquet = BASE_PAQUET)` (`src/jeu/etat.ts`). La page Jouer (`src/pages/jouer.astro`) utilise `BASE_PAQUET`.
+- Début de partie : `etatInitial(paquet = BASE_PAQUET)` (`src/jeu/etat.ts`) crée la Pioche depuis le paquet (hors cartes de départ) (voir [Pioche](pioche.md)). La page Jouer (`src/pages/jouer.astro`) utilise `BASE_PAQUET`.
 
 ## Divergence connue
 

@@ -4,9 +4,11 @@ type NavSlug = "manuel" | "cartes" | "jouer";
 interface Props {
   currentPage?: NavSlug;
   compact?: boolean;
+  /** Sur la page Jouer, l'entrée courante devient un bouton « Menu » qui rouvre la top bar. */
+  boutonMenuJeu?: boolean;
 }
 
-const { currentPage, compact } = Astro.props;
+const { currentPage, compact, boutonMenuJeu } = Astro.props;
 
 const links: { slug: NavSlug; label: string }[] = [
   { slug: "manuel", label: "Manuel" },
@@ -22,7 +24,13 @@ const links: { slug: NavSlug; label: string }[] = [
     {
       links.map(({ slug, label }) =>
         slug === currentPage ? (
-          <span>{label}</span>
+          slug === "jouer" && boutonMenuJeu ? (
+            <button type="button" class="bouton-menu-jeu" data-menu-jeu>
+              Jouer
+            </button>
+          ) : (
+            <span>{label}</span>
+          )
         ) : (
           <a href={`/${slug}`}>{label}</a>
         ),

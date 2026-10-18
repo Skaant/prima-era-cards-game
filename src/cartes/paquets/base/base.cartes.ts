@@ -43,7 +43,17 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
     nom: "Découvreureuse",
     type: "zum",
     couts: {
-      ressources: [{ id: "zums", value: 1 }],
+      ressources: [
+        { id: "zums", value: 1 },
+        {
+          id: "jing",
+          value: 1,
+        },
+        {
+          id: "data",
+          value: 2,
+        },
+      ],
     },
     actions: [
       {
@@ -76,29 +86,38 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
   "collecte du wa": {
     nom: "Collecte du wa",
     type: "action",
-    couts: {
-      ressources: [{ id: "energie", value: 1 }],
-    },
-    gains: {
-      ressources: [
-        { id: "eau", value: 1 },
-        {
-          id: "eau",
-          value: 1,
-          parRessource: {
-            id: "eau",
-            stock: true,
-            value: 10,
-          },
+    actions: [
+      {
+        nom: "Collecte du wa",
+        couts: {
+          ressources: [{ id: "energie", value: 1 }],
         },
-      ],
-    },
+        gains: {
+          ressources: [
+            { id: "eau", value: 1 },
+            {
+              id: "eau",
+              value: 1,
+              parRessource: {
+                id: "eau",
+                stock: true,
+                value: 10,
+              },
+            },
+          ],
+        },
+        fois: { value: 1 },
+      },
+    ],
   },
   flaqueureuse: {
     nom: "Flaqueureuse",
     type: "champignon",
     couts: {
-      ressources: [{ id: "jing", value: 1 }],
+      ressources: [
+        { id: "eau", value: 1 },
+        { id: "jing", value: 1 },
+      ],
     },
     gains: {
       ressources: [
@@ -141,19 +160,16 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
   "vaisseau-graine": {
     nom: "Vaisseau-graine",
     type: "bâtiment",
-    notes: ["Posée automatiquement sur le terrain au début de la partie."],
+    unique: true,
     gains: {
       ressources: [
-        { id: "eau", value: 2 },
         { id: "eau", stock: true, value: 5 },
-        { id: "jing", value: 2 },
         { id: "jing", stock: true, value: 5 },
-        { id: "data", value: 5 },
         { id: "zums", value: 3 },
         { id: "zums", stock: true, value: 3 },
         { id: "eau", value: 1, parCycle: true },
         { id: "jing", value: 1, parCycle: true },
-        { id: "zums", value: 0.2, parCycle: true },
+        { id: "cartes-par-tour", value: 2, parCycle: true },
       ],
     },
   },
@@ -161,7 +177,7 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
     nom: "Senseureuse",
     type: "plante",
     couts: {
-      ressources: [{ id: "eau", value: 1 }],
+      ressources: [{ id: "eau", value: 2 }],
     },
     gains: {
       ressources: [

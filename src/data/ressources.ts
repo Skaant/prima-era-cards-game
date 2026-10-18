@@ -14,6 +14,11 @@ export type RessourceData = {
 export const RESSOURCES: {
   [key in IdRessource]: RessourceData;
 } = {
+  "cartes-par-tour": {
+    name: "carte par tour",
+    plural: "cartes par tour",
+    color: "muted",
+  },
   eau: { name: "eau", color: "blue", stockGlobal: true, parCycle: true },
   jing: { name: "jing", color: "skin", stockGlobal: true, parCycle: true },
   waild: { name: "waild", color: "dark-green", parCycle: true },

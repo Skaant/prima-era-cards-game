@@ -19,5 +19,6 @@ Quand la Pioche est vide, la [Défausse](defausse.md) est mélangée et ajoutée
 ## Implémentation
 
 - `src/jeu/piocher.ts` : `creerPioche(paquet)`, `melanger`.
-- `src/jeu/etat.ts` : champ `pioche` de l'état du jeu.
+- `src/jeu/etat.ts` : champ `pioche` de l'état du jeu ; `etatInitial` crée la Pioche (paquet hors cartes de départ).
+- `src/jeu/cycle.ts` : `phasePioche` pioche `cartesParTour` cartes.
 - `src/jeu/Jeu.tsx` : la Pioche (bas gauche) affiche le nombre de cartes restantes ; on pioche via la phase de pioche du [Cycle](cycle.md), avec recyclage.

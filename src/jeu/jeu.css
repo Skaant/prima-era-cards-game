@@ -21,36 +21,58 @@
 .jeu-bas {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.75rem;
-  padding: 0 1.5rem;
+  padding: 0.5rem 1.5rem;
+  background: #000;
+  color: #fff;
+}
+.jeu-bas-groupe {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .jeu-paquet {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 1rem 1.2rem;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
   font: inherit;
-  color: inherit;
-  background: #fff;
-  border: 1px solid #0004;
+  color: #fff;
+  background: none;
+  border: 1px solid #fff;
   border-radius: 2px;
 }
 button.jeu-paquet {
   cursor: pointer;
 }
-.jeu-paquet:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 .jeu-paquet span {
-  font-size: 1.4em;
+  font-size: 1.2em;
+}
+.jeu-paquet-muted {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+.jeu-paquet-muted svg {
+  width: 1em;
+  height: 1em;
 }
 
 .jeu-carte {
   flex: 0 0 auto;
   position: relative;
+}
+/* Pile d'une carte du Terrain + sa ligne d'actions groupées (voir `.jeu-actions-groupees`). */
+.jeu-carte-terrain {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 .jeu-carte-bouton {
   padding: 0;
@@ -65,47 +87,116 @@ button.jeu-paquet {
   opacity: 0.5;
   cursor: not-allowed;
 }
-/* Pile d'exemplaires : le premier est devant, chaque exemplaire suivant est une carte
-   derrière qui dépasse par le haut (le fond blanc masque les cartes derrière). */
+/* Pile d'exemplaires : la position (`top`, calculée par `ExemplairesCarte.tsx`, voir
+   `topExemplaire`) et la hauteur de la pile (`hauteurPile`) dépendent de celui qui est actif :
+   les exemplaires qui le précèdent restent espacés de `--pas` depuis le haut de la pile (ils
+   dépassent légèrement par le haut de l'actif, qui n'a rien au-dessus de lui) ; ceux qui le
+   suivent sont décalés d'une carte entière sous lui (plus `--pas` par exemplaire intermédiaire),
+   pour ne pas être recouverts par sa carte affichée en entier. Le z-index, lui, ne dépend que de
+   la distance à l'actif (--distance) : plus un exemplaire masqué en est proche, plus il est
+   au-dessus des exemplaires masqués plus éloignés. */
 .jeu-pile {
   --pas: 1.5rem;
-  padding-top: calc(var(--derriere) * var(--pas));
+  position: relative;
+  /* Largeur explicite (voir CarteItem.astro, .carte-item : 194px) : tous les exemplaires sont
+     en position absolute, donc aucun ne contribue plus à la taille de la pile en flux normal. */
+  width: 194px;
 }
 .jeu-exemplaire {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc((var(--derriere) - var(--rang)) * var(--pas));
-  z-index: calc(100 - var(--rang));
+  z-index: calc(100 - var(--distance));
   background: #fff;
   border-radius: 2px;
 }
-.jeu-exemplaire:first-child {
-  position: relative;
-  top: 0;
+/* L'exemplaire actif (affiché en entier) reste à son emplacement habituel (--rang) : il ne
+   change pas de place en devenant actif, il est juste redessiné par-dessus tous les autres. */
+.jeu-exemplaire-actif {
+  z-index: 1000;
 }
-/* Jetons Branche de l'exemplaire, en haut de sa carte. */
-.jeu-jetons-branche {
-  position: absolute;
-  top: 0.15rem;
-  right: 0.3rem;
+/* Bandeau d'un exemplaire masqué (tous sauf celui actif) : ne montre pas le contenu de la
+   carte, seulement une chip avec sa quantité de branches (à gauche) et une icône par action de
+   la carte (à droite). Cliquer sur le bandeau (hors icône d'action) rend l'exemplaire actif, à
+   son emplacement habituel ; cliquer sur une icône d'action la joue directement, sans le rendre
+   actif. */
+.jeu-exemplaire-masque {
   display: flex;
-  gap: 0.15rem;
-}
-.jeu-jeton-branche {
-  display: block;
-  width: 1.2rem;
-  height: 1.2rem;
-  padding: 0.15rem;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 1.8rem;
+  padding: 0.2rem 0.3rem;
   box-sizing: border-box;
   background: #fefbe7;
   border: 1px solid #062451;
-  border-radius: 50%;
+  border-radius: 2px;
+  cursor: pointer;
 }
-.jeu-jeton-branche svg {
+.jeu-branches-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.8em;
+  background: #fff;
+  border: 1px solid #062451;
+  border-radius: 1em;
+}
+.jeu-branches-chip-icone {
+  display: block;
+  width: 0.9em;
+  height: 0.9em;
+}
+.jeu-branches-chip-icone svg {
   display: block;
   width: 100%;
   height: 100%;
+}
+.jeu-actions-masquees {
+  display: flex;
+  gap: 0.2rem;
+  margin-left: auto;
+}
+.jeu-action-masquee {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #062451;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.jeu-action-masquee:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.jeu-action-masquee svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ligne d'actions groupées, sous une pile de plusieurs exemplaires (voir `ExemplairesCarte.tsx`) :
+   à gauche, le choix "or" commun à tous les exemplaires ; à droite, un bouton par action qui la
+   joue pour chaque exemplaire un par un (`jouer-action-groupe`). */
+.jeu-actions-groupees {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.3rem;
+  width: 194px;
+}
+.jeu-actions-groupees-or {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.jeu-actions-groupees-boutons {
+  display: flex;
+  gap: 0.2rem;
+  margin-left: auto;
 }
 
 .jeu-main {
@@ -113,7 +204,7 @@ button.jeu-paquet {
   margin: 0;
   flex: 1;
   min-width: 0;
-  padding: 0.75rem 0;
+  padding: 0.75rem 1.5rem;
   display: flex;
   justify-content: center;
   gap: 0.75rem;
@@ -123,43 +214,101 @@ button.jeu-paquet {
 .jeu-ressources {
   list-style: none;
   margin: 0;
-  padding: 0.6rem 1.5rem;
+  padding: 0;
   display: flex;
-  justify-content: center;
-  gap: 2.5rem;
-  background: #062451;
-  color: #fefbe7;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
 }
 .jeu-ressources li {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  gap: 0.5rem;
 }
 .jeu-ressource-nom {
   font-size: 0.8em;
   text-transform: uppercase;
   opacity: 0.8;
 }
+.jeu-ressource-valeurs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.jeu-ressource-valeurs > div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
 .jeu-ressource-stock {
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 .jeu-ressource-cycle {
   font-size: 0.8em;
   opacity: 0.8;
+}
+.jeu-ressource-mobilises {
+  font-size: 0.7em;
+  opacity: 0.6;
 }
 
 .jeu-haut {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1.5rem;
+  gap: 1rem;
+  padding: 0.6rem 1.5rem;
+  background: #062451;
+  color: #fefbe7;
 }
-.jeu-cycle {
-  padding: 0.5rem 1.2rem;
+.jeu-sortir {
+  padding: 0.4rem 1rem;
   font: inherit;
   color: #fefbe7;
-  background: #062451;
+  background: none;
+  border: 1px solid #fefbe7;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.jeu-cycle {
+  padding: 0.4rem 1rem;
+  font: inherit;
+  color: #000;
+  background: #fff;
   border: 0;
   border-radius: 2px;
   cursor: pointer;
+}
+
+/* Dialog d'action de la Pioche / Défausse, à la place de la bottom bar. */
+.jeu-dialog-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  font: inherit;
+  color: #062451;
+  background: #fefbe7;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.jeu-dialog-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.jeu-icone-data {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+}
+.jeu-icone-data svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.jeu-carte-choisie {
+  outline: 3px solid #062451;
+  outline-offset: 2px;
 }

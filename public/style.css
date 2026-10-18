@@ -82,13 +82,22 @@ blockquote {
   display: flex;
   gap: 12px;
   > a,
-  > span {
+  > span,
+  > button {
     background-color: #ddf;
     padding: 8px 16px 4px;
     color: #000;
     font-family: "charlevoix";
     font-size: 1.2em;
     text-decoration: none;
+  }
+  > button {
+    border: 0;
+    cursor: pointer;
+    &.bouton-menu-jeu {
+      background-color: #000;
+      color: #fff;
+    }
   }
 }
 

@@ -11,6 +11,7 @@ import { TRIBUS } from "../../../data/tribus";
 import { RESSOURCES } from "../../../data/ressources";
 import type { IdColor } from "../../../data/IdColor";
 import CarteItemStockIndividuel from "./CarteItemStockIndividuel.astro";
+import CarteItemJaugeBranches from "./CarteItemJaugeBranches.astro";
 import CarteItemIllustration from "./CarteItemIllustration.astro";
 import type { IdCartes } from "../../paquets/IdCartes";
 
@@ -19,7 +20,7 @@ interface Props {
   carte: Carte;
 }
 
-const { carte } = Astro.props;
+const { id, carte } = Astro.props;
 const { nom, prerequis, couts, gains, actions, ...data } = carte;
 
 const couleur: IdColor =
@@ -44,8 +45,9 @@ const couleur: IdColor =
   <CarteItemTypeEtNom type={data.type} {nom} {couleur} />
   <CarteItemIllustration />
   <div class="gains-actions-notes">
-    <CarteItemGains {gains} />
-    <CarteItemActions {actions} {couleur} />
+    <CarteItemJaugeBranches {gains} />
+    <CarteItemGains {gains} {id} />
+    <CarteItemActions {id} {actions} {couleur} />
     {
       data.notes && data.notes.length > 0 && (
         <CarteItemTextes textes={data.notes} />

@@ -4,27 +4,36 @@ import type { IdColor } from "../../../data/IdColor";
 import Ressource from "../../../ressources/Ressource.astro";
 import DynamicString from "../../../semantique/DynamicString/DynamicString.astro";
 import type { Carte } from "../../_types/Carte";
+import type { IdCartes } from "../../paquets/IdCartes";
 import CarteItemCouts from "./CarteItemCouts.astro";
 import CarteItemGains from "./CarteItemGains.astro";
 
 interface Props {
+  id: IdCartes;
   actions: Carte["actions"];
   couleur: IdColor;
 }
 
-const { actions, couleur } = Astro.props;
+const { id, actions, couleur } = Astro.props;
 ---
 
 {
   actions && actions.length > 0 && (
     <ul class="actions">
-      {actions.map(({ nom, couts, gains, notes, fois }) => (
+      {actions.map(({ nom, couts, gains, notes, fois }, index) => (
         <li class="action">
-          <div>
-            <span>{nom}</span>
-            <CarteItemCouts couts={couts} />
-          </div>
-          <CarteItemGains gains={gains} />
+          <button
+            type="button"
+            class="action-bouton"
+            data-action-carte={id}
+            data-action-index={index}
+          >
+            <div>
+              <span>{nom}</span>
+              <CarteItemCouts couts={couts} />
+            </div>
+            <CarteItemGains gains={gains} />
+          </button>
           {notes && (
             <div class="notes">
               {notes.map((note) => (
@@ -65,15 +74,24 @@ const { actions, couleur } = Astro.props;
     gap: 0 !important;
   }
   .action {
+    + .action {
+      margin-top: 6px;
+    }
+  }
+  .action-bouton {
     border: 2px solid black;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     padding: 4px 6px;
     flex-direction: column;
-    + .action {
-      margin-top: 6px;
-    }
+    width: 100%;
+    font: inherit;
+    text-align: inherit;
+    color: inherit;
+    background: none;
+    box-sizing: border-box;
+    cursor: pointer;
     > :first-child {
       display: flex;
       justify-content: space-between;
@@ -88,6 +106,10 @@ const { actions, couleur } = Astro.props;
     > :nth-child(2) {
       padding: 2px 4px 4px;
     }
+  }
+  .action-bouton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   .notes {
     margin-top: -6px;

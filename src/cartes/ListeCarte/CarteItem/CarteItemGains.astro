@@ -9,15 +9,29 @@ import type { Carte } from "../../_types/Carte";
 import CarteItemPrerequis from "./CarteItemPrerequis.astro";
 import SvgStock from "../../../ressources/svg/stock/SvgStock.astro";
 import SvgLogement from "../../type-carte/svg/SvgLogement.astro";
+import type { IdCartes } from "../../paquets/IdCartes";
 
 interface Props {
   gains: Carte["gains"];
+  /** Requis pour rendre sélectionnables les gains `autres` de type `"or"` (boutons radio). */
+  id?: IdCartes;
 }
 
-const { gains } = Astro.props;
+const { gains, id } = Astro.props;
 
 const ressources = gains?.ressources?.filter(
-  (ress) => !(ress.stock && ress.stockIndividuel),
+  (ress) => !ress.stock || (!ress.stockIndividuel && ress.id !== "branches"),
+);
+
+// Une ligne par ressource : gain, stock et gain par cycle d'une même ressource sont regroupés.
+const groupes = Object.values(
+  (ressources ?? []).reduce<Record<string, NonNullable<typeof ressources>>>(
+    (acc, ress) => {
+      (acc[ress.id] ??= []).push(ress);
+      return acc;
+    },
+    {},
+  ),
 );
 ---
 
@@ -59,10 +73,10 @@ const ressources = gains?.ressources?.filter(
           )}
           {ressources && ressources.length > 0 && (
             <ul class="gains-ressources">
-              {ressources
-                .filter((ress) => !(ress.stock && ress.stockIndividuel))
-                .map((ress) => (
-                  <li>
+              {groupes.map((groupe) => (
+                <li class="groupe-ressource">
+                  {groupe.map((ress) => (
+                    <span class="gain-ressource">
                     {"prerequis" in ress && ress.prerequis && (
                       <>
                         <div class="inline-prerequis">
@@ -127,31 +141,60 @@ const ressources = gains?.ressources?.filter(
                       </>
                     )}
                     {"parCycle" in ress && <span>/ cycle</span>}
-                  </li>
-                ))}
+                    </span>
+                  ))}
+                </li>
+              ))}
             </ul>
           )}
           {gains.autres && gains.autres.length > 0 && (
             <ul class="autres">
-              {gains.autres.map((autre) => (
+              {gains.autres.map((autre, autreIndex) => (
                 <li>
                   {typeof autre === "string" ? (
                     <DynamicString value={autre} />
                   ) : (
                     <>
-                      (
-                      {autre.resources.map(({ id, value }, index) => (
+                      {id ? (
+                        <fieldset
+                          class="gain-or"
+                          data-or-carte={id}
+                          data-or-index={autreIndex}
+                        >
+                          {autre.resources.map(({ id: idRessource, value }, index) => (
+                            <label class="gain-or-option">
+                              <input
+                                type="radio"
+                                data-or-ressource={idRessource}
+                                checked={index === 0}
+                              />
+                              {value > 0 ? "+" : ""}
+                              {value}{" "}
+                              <Ressource
+                                id={idRessource}
+                                plural={Math.abs(value) > 1 || undefined}
+                              />
+                            </label>
+                          ))}
+                        </fieldset>
+                      ) : (
                         <>
-                          {index > 0 && " ou "}
-                          {value > 0 ? "+" : ""}
-                          {value}{" "}
-                          <Ressource
-                            {id}
-                            plural={Math.abs(value) > 1 || undefined}
-                          />
+                          (
+                          {autre.resources.map(({ id: idRessource, value }, index) => (
+                            <>
+                              {index > 0 && " ou "}
+                              {value > 0 ? "+" : ""}
+                              {value}{" "}
+                              <Ressource
+                                id={idRessource}
+                                plural={Math.abs(value) > 1 || undefined}
+                              />
+                            </>
+                          ))}
+                          )
                         </>
-                      ))}
-                      ) {autre.parCycle && <span>/ cycle</span>}
+                      )}
+                      {autre.parCycle && <span>/ cycle</span>}
                     </>
                   )}
                 </li>
@@ -194,12 +237,40 @@ const ressources = gains?.ressources?.filter(
         gap: 0 2px;
         flex-wrap: wrap;
         line-height: 1em;
+        .gain-ressource {
+          display: inline-flex;
+          align-items: center;
+          gap: 0 2px;
+          flex-wrap: wrap;
+        }
+        &.groupe-ressource {
+          gap: 2px 8px;
+        }
         .inline-prerequis {
           display: flex;
           align-items: center;
           gap: 4px;
         }
       }
+    }
+  }
+  .gain-or {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 8px;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  .gain-or-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    input {
+      margin: 0 2px 0 0;
+      cursor: pointer;
     }
   }
 </style>

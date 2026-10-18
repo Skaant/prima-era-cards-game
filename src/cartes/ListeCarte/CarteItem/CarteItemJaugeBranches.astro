@@ -1,0 +1,64 @@
+---
+import type { Carte } from "../../_types/Carte";
+import SvgBranches from "../../../ressources/svg/SvgBranches.astro";
+
+interface Props {
+  gains: Carte["gains"];
+}
+
+const { gains } = Astro.props;
+
+// Stock max de branches déclaré par la carte (somme des gains `branches` de type `stock`).
+const max = (gains?.ressources ?? [])
+  .filter((ress) => ress.id === "branches" && ress.stock)
+  .reduce((total, ress) => total + ress.value, 0);
+---
+
+{
+  max > 0 && (
+    <div class="jauge-branches-bloc">
+      <div class="jauge-branches-label">
+        <span class="jauge-branches-x">0</span>
+        <SvgBranches size="1.6em" fill="currentColor" />/ {max}
+      </div>
+      <div class="jauge-branches">
+        {Array.from({ length: max }).map(() => (
+          <span class="jauge-branches-segment" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .jauge-branches-bloc {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .jauge-branches-label {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.7em;
+    opacity: 0.8;
+  }
+  .jauge-branches-label svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+  }
+  .jauge-branches {
+    display: flex;
+    gap: 2px;
+  }
+  .jauge-branches-segment {
+    flex: 1;
+    height: 6px;
+    background: #ccc;
+    border-radius: 1px;
+  }
+  .jauge-branches-segment-remplie {
+    background: #000;
+  }
+</style>

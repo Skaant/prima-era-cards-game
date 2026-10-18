@@ -1,6 +1,11 @@
 import type { Carte } from "../cartes/_types/Carte";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
-import type { EtatJeu, Exemplaire } from "./etat";
+import {
+  type EtatJeu,
+  type Exemplaire,
+  type IdRessourceGlobale,
+  zumsMobilises,
+} from "./etat";
 import { recalculerProduction } from "./production";
 import { estRessourceGlobale } from "./ressources";
 
@@ -13,9 +18,18 @@ function coutsSimples(carte: Carte) {
   );
 }
 
+/**
+ * Stock de la ressource réellement payable : pour les zums, le stock global inclut les zums
+ * déjà associés à un exemplaire (voir `zum.md`), qui ne sont pas disponibles pour un coût.
+ */
+function stockDisponible(etat: EtatJeu, id: IdRessourceGlobale) {
+  const stock = etat.ressources[id].stock;
+  return id === "zums" ? stock - zumsMobilises(etat) : stock;
+}
+
 export function peutJouer(etat: EtatJeu, carte: Carte): boolean {
   return coutsSimples(carte).every(
-    (c) => !estRessourceGlobale(c.id) || etat.ressources[c.id].stock >= c.value,
+    (c) => !estRessourceGlobale(c.id) || stockDisponible(etat, c.id) >= c.value,
   );
 }
 
@@ -32,7 +46,7 @@ function copier(etat: EtatJeu): EtatJeu {
 
 /** Ajoute un exemplaire de la carte au terrain (créant l'entrée au besoin) et le renvoie. */
 function ajouterExemplaire(etat: EtatJeu, id: IdCartes): Exemplaire {
-  const exemplaire = { branches: 0, branchesMax: 0 };
+  const exemplaire = { branches: 0, branchesMax: 0, zumsAssocies: 0 };
   const entree = etat.terrain.find((c) => c.id === id);
   if (entree) entree.exemplaires.push(exemplaire);
   else etat.terrain.push({ id, exemplaires: [exemplaire] });
@@ -63,17 +77,10 @@ function appliquerGains(etat: EtatJeu, carte: Carte, exemplaire: Exemplaire | un
   }
 }
 
-/** Pose une carte directement sur le terrain, sans la payer, et récolte ses gains. */
-export function poserSurTerrain(etat: EtatJeu, id: IdCartes, cartes: Cartes): EtatJeu {
-  const suivant = copier(etat);
-  appliquerGains(suivant, cartes[id], ajouterExemplaire(suivant, id));
-  return recalculerProduction(suivant, cartes);
-}
-
 /**
- * Joue la carte d'index `index` de la main : coûts payés, gains récoltés.
- * Les cartes Action vont à la défausse ; sinon le premier exemplaire reste sur le terrain
- * et les suivants ajoutent un exemplaire avant d'aller à la défausse.
+ * Joue la carte d'index `index` de la main : coûts payés, gains récoltés, un exemplaire
+ * ajouté au terrain. La carte jouée va ensuite à la défausse, sauf si elle est `unique`
+ * (elle disparaît alors : pas de défausse, et donc ne peut plus être rejouée ni repiochée).
  * Sans effet si l'index est invalide ou si les coûts ne sont pas payables.
  */
 export function jouer(etat: EtatJeu, index: number, cartes: Cartes): EtatJeu {
@@ -84,18 +91,23 @@ export function jouer(etat: EtatJeu, index: number, cartes: Cartes): EtatJeu {
 
   const suivant = copier(etat);
   suivant.main = etat.main.filter((_, i) => i !== index);
+  // Un coût en zums d'une carte de type "zum" ne quitte pas le stock global (il continue de
+  // le compter en production) : il est seulement associé à l'exemplaire joué, ce qui le rend
+  // indisponible pour payer un autre coût (voir `zum.md`, `zumsMobilises`).
+  let zumsAssocies = 0;
   for (const cout of coutsSimples(carte)) {
-    if (estRessourceGlobale(cout.id)) suivant.ressources[cout.id].stock -= cout.value;
+    if (!estRessourceGlobale(cout.id)) continue;
+    if (carte.type === "zum" && cout.id === "zums") {
+      zumsAssocies += cout.value;
+      continue;
+    }
+    suivant.ressources[cout.id].stock -= cout.value;
   }
 
-  if (carte.type === "action") {
-    suivant.defausse = [...etat.defausse, id];
-    appliquerGains(suivant, carte, undefined);
-  } else {
-    // Le premier exemplaire reste sur le terrain ; les suivants s'y ajoutent
-    // avant que la carte jouée n'aille à la défausse.
-    if (suivant.terrain.some((c) => c.id === id)) suivant.defausse = [...etat.defausse, id];
-    appliquerGains(suivant, carte, ajouterExemplaire(suivant, id));
-  }
+  if (!carte.unique) suivant.defausse = [...etat.defausse, id];
+  const exemplaire = ajouterExemplaire(suivant, id);
+  exemplaire.zumsAssocies += zumsAssocies;
+  appliquerGains(suivant, carte, exemplaire);
+
   return recalculerProduction(suivant, cartes);
 }

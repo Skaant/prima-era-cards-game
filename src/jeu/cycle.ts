@@ -1,20 +1,15 @@
 import type { Carte } from "../cartes/_types/Carte";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
-import { TAILLE_MAIN, type EtatJeu } from "./etat";
+import type { EtatJeu } from "./etat";
 import { piocherAvecRecyclage } from "./piocher";
 import { recalculerProduction } from "./production";
 import { arrondir, RESSOURCES_GLOBALES } from "./ressources";
 
-/** Phase de pioche : remplit la main jusqu'à `TAILLE_MAIN` cartes (avec recyclage de la défausse). */
+/** Phase de pioche : pioche `cartesParTour` cartes (avec recyclage de la défausse). */
 export function phasePioche(etat: EtatJeu): EtatJeu {
   return {
     ...etat,
-    ...piocherAvecRecyclage(
-      etat.pioche,
-      etat.defausse,
-      etat.main,
-      TAILLE_MAIN - etat.main.length,
-    ),
+    ...piocherAvecRecyclage(etat.pioche, etat.defausse, etat.main, etat.cartesParTour),
   };
 }
 
@@ -43,5 +38,8 @@ export function phaseProduction(etat: EtatJeu, cartes: Record<IdCartes, Carte>):
 /** Termine le cycle en cours (production) puis en démarre un nouveau (pioche). */
 export function nouveauCycle(etat: EtatJeu, cartes: Record<IdCartes, Carte>): EtatJeu {
   const produit = phaseProduction(etat, cartes);
-  return recalculerProduction(phasePioche({ ...produit, cycle: etat.cycle + 1 }), cartes);
+  return recalculerProduction(
+    phasePioche({ ...produit, cycle: etat.cycle + 1, actionsUtilisees: {}, piochesPayantes: 0 }),
+    cartes,
+  );
 }

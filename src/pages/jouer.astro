@@ -1,8 +1,12 @@
 ---
+import Navbar from "../layout/Navbar.astro";
 import Layout from "../layout/Layout.astro";
 import Jeu from "../jeu/Jeu";
 import CarteItem from "../cartes/ListeCarte/CarteItem/CarteItem.astro";
 import SvgBranches from "../ressources/svg/SvgBranches.astro";
+import SvgEnergie from "../ressources/svg/SvgEnergie.astro";
+import SvgData from "../ressources/svg/SvgData.astro";
+import SvgCarte from "../cartes/svg/SvgCarte.astro";
 import { BASE_PAQUET } from "../cartes/paquets/base/base.paquet";
 import { TOUTES_CARTES } from "../cartes/paquets/toutes.cartes";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
@@ -12,10 +16,22 @@ import type { IdCartes } from "../cartes/paquets/IdCartes";
 const ids = Object.keys(BASE_PAQUET.cartes) as IdCartes[];
 ---
 
-<Layout title="Jouer" currentPage="jouer" compactNavbar={true}>
+<Layout title="Jouer" disabledNavbar>
   <div hidden>
+    <template data-modele-navbar>
+      <Navbar currentPage="jouer" compact={true} boutonMenuJeu={true} />
+    </template>
     <template data-modele-jeton-branche>
       <SvgBranches size="100%" fill="#062451" />
+    </template>
+    <template data-modele-chip-energie>
+      <SvgEnergie size="100%" fill="#062451" />
+    </template>
+    <template data-modele-icone-data>
+      <SvgData size="100%" fill="#062451" />
+    </template>
+    <template data-modele-icone-cartes-par-tour>
+      <SvgCarte size="100%" fill="#fff" />
     </template>
     {
       ids.map((id) => (

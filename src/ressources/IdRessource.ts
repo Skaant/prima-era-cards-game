@@ -3,6 +3,7 @@ export type IdRessource =
   | "jing"
   | "waild"
   | "zums"
+  | "cartes-par-tour"
   | "enfants"
   | "data"
   | "aibs"
