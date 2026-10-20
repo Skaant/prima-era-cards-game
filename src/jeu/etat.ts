@@ -1,15 +1,20 @@
 import { BASE_PAQUET } from "../cartes/paquets/base/base.paquet";
 import type { Paquet } from "../cartes/paquets/Paquet";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
+import type { IdCartesBase } from "../cartes/paquets/base/IdCartesBase";
 import type { IdRessource } from "../ressources/IdRessource";
+import type { IdTribu } from "../tribus/IdTribu";
 import type { Carte } from "../cartes/_types/Carte";
 import { TOUTES_CARTES } from "../cartes/paquets/toutes.cartes";
+import type { IdPaquetEvolution } from "../évolutions/évolutions.data";
 import { nouveauCycle } from "./cycle";
 import { jouer } from "./jouer";
 import { utiliserAction, utiliserActionGroupe } from "./actions";
 import { choisirRessourceOr, choisirRessourceOrGroupe } from "./production";
 import { creerPioche, piocherAvecRecyclage } from "./piocher";
 import { RESSOURCES_GLOBALES, stockMaxInitial } from "./ressources";
+import { type RefGain, type TableListenersGlobaux, tableListenersVide } from "./prerequis";
+import { type EtatEvolution, creerEtatsEvolutions, revelerEvolution, choisirCarteEvolution } from "./evolutions";
 
 export { RESSOURCES_GLOBALES };
 
@@ -27,6 +32,8 @@ export type RessourceGlobale = {
 
 /** Un exemplaire d'une carte du Terrain, avec son propre stock de branches (jetons Branche). */
 export type Exemplaire = {
+  /** Identifiant unique et stable de l'exemplaire (sert de clé aux listeners de prérequis). */
+  id: string;
   branches: number;
   branchesMax: number;
   /** Nombre de Zum associés à cet exemplaire (payés par une carte de type `zum`, voir `zum.md`). */
@@ -36,6 +43,8 @@ export type Exemplaire = {
    * `gains.autres`. Absent tant que la carte n'a pas de gain `"or"` (voir `choisirRessourceOr`).
    */
   choixOr?: Record<number, IdRessource>;
+  /** Listeners de prérequis sur une ressource individuelle de cet exemplaire (voir `prerequis.ts`). */
+  listeners?: Partial<Record<IdRessource, RefGain[]>>;
 };
 
 export type CarteTerrain = {
@@ -53,6 +62,22 @@ export type EtatJeu = {
   /** Numéro du cycle en cours (à partir de 1). */
   cycle: number;
   ressources: Record<IdRessourceGlobale, RessourceGlobale>;
+  /**
+   * Contribution par cycle actuellement activée par les listeners de prérequis (voir
+   * `prerequis.ts`), par ressource globale — ajoutée à la production de base recalculée dans
+   * `recalculerProduction`, jamais écrasée par elle (contrairement à `ressources[id].parCycle`).
+   */
+  parCycleConditionnel: Partial<Record<IdRessourceGlobale, number>>;
+  /** Affinité accumulée par tribu (voir `prerequis.ts`, `évolutions.data.ts`) ; stock entretenu par toggle. */
+  affinitesTribus: Partial<Record<IdTribu, RessourceGlobale>>;
+  /** État de chaque paquet d'évolution (pile restante, cartes achetées, révélation en cours). */
+  evolutions: Record<IdPaquetEvolution, EtatEvolution>;
+  /** Listeners de prérequis sur une ressource globale ou une tribu (voir `prerequis.ts`). */
+  listeners: TableListenersGlobaux;
+  /** Dernier résultat booléen connu de chaque prérequis de gain, par clé de `idGain()`. */
+  prerequisActifs: Record<string, boolean>;
+  /** Compteur pour générer l'id unique du prochain exemplaire posé. */
+  prochainExemplaireId: number;
   /** Nombre de cartes piochées par tour, produit par les cartes du Terrain (Vaisseau-graine). */
   cartesParTour: number;
   /** Utilisations des actions de cartes ce cycle, par clé `${idCarte}:${actionIndex}`. */
@@ -88,7 +113,9 @@ export type ActionJeu =
       autreIndex: number;
       ressourceId: IdRessource;
     }
-  | { type: "nouveau-cycle" };
+  | { type: "nouveau-cycle" }
+  | { type: "evolution-reveler"; paquet: IdPaquetEvolution }
+  | { type: "evolution-choisir"; paquet: IdPaquetEvolution; choix: number | null };
 
 /** Cartes données en main au début de la partie (hors pioche). */
 export const CARTES_DE_DEPART: IdCartes[] = ["vaisseau-graine"];
@@ -127,11 +154,16 @@ function avecData(etat: EtatJeu, delta: number): EtatJeu["ressources"] {
   };
 }
 
-export function etatInitial(paquet: Paquet<IdCartes> = BASE_PAQUET): EtatJeu {
-  const cartesPiochables = { ...paquet.cartes };
+export function etatInitial(paquet: Paquet<IdCartesBase> = BASE_PAQUET): EtatJeu {
+  // Passe par le type `Paquet` (= `Paquet<string>`) comme pont : un `Paquet<IdCartesBase>` s'y
+  // assigne (moins de clés qu'une signature d'index), qui s'assigne à son tour à `Paquet<IdCartes>`
+  // (signature d'index couvrant toutes les clés), ce qu'un assignement direct ne permet pas.
+  const paquetLarge: Paquet = paquet;
+  const cartesPiochables = { ...paquetLarge.cartes };
   for (const id of CARTES_DE_DEPART) delete cartesPiochables[id];
+  const paquetAPiocher: Paquet = { ...paquetLarge, cartes: cartesPiochables };
   return {
-    pioche: creerPioche({ ...paquet, cartes: cartesPiochables }),
+    pioche: creerPioche(paquetAPiocher),
     main: [...CARTES_DE_DEPART],
     defausse: [],
     terrain: [],
@@ -145,6 +177,12 @@ export function etatInitial(paquet: Paquet<IdCartes> = BASE_PAQUET): EtatJeu {
         { stock: 0, parCycle: 0, stockMax: stockMaxInitial(id) },
       ]),
     ) as EtatJeu["ressources"],
+    parCycleConditionnel: {},
+    affinitesTribus: {},
+    evolutions: creerEtatsEvolutions(),
+    listeners: tableListenersVide(),
+    prerequisActifs: {},
+    prochainExemplaireId: 0,
   };
 }
 
@@ -204,5 +242,9 @@ export function reducteur(etat: EtatJeu, action: ActionJeu): EtatJeu {
       );
     case "nouveau-cycle":
       return nouveauCycle(etat, cartes);
+    case "evolution-reveler":
+      return revelerEvolution(etat, action.paquet, cartes);
+    case "evolution-choisir":
+      return choisirCarteEvolution(etat, action.paquet, action.choix);
   }
 }

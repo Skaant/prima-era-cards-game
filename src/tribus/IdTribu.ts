@@ -1,5 +1,5 @@
 export type IdTribu =
-  | "kolokolo"
+  | "kolos"
   | "novina"
   | "permak"
   | "washtu"

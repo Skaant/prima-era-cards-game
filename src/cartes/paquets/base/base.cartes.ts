@@ -37,6 +37,17 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
           },
         },
       ],
+      tribus: [
+        {
+          id: "kolos",
+          value: 2,
+          prerequis: {
+            ressources: {
+              branches: { min: 3 },
+            },
+          },
+        },
+      ],
     },
   },
   decouvreureuse: {

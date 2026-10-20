@@ -3,13 +3,13 @@ import ListeCartesItem from "../../../cartes/ListeCarte/CarteItem/ListeCartesIte
 import Layout from "../../../layout/Layout.astro";
 import Ressource from "../../../ressources/Ressource.astro";
 import Tribu from "../../../tribus/Tribu.astro";
-import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
+import { KOLOS_PAQUET } from "../../../tribus/kolos/paquet";
 ---
 
-<Layout title="La tribu Kolokolo">
+<Layout title="La tribu Kolos">
   <div class="section">
     <p><a href="/les-tribus" class="small">Retour aux tribus</a></p>
-    <h1>Tribu <Tribu id="kolokolo" /></h1>
+    <h1>Tribu <Tribu id="kolos" /></h1>
     <div class="col-right">
       <div>
         <blockquote>Vivre au milieu du waïld</blockquote>
@@ -25,7 +25,7 @@ import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
           >.
         </p>
         <p>
-          Les <Tribu id="kolokolo" plural={true} /> sont les protecteurs des établissements
+          Les <Tribu id="kolos" plural={true} /> sont les protecteurs des établissements
           <Ressource id="zums" plural={true} /> dans un <Ressource id="waild" /> chaotique.
           Leur connexion à la nature s'exprime dans leur <b
             >habileté à négocier avec l'environnement</b
@@ -73,7 +73,7 @@ import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
     <p>
       Pour atteindre l'<b>objectif de <Ressource id="waild" /> élevé</b>, en
       plus de la difficulté d'accumuler la quantité requise, il faut aussi
-      pouvoir y <b>resister</b>. Les <Tribu id="kolokolo" plural={true} />
+      pouvoir y <b>resister</b>. Les <Tribu id="kolos" plural={true} />
       sont très bien adaptés grâce à la <b
         >protection <Ressource id="waild" /></b
       >, qui réduit d'une part le niveau minimal de <Ressource id="waild" /> requis
@@ -96,7 +96,7 @@ import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
     <h3>Aider les <Ressource id="zums" plural={true} /> à croître</h3>
     <div><blockquote>Support de toutes les autres tribus</blockquote></div>
     <p>
-      Les <Tribu id="kolokolo" plural={true} /> sont le pilier du <b
+      Les <Tribu id="kolos" plural={true} /> sont le pilier du <b
         >développement des populations <Ressource id="zums" plural={true} /></b
       >, capables de subvenir à leurs besoins primaires : <Ressource
         id="eau"
@@ -109,7 +109,7 @@ import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
       Également, ils fournissent des environnements confortables, propices à la
       <b>génération d'<Ressource id="enfants" plural={true} /></b> qui deviendront,
       au bout de plusieurs cycles, des <Ressource id="zums" plural={true} />.
-      Grâce aux <Tribu id="kolokolo" plural={true} />, tous bénéficient d'amples
+      Grâce aux <Tribu id="kolos" plural={true} />, tous bénéficient d'amples
       espaces pour vivre et se reposer.
     </p>
     <h3>Favoriser la vie au sein de la colonie</h3>
@@ -124,7 +124,7 @@ import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
       > et de <b>les conserver le plus longtemps possible</b> au cours de la continuité
       écologique, tirant le meilleur parti de leurs apports. Mais ce n'est pas le
       seul talent de la tribu
-      <Tribu id="kolokolo" /> pour amplifier la vie.
+      <Tribu id="kolos" /> pour amplifier la vie.
     </p>
     <p>
       L'usage de <Ressource id="bourgeons-totipotents" plural={true} /> réduit le
@@ -135,7 +135,7 @@ import { KOLOKOLO_PAQUET } from "../../../tribus/kolokolo/paquet";
   </div>
   <div class="section">
     <h2>Cartes</h2>
-    <p><a href="/les-tribus/kolokolo/cartes">Version impression</a></p>
-    <ListeCartesItem paquet={KOLOKOLO_PAQUET} />
+    <p><a href="/les-tribus/kolos/cartes">Version impression</a></p>
+    <ListeCartesItem paquet={KOLOS_PAQUET} />
   </div>
 </Layout>

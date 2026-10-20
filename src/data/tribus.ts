@@ -9,7 +9,7 @@ export type TribuData = {
 export const TRIBUS: {
   [key in IdTribu]: TribuData;
 } = {
-  kolokolo: { name: "kolokolo", color: "turquoize" },
+  kolos: { name: "kolos", color: "turquoize" },
   novina: { name: "novina", color: "light-blue" },
   permak: { name: "permak", color: "light-green" },
   washtu: { name: "washtu", color: "turquoize" },

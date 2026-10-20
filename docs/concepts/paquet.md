@@ -25,4 +25,4 @@ Le type `Paquet` (`src/cartes/paquets/Paquet.ts`) :
 
 ## Divergence connue
 
-Un second type `Paquet` existe dans `src/cartes/_types/Paquet.ts` : une liste `{ id, quantite }[]`. Il est utilisé par le paquet des Kolokolo (`KOLOKOLO_PAQUET`, `src/tribus/kolokolo/paquet.ts`) et par `ListeCartesItem.astro`. Il n'est pas lié à `IdPaquets`, `TOUS_PAQUETS` ni au jeu.
+Un second type `Paquet` existe dans `src/cartes/_types/Paquet.ts` : une liste `{ id, quantite }[]`. Il est utilisé par le paquet des Kolos (`KOLOS_PAQUET`, `src/tribus/kolos/paquet.ts`) et par `ListeCartesItem.astro`. Il n'est pas lié à `IdPaquets`, `TOUS_PAQUETS` ni au jeu.

@@ -14,8 +14,9 @@ import {
   RESSOURCES_GLOBALES,
   zumsMobilises,
 } from "./etat";
-import { htmlCarte } from "./htmlModeles";
+import { htmlCarte, htmlIconeData } from "./htmlModeles";
 import ExemplairesCarte from "./ExemplairesCarte";
+import EvolutionsDialog from "./EvolutionsDialog";
 import "./jeu.css";
 
 /** HTML de l'icône cartes par tour, rendu côté Astro (SvgCarte) dans un <template> de la page. */
@@ -23,15 +24,6 @@ function htmlIconeCartesParTour() {
   return (
     document.querySelector<HTMLTemplateElement>(
       "template[data-modele-icone-cartes-par-tour]",
-    )?.innerHTML ?? ""
-  );
-}
-
-/** HTML de l'icône data, rendu côté Astro (SvgData) dans un <template> de la page. */
-function htmlIconeData() {
-  return (
-    document.querySelector<HTMLTemplateElement>(
-      "template[data-modele-icone-data]",
     )?.innerHTML ?? ""
   );
 }
@@ -47,6 +39,8 @@ function htmlNavbar() {
 export default function Jeu() {
   const [navVisible, setNavVisible] = useState(false);
   const [mainVisible, setMainVisible] = useState(true);
+  /** Dialogue plein écran de l'arbre d'évolutions, affiché à la place du Terrain et de la Main. */
+  const [evolutionsVisible, setEvolutionsVisible] = useState(false);
   const [etat, dispatch] = useReducer(reducteur, undefined, () =>
     etatInitial(),
   );
@@ -222,6 +216,10 @@ export default function Jeu() {
         </div>
       )}
 
+      {evolutionsVisible ? (
+        <EvolutionsDialog etat={etat} dispatch={dispatch} />
+      ) : (
+        <>
       <ul
         class="jeu-terrain"
         aria-label="Terrain"
@@ -360,6 +358,8 @@ export default function Jeu() {
           ))}
         </ul>
       )}
+        </>
+      )}
 
       {dialog ? (
         <div class="jeu-bas" role="dialog">
@@ -436,6 +436,14 @@ export default function Jeu() {
           </div>
 
           <div class="jeu-bas-groupe">
+            <button
+              class="jeu-evolutions"
+              aria-pressed={evolutionsVisible}
+              onClick={() => setEvolutionsVisible(!evolutionsVisible)}
+            >
+              Évolutions
+            </button>
+            <span class="jeu-separateur" aria-hidden="true" />
             <span>Cycle {etat.cycle}</span>
             <button
               class="jeu-cycle"

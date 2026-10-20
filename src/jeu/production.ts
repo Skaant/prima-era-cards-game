@@ -15,18 +15,10 @@ export function recalculerProduction(etat: EtatJeu, cartes: Cartes): EtatJeu {
 
   for (const { id, exemplaires } of etat.terrain) {
     for (const exemplaire of exemplaires) {
-      const { branches } = exemplaire;
       for (const gain of cartes[id].gains?.ressources ?? []) {
-        if (!gain.parCycle || gain.parRessource) continue;
-        // Seul le prérequis sur les branches de l'exemplaire est évalué.
-        const { min, max, eq } = gain.prerequis?.ressources?.branches ?? {};
-        if (
-          (min !== undefined && branches < min) ||
-          (max !== undefined && branches > max) ||
-          (eq !== undefined && branches !== eq)
-        ) {
-          continue;
-        }
+        // Les gains portant un `prerequis` sont exclusivement pilotés par les listeners de
+        // `prerequis.ts` (voir `parCycleConditionnel`, additionné plus bas) : jamais recalculés ici.
+        if (!gain.parCycle || gain.parRessource || gain.prerequis) continue;
         if (gain.id === "cartes-par-tour") cartesParTour += gain.value;
         else if (estRessourceGlobale(gain.id)) production[gain.id] += gain.value;
       }
@@ -52,7 +44,10 @@ export function recalculerProduction(etat: EtatJeu, cartes: Cartes): EtatJeu {
     ressources: Object.fromEntries(
       RESSOURCES_GLOBALES.map((id) => [
         id,
-        { ...etat.ressources[id], parCycle: arrondir(production[id]) },
+        {
+          ...etat.ressources[id],
+          parCycle: arrondir(production[id] + (etat.parCycleConditionnel[id] ?? 0)),
+        },
       ]),
     ) as EtatJeu["ressources"],
   };

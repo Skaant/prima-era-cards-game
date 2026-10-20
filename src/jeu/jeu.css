@@ -312,3 +312,122 @@ button.jeu-paquet {
   outline: 3px solid #062451;
   outline-offset: 2px;
 }
+
+.jeu-separateur {
+  display: inline-block;
+  width: 1px;
+  height: 1.5rem;
+  background: #fff;
+  opacity: 0.4;
+}
+.jeu-evolutions {
+  padding: 0.4rem 1rem;
+  font: inherit;
+  color: #fff;
+  background: none;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.jeu-evolutions[aria-pressed="true"] {
+  background: #fff;
+  color: #000;
+}
+
+/* Arbre de déblocage des paquets d'évolution (voir `EvolutionsDialog.tsx`), en colonnes
+   horizontales : le haut de chaque colonne forme la première ligne (Base, évolution-base-1,
+   évolution-base-2, évolution-base-3), les paquets de tribu enfants suivent dans leur colonne. */
+.evolutions-dialog {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  overflow: auto;
+}
+.evolutions-colonne {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.evolutions-enfants {
+  display: flex;
+  gap: 1rem;
+}
+.evolutions-noeud {
+  width: 194px;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  font: inherit;
+  text-align: center;
+  background: #fefbe7;
+  border: 1px solid #062451;
+  border-radius: 2px;
+}
+.evolutions-nom {
+  margin: 0 0 0.5rem;
+  font-weight: bold;
+}
+.evolutions-racine {
+  opacity: 0.8;
+}
+.evolutions-verrouille {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+button.evolutions-debloquee {
+  cursor: pointer;
+}
+button.evolutions-debloquee:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.evolutions-cout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.1em;
+}
+.evolutions-conditions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.evolutions-condition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.8em;
+}
+.evolutions-cercle-fond {
+  fill: none;
+  stroke: #062451;
+  opacity: 0.25;
+  stroke-width: 4;
+}
+.evolutions-cercle-progression {
+  fill: none;
+  stroke: #000;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.evolutions-cartes-revelees {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.evolutions-aucune {
+  padding: 0.3rem 0.8rem;
+  font: inherit;
+  color: #062451;
+  background: #fff;
+  border: 1px solid #062451;
+  border-radius: 2px;
+  cursor: pointer;
+}

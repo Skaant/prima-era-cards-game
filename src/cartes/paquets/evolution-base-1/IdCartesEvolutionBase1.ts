@@ -1,0 +1,16 @@
+export type IdCartesEvolutionBase1 =
+  | "doucheureuse"
+  | "chiandit"
+  | "arroser"
+  | "humidifieureuse"
+  | "roinx"
+  | "desicateureuse"
+  | "trappeureuse"
+  | "meditation"
+  | "emolianx"
+  | "bibliotheque"
+  | "sapienx"
+  | "sentienx"
+  | "empreinte de l'eau"
+  | "globo-dom"
+  | "fête";

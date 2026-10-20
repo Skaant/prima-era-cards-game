@@ -7,13 +7,14 @@ import SvgBranches from "../ressources/svg/SvgBranches.astro";
 import SvgEnergie from "../ressources/svg/SvgEnergie.astro";
 import SvgData from "../ressources/svg/SvgData.astro";
 import SvgCarte from "../cartes/svg/SvgCarte.astro";
-import { BASE_PAQUET } from "../cartes/paquets/base/base.paquet";
 import { TOUTES_CARTES } from "../cartes/paquets/toutes.cartes";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
 
 // Les composants Astro ne peuvent pas être utilisés dans un îlot : chaque carte
-// du paquet est rendue ici en HTML, l'îlot clone le modèle correspondant.
-const ids = Object.keys(BASE_PAQUET.cartes) as IdCartes[];
+// de tous les paquets (base + évolutions) est rendue ici en HTML, l'îlot clone le modèle
+// correspondant (voir `htmlCarte`, utilisé aussi bien pour la main que pour la révélation
+// d'évolutions).
+const ids = Object.keys(TOUTES_CARTES) as IdCartes[];
 ---
 
 <Layout title="Jouer" disabledNavbar>

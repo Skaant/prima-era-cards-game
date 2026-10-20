@@ -8,6 +8,15 @@ export function htmlCarte(id: IdCartes) {
   return modele?.innerHTML ?? id;
 }
 
+/** HTML de l'icône data, rendu côté Astro (SvgData) dans un <template> de la page. */
+export function htmlIconeData() {
+  return (
+    document.querySelector<HTMLTemplateElement>(
+      "template[data-modele-icone-data]",
+    )?.innerHTML ?? ""
+  );
+}
+
 /** HTML du symbole branches, rendu côté Astro (SvgBranches) dans un <template> de la page. */
 export function htmlJetonBranche() {
   return (

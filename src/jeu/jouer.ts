@@ -8,6 +8,8 @@ import {
 } from "./etat";
 import { recalculerProduction } from "./production";
 import { estRessourceGlobale } from "./ressources";
+import { copierEtat } from "./copier";
+import { ajusterValeurExemplaire, enregistrerListeners } from "./prerequis";
 
 type Cartes = Record<IdCartes, Carte>;
 
@@ -33,33 +35,34 @@ export function peutJouer(etat: EtatJeu, carte: Carte): boolean {
   );
 }
 
-/** Copie profonde des parties de l'état modifiées par une carte. */
-function copier(etat: EtatJeu): EtatJeu {
-  return {
-    ...etat,
-    ressources: Object.fromEntries(
-      Object.entries(etat.ressources).map(([id, r]) => [id, { ...r }]),
-    ) as EtatJeu["ressources"],
-    terrain: etat.terrain.map((c) => ({ ...c, exemplaires: c.exemplaires.map((e) => ({ ...e })) })),
-  };
-}
-
 /** Ajoute un exemplaire de la carte au terrain (créant l'entrée au besoin) et le renvoie. */
-function ajouterExemplaire(etat: EtatJeu, id: IdCartes): Exemplaire {
-  const exemplaire = { branches: 0, branchesMax: 0, zumsAssocies: 0 };
+function ajouterExemplaire(etat: EtatJeu, id: IdCartes, carte: Carte): Exemplaire {
+  const exemplaire: Exemplaire = {
+    id: String(etat.prochainExemplaireId++),
+    branches: 0,
+    branchesMax: 0,
+    zumsAssocies: 0,
+  };
   const entree = etat.terrain.find((c) => c.id === id);
   if (entree) entree.exemplaires.push(exemplaire);
   else etat.terrain.push({ id, exemplaires: [exemplaire] });
+  enregistrerListeners(etat, id, exemplaire, carte);
   return exemplaire;
 }
 
 /**
  * Applique les gains immédiats de la carte. Les gains `stock: true` augmentent le stock max
- * (global, ou celui des branches de l'exemplaire joué) et sont appliqués avant les autres.
- * Ignorés : gains par cycle (voir `production.ts`), conditionnels, proportionnels, `autres`.
- * `etat` est modifié en place.
+ * (global, ou celui des branches de l'exemplaire joué) et sont appliqués avant les autres. Les
+ * gains portant un `prerequis` ne sont jamais appliqués ici : ils sont entièrement pilotés par
+ * les listeners de `prerequis.ts`. Ignorés aussi : gains par cycle (voir `production.ts`),
+ * proportionnels, `autres`. `etat` est modifié en place.
  */
-function appliquerGains(etat: EtatJeu, carte: Carte, exemplaire: Exemplaire | undefined) {
+function appliquerGains(
+  etat: EtatJeu,
+  carte: Carte,
+  exemplaire: Exemplaire | undefined,
+  cartes: Cartes,
+) {
   const gains = (carte.gains?.ressources ?? []).filter(
     (g) => !g.parCycle && !g.prerequis && !g.parRessource && !g.stockIndividuel,
   );
@@ -72,7 +75,7 @@ function appliquerGains(etat: EtatJeu, carte: Carte, exemplaire: Exemplaire | un
       const r = etat.ressources[gain.id];
       r.stock = Math.min(r.stock + gain.value, r.stockMax);
     } else if (gain.id === "branches" && exemplaire) {
-      exemplaire.branches = Math.min(exemplaire.branches + gain.value, exemplaire.branchesMax);
+      ajusterValeurExemplaire(etat, exemplaire, "branches", gain.value, cartes);
     }
   }
 }
@@ -89,7 +92,7 @@ export function jouer(etat: EtatJeu, index: number, cartes: Cartes): EtatJeu {
   const carte = cartes[id];
   if (!peutJouer(etat, carte)) return etat;
 
-  const suivant = copier(etat);
+  const suivant = copierEtat(etat);
   suivant.main = etat.main.filter((_, i) => i !== index);
   // Un coût en zums d'une carte de type "zum" ne quitte pas le stock global (il continue de
   // le compter en production) : il est seulement associé à l'exemplaire joué, ce qui le rend
@@ -105,9 +108,9 @@ export function jouer(etat: EtatJeu, index: number, cartes: Cartes): EtatJeu {
   }
 
   if (!carte.unique) suivant.defausse = [...etat.defausse, id];
-  const exemplaire = ajouterExemplaire(suivant, id);
+  const exemplaire = ajouterExemplaire(suivant, id, carte);
   exemplaire.zumsAssocies += zumsAssocies;
-  appliquerGains(suivant, carte, exemplaire);
+  appliquerGains(suivant, carte, exemplaire, cartes);
 
   return recalculerProduction(suivant, cartes);
 }

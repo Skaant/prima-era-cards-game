@@ -4,6 +4,8 @@ import type { EtatJeu } from "./etat";
 import { piocherAvecRecyclage } from "./piocher";
 import { recalculerProduction } from "./production";
 import { arrondir, RESSOURCES_GLOBALES } from "./ressources";
+import { copierEtat } from "./copier";
+import { ajusterValeurExemplaire } from "./prerequis";
 
 /** Phase de pioche : pioche `cartesParTour` cartes (avec recyclage de la défausse). */
 export function phasePioche(etat: EtatJeu): EtatJeu {
@@ -18,13 +20,15 @@ export function phasePioche(etat: EtatJeu): EtatJeu {
  * réinitialisée, puis chaque ressource ajoute sa production par cycle (dans la limite du stock max).
  */
 export function phaseProduction(etat: EtatJeu, cartes: Record<IdCartes, Carte>): EtatJeu {
-  const terrain = etat.terrain.map((c) => ({
-    ...c,
-    exemplaires: c.exemplaires.map((e) =>
-      e.branchesMax > 0 ? { ...e, branches: Math.min(e.branches + 1, e.branchesMax) } : e,
-    ),
-  }));
-  const base = recalculerProduction({ ...etat, terrain }, cartes);
+  const suivant = copierEtat(etat);
+  for (const { exemplaires } of suivant.terrain) {
+    for (const exemplaire of exemplaires) {
+      if (exemplaire.branchesMax > 0 && exemplaire.branches < exemplaire.branchesMax) {
+        ajusterValeurExemplaire(suivant, exemplaire, "branches", 1, cartes);
+      }
+    }
+  }
+  const base = recalculerProduction(suivant, cartes);
   const ressources = Object.fromEntries(
     RESSOURCES_GLOBALES.map((id) => {
       const r = base.ressources[id];

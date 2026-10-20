@@ -9,6 +9,7 @@ export type GainsCarte = {
     value: number;
   },
   tribus?: {
+    prerequis?: PrerequisCarte;
     id: IdTribu;
     value: number;
     parRessource?: ParRessource;

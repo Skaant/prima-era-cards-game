@@ -1,4 +1,4 @@
-export type IdCarteKolokolo =
+export type IdCarteKolos =
   | "petit-dom"
   | "entrepot-stockage"
   | "citerne"
