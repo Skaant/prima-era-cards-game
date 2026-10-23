@@ -5,7 +5,22 @@
   min-height: 0;
 }
 
+/* Zone entre le haut et la bottom bar (Terrain ou Évolutions, et Main) : porte le dialog de choix
+   d'une carte d'évolution, qui la recouvre entièrement. */
+.jeu-centre {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.jeu .carte-item {
+  background: #fff;
+}
+
 .jeu-terrain {
+  /* Contient les z-index des exemplaires (jusqu'à 1000 pour l'actif) sous les dialogues. */
+  isolation: isolate;
   flex: 1;
   min-height: 0;
   list-style: none;
@@ -47,6 +62,10 @@
 }
 button.jeu-paquet {
   cursor: pointer;
+}
+.jeu-paquet[aria-expanded="true"] {
+  background: #fff;
+  color: #000;
 }
 .jeu-paquet span {
   font-size: 1.2em;
@@ -199,10 +218,15 @@ button.jeu-paquet {
   margin-left: auto;
 }
 
+/* Collée en bas de l'écran (juste au-dessus de la bottom bar), à l'inverse du Terrain qui est
+   collé en haut (juste sous la barre du haut, voir `.jeu-terrain`) : contrairement à lui, elle
+   n'a pas de `flex: 1` (c'est le Terrain qui occupe tout l'espace restant dans `.jeu-centre`). */
 .jeu-main {
+  position: relative;
+  z-index: 10;
+  flex: 0 0 auto;
   list-style: none;
   margin: 0;
-  flex: 1;
   min-width: 0;
   padding: 0.75rem 1.5rem;
   display: flex;
@@ -259,7 +283,7 @@ button.jeu-paquet {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.6rem 1.5rem;
-  background: #062451;
+  background: #000;
   color: #fefbe7;
 }
 .jeu-sortir {
@@ -336,14 +360,18 @@ button.jeu-paquet {
 
 /* Arbre de déblocage des paquets d'évolution (voir `EvolutionsDialog.tsx`), en colonnes
    horizontales : le haut de chaque colonne forme la première ligne (Base, évolution-base-1,
-   évolution-base-2, évolution-base-3), les paquets de tribu enfants suivent dans leur colonne. */
+   évolution-base-2, évolution-base-3, reliés par des rectangles horizontaux), les paquets de tribu
+   enfants suivent dans leur colonne, reliés au paquet de base par un rectangle vertical. */
 .evolutions-dialog {
+  --lien: 4px;
+  --ecart-colonnes: 2rem;
+  --ecart-lignes: 1.5rem;
   flex: 1;
   min-height: 0;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 2rem;
+  gap: var(--ecart-colonnes);
   padding: 1.5rem;
   overflow: auto;
 }
@@ -351,21 +379,57 @@ button.jeu-paquet {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--ecart-lignes);
+}
+.evolutions-enfants {
+  position: relative;
+  display: flex;
+  gap: 1rem;
 }
 .evolutions-enfants {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: var(--ecart-lignes);
+}
+.evolutions-base,
+.evolutions-colonne > .evolutions-noeud,
+.evolutions-enfants > .evolutions-noeud {
+  --lien-couleur: #bbb;
+  position: relative;
+}
+.evolutions-lien-actif {
+  --lien-couleur: #000;
+}
+.evolutions-colonne + .evolutions-colonne > .evolutions-base::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: calc(50% - var(--lien) / 2);
+  width: var(--ecart-colonnes);
+  height: var(--lien);
+  background: var(--lien-couleur);
+}
+.evolutions-colonne > .evolutions-noeud::before,
+.evolutions-enfants > .evolutions-noeud::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: calc(50% - var(--lien) / 2);
+  width: var(--lien);
+  height: var(--ecart-lignes);
+  background: var(--lien-couleur);
 }
 .evolutions-noeud {
   width: 194px;
   box-sizing: border-box;
   padding: 0.75rem;
   font: inherit;
+  font-size: 1rem;
   text-align: center;
-  background: #fefbe7;
-  border: 1px solid #062451;
-  border-radius: 2px;
+  background: #fff;
+  color: #000;
+  border: solid 2px #000;
+  border-radius: 5px;
 }
 .evolutions-nom {
   margin: 0 0 0.5rem;
@@ -392,29 +456,59 @@ button.evolutions-debloquee:disabled {
   font-size: 1.1em;
 }
 .evolutions-conditions {
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
 }
 .evolutions-condition {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 0.2rem;
   font-size: 0.8em;
+  text-align: left;
 }
-.evolutions-cercle-fond {
-  fill: none;
-  stroke: #062451;
-  opacity: 0.25;
-  stroke-width: 4;
+/* Même système de jauge que `.jauge-branches` des exemplaires (`CarteItemJaugeBranches.astro`). */
+.evolutions-jauge-bloc {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.evolutions-cercle-progression {
-  fill: none;
-  stroke: #000;
-  stroke-width: 4;
-  stroke-linecap: round;
+.evolutions-jauge-label {
+  font-size: 0.7em;
+  opacity: 0.8;
+}
+.evolutions-jauge {
+  display: flex;
+  gap: 2px;
+}
+.evolutions-jauge-segment {
+  flex: 1;
+  height: 6px;
+  background: #ccc;
+  border-radius: 1px;
+}
+.evolutions-jauge-segment-remplie {
+  background: #000;
+}
+/* Dialog de choix d'une carte d'évolution : recouvre le Terrain/Évolutions et la Main. */
+.evolutions-choix {
+  position: absolute;
+  inset: 0;
+  /* Au-dessus des exemplaires du Terrain (`.jeu-exemplaire`, jusqu'à 100) et de la Main. */
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  overflow: auto;
+  background: #fefbe7;
+}
+.evolutions-carte-zoom {
+  zoom: 2;
 }
 .evolutions-cartes-revelees {
   display: flex;
@@ -429,5 +523,21 @@ button.evolutions-debloquee:disabled {
   background: #fff;
   border: 1px solid #062451;
   border-radius: 2px;
+  cursor: pointer;
+}
+
+/* Dialogue des branches : le current est cliquable, les contrôles de la carte (actions, choix "or",
+   cases) ne le sont pas — le clic atteint alors l'exemplaire, qui reçoit la branche. */
+.branches-dialog .action-bouton,
+.branches-dialog .jeu-action-masquee,
+.branches-dialog input {
+  pointer-events: none;
+}
+.branches-dialog .branches-cartes {
+  flex: 0 1 auto;
+  max-width: 100%;
+  justify-content: center;
+}
+.branches-dialog .jeu-exemplaire-actif {
   cursor: pointer;
 }

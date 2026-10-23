@@ -31,9 +31,7 @@ const couleur: IdColor =
       : carte.gains
         ? carte.gains.tribus
           ? TRIBUS[carte.gains.tribus[0].id].color
-          : carte.gains.ressources
-            ? RESSOURCES[carte.gains.ressources[0].id].color
-            : "muted"
+          : "muted"
         : "muted";
 ---
 

@@ -7,20 +7,28 @@ import type { IdTribu } from "../tribus/IdTribu";
 import type { Carte } from "../cartes/_types/Carte";
 import { TOUTES_CARTES } from "../cartes/paquets/toutes.cartes";
 import type { IdPaquetEvolution } from "../évolutions/évolutions.data";
+import { copierEtat } from "./copier";
 import { nouveauCycle } from "./cycle";
 import { jouer } from "./jouer";
 import { utiliserAction, utiliserActionGroupe } from "./actions";
-import { choisirRessourceOr, choisirRessourceOrGroupe } from "./production";
+import { choisirRessourceOr, choisirRessourceOrGroupe, recalculerProduction } from "./production";
+import { brancher } from "./branches";
 import { creerPioche, piocherAvecRecyclage } from "./piocher";
 import { RESSOURCES_GLOBALES, stockMaxInitial } from "./ressources";
-import { type RefGain, type TableListenersGlobaux, tableListenersVide } from "./prerequis";
+import {
+  ajusterRessourceGlobale,
+  definirEffetOnActif,
+  type RefGain,
+  type TableListenersGlobaux,
+  tableListenersVide,
+} from "./prerequis";
 import { type EtatEvolution, creerEtatsEvolutions, revelerEvolution, choisirCarteEvolution } from "./evolutions";
 
 export { RESSOURCES_GLOBALES };
 
 export type IdRessourceGlobale = Extract<
   IdRessource,
-  "eau" | "jing" | "data" | "zums" | "energie"
+  "eau" | "jing" | "data" | "zums" | "energie" | "waild"
 >;
 
 export type RessourceGlobale = {
@@ -42,9 +50,19 @@ export type Exemplaire = {
    * Ressource choisie pour chaque gain `autres` de type `"or"` de la carte, par index dans
    * `gains.autres`. Absent tant que la carte n'a pas de gain `"or"` (voir `choisirRessourceOr`).
    */
-  choixOr?: Record<number, IdRessource>;
+  choixOr?: Record<string, IdRessource>;
   /** Listeners de prérequis sur une ressource individuelle de cet exemplaire (voir `prerequis.ts`). */
   listeners?: Partial<Record<IdRessource, RefGain[]>>;
+};
+
+/** État d'un gain `on` d'un exemplaire (voir `prerequis.ts`) ; absent = actif, compteur et fois à 0. */
+export type EffetOn = {
+  /** Désactivé par le joueur (gain `on.activable`). */
+  desactive?: true;
+  /** Ressources gagnées depuis le dernier déclenchement, tant que `on.value` n'est pas atteint. */
+  compteur: number;
+  /** Déclenchements ce cycle (pour la limite `on.fois`). */
+  fois: number;
 };
 
 export type CarteTerrain = {
@@ -74,8 +92,12 @@ export type EtatJeu = {
   evolutions: Record<IdPaquetEvolution, EtatEvolution>;
   /** Listeners de prérequis sur une ressource globale ou une tribu (voir `prerequis.ts`). */
   listeners: TableListenersGlobaux;
+  /** Contribution `parCycle` actuellement appliquée de chaque gain proportionnel (`parRessource`), par clé de `idGain()`. */
+  contributionsParRessource: Record<string, number>;
   /** Dernier résultat booléen connu de chaque prérequis de gain, par clé de `idGain()`. */
   prerequisActifs: Record<string, boolean>;
+  /** État des gains `on`, par clé `cleEffetOn()` (exemplaire, type et index du gain). */
+  effetsOn: Record<string, EffetOn>;
   /** Compteur pour générer l'id unique du prochain exemplaire posé. */
   prochainExemplaireId: number;
   /** Nombre de cartes piochées par tour, produit par les cartes du Terrain (Vaisseau-graine). */
@@ -84,6 +106,11 @@ export type EtatJeu = {
   actionsUtilisees: Record<string, number>;
   /** Nombre de fois où l'action Piocher (bouton de la Pioche) a été utilisée ce cycle. */
   piochesPayantes: number;
+  /**
+   * Ressource globale invisible `branches` : branches gagnées par une carte sans stock de branches
+   * (p. ex. l'action de l'Arroseureuse), en attente d'être posées sur un exemplaire (voir `branches.ts`).
+   */
+  branchesEnAttente: number;
 };
 
 export type ActionJeu =
@@ -104,6 +131,8 @@ export type ActionJeu =
       idCarte: IdCartes;
       exemplaireIndex: number;
       autreIndex: number;
+      /** Absent : gain "or" de la carte ; présent : gain "or" de cette action de la carte. */
+      actionIndex?: number;
       ressourceId: IdRessource;
     }
   /** Change le choix "or" pour tous les exemplaires de la carte (ligne sous la pile). */
@@ -111,7 +140,25 @@ export type ActionJeu =
       type: "choisir-ressource-or-groupe";
       idCarte: IdCartes;
       autreIndex: number;
+      actionIndex?: number;
       ressourceId: IdRessource;
+    }
+  /** Pose une branche en attente (`branchesEnAttente`) sur l'exemplaire donné. */
+  | { type: "brancher"; idCarte: IdCartes; exemplaireIndex: number }
+  /** Active ou désactive un gain `on.activable` (index dans `gains.autres`) d'un exemplaire. */
+  | {
+      type: "basculer-effet-on";
+      idCarte: IdCartes;
+      exemplaireIndex: number;
+      autreIndex: number;
+      actif: boolean;
+    }
+  /** Active ou désactive un gain `on.activable` pour tous les exemplaires de la carte. */
+  | {
+      type: "basculer-effet-on-groupe";
+      idCarte: IdCartes;
+      autreIndex: number;
+      actif: boolean;
     }
   | { type: "nouveau-cycle" }
   | { type: "evolution-reveler"; paquet: IdPaquetEvolution }
@@ -146,12 +193,19 @@ export function peutPiocherPayant(etat: EtatJeu) {
   );
 }
 
-function avecData(etat: EtatJeu, delta: number): EtatJeu["ressources"] {
-  const data = etat.ressources.data;
-  return {
-    ...etat.ressources,
-    data: { ...data, stock: Math.min(data.stock + delta, data.stockMax) },
-  };
+/** Paie `cout` data en passant par les listeners ; renvoie les champs d'état modifiés (sur une copie). */
+function payerData(etat: EtatJeu, cout: number): Pick<EtatJeu, "ressources" | "parCycleConditionnel" | "affinitesTribus" | "prerequisActifs" | "contributionsParRessource" | "effetsOn" | "terrain" | "listeners"> {
+  const suivant = copierEtat(etat);
+  ajusterRessourceGlobale(suivant, "data", -cout, cartes);
+  const { ressources, parCycleConditionnel, affinitesTribus, prerequisActifs, contributionsParRessource, effetsOn, terrain, listeners } = suivant;
+  return { ressources, parCycleConditionnel, affinitesTribus, prerequisActifs, contributionsParRessource, effetsOn, terrain, listeners };
+}
+
+/** Gain de data : déclenche aussi les gains `on` écoutant la data. */
+function gagnerData(etat: EtatJeu, delta: number): EtatJeu {
+  const suivant = copierEtat(etat);
+  ajusterRessourceGlobale(suivant, "data", delta, cartes);
+  return suivant;
 }
 
 export function etatInitial(paquet: Paquet<IdCartesBase> = BASE_PAQUET): EtatJeu {
@@ -171,6 +225,7 @@ export function etatInitial(paquet: Paquet<IdCartesBase> = BASE_PAQUET): EtatJeu
     cartesParTour: 0,
     actionsUtilisees: {},
     piochesPayantes: 0,
+    branchesEnAttente: 0,
     ressources: Object.fromEntries(
       RESSOURCES_GLOBALES.map((id) => [
         id,
@@ -182,6 +237,8 @@ export function etatInitial(paquet: Paquet<IdCartesBase> = BASE_PAQUET): EtatJeu
     evolutions: creerEtatsEvolutions(),
     listeners: tableListenersVide(),
     prerequisActifs: {},
+    contributionsParRessource: {},
+    effetsOn: {},
     prochainExemplaireId: 0,
   };
 }
@@ -195,21 +252,26 @@ export function reducteur(etat: EtatJeu, action: ActionJeu): EtatJeu {
       };
     case "piocher-payant":
       if (!peutPiocherPayant(etat)) return etat;
-      return {
-        ...etat,
-        ...piocherAvecRecyclage(etat.pioche, etat.defausse, etat.main, 1),
-        ressources: avecData(etat, -coutPiocher(etat)),
-        piochesPayantes: etat.piochesPayantes + 1,
-      };
+      return recalculerProduction(
+        {
+          ...copierEtat(etat),
+          ...piocherAvecRecyclage(etat.pioche, etat.defausse, etat.main, 1),
+          piochesPayantes: etat.piochesPayantes + 1,
+          ...payerData(etat, coutPiocher(etat)),
+        },
+        cartes,
+      );
     case "defausser": {
       const id = etat.main[action.index];
       if (id === undefined) return etat;
-      return {
-        ...etat,
-        main: etat.main.filter((_, i) => i !== action.index),
-        defausse: [...etat.defausse, id],
-        ressources: avecData(etat, GAIN_DEFAUSSER),
-      };
+      return recalculerProduction(
+        {
+          ...gagnerData(etat, GAIN_DEFAUSSER),
+          main: etat.main.filter((_, i) => i !== action.index),
+          defausse: [...etat.defausse, id],
+        },
+        cartes,
+      );
     }
     case "jouer":
       return jouer(etat, action.index, cartes);
@@ -231,6 +293,7 @@ export function reducteur(etat: EtatJeu, action: ActionJeu): EtatJeu {
         action.autreIndex,
         action.ressourceId,
         cartes,
+        action.actionIndex,
       );
     case "choisir-ressource-or-groupe":
       return choisirRessourceOrGroupe(
@@ -239,11 +302,32 @@ export function reducteur(etat: EtatJeu, action: ActionJeu): EtatJeu {
         action.autreIndex,
         action.ressourceId,
         cartes,
+        action.actionIndex,
+      );
+    case "brancher":
+      return brancher(etat, action.idCarte, action.exemplaireIndex, cartes);
+    case "basculer-effet-on":
+      return definirEffetOnActif(
+        etat,
+        action.idCarte,
+        [action.exemplaireIndex],
+        action.autreIndex,
+        action.actif,
+        cartes,
+      );
+    case "basculer-effet-on-groupe":
+      return definirEffetOnActif(
+        etat,
+        action.idCarte,
+        (etat.terrain.find((c) => c.id === action.idCarte)?.exemplaires ?? []).map((_, i) => i),
+        action.autreIndex,
+        action.actif,
+        cartes,
       );
     case "nouveau-cycle":
       return nouveauCycle(etat, cartes);
     case "evolution-reveler":
-      return revelerEvolution(etat, action.paquet, cartes);
+      return recalculerProduction(revelerEvolution(etat, action.paquet, cartes), cartes);
     case "evolution-choisir":
       return choisirCarteEvolution(etat, action.paquet, action.choix);
   }

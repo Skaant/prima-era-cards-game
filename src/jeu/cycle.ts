@@ -5,7 +5,7 @@ import { piocherAvecRecyclage } from "./piocher";
 import { recalculerProduction } from "./production";
 import { arrondir, RESSOURCES_GLOBALES } from "./ressources";
 import { copierEtat } from "./copier";
-import { ajusterValeurExemplaire } from "./prerequis";
+import { ajusterValeurExemplaire, notifierAugmentation } from "./prerequis";
 
 /** Phase de pioche : pioche `cartesParTour` cartes (avec recyclage de la défausse). */
 export function phasePioche(etat: EtatJeu): EtatJeu {
@@ -36,14 +36,30 @@ export function phaseProduction(etat: EtatJeu, cartes: Record<IdCartes, Carte>):
       return [id, { ...r, stock: arrondir(Math.min(stock + r.parCycle, r.stockMax)) }];
     }),
   ) as EtatJeu["ressources"];
-  return { ...base, ressources };
+  const produit = { ...base, ressources };
+  // La production fait augmenter les stocks : les gains `on` qui écoutent ces ressources se déclenchent.
+  for (const id of RESSOURCES_GLOBALES) {
+    const avant = id === "energie" ? 0 : base.ressources[id].stock;
+    notifierAugmentation(produit, id, arrondir(produit.ressources[id].stock - avant), cartes);
+  }
+  return produit;
+}
+
+/** Remet à 0 le nombre de déclenchements du cycle (`on.fois`) de chaque gain `on`. */
+function reinitialiserFoisOn(etat: EtatJeu): EtatJeu {
+  return {
+    ...etat,
+    effetsOn: Object.fromEntries(
+      Object.entries(etat.effetsOn).map(([cle, effet]) => [cle, { ...effet, fois: 0 }]),
+    ),
+  };
 }
 
 /** Termine le cycle en cours (production) puis en démarre un nouveau (pioche). */
 export function nouveauCycle(etat: EtatJeu, cartes: Record<IdCartes, Carte>): EtatJeu {
   const produit = phaseProduction(etat, cartes);
   return recalculerProduction(
-    phasePioche({ ...produit, cycle: etat.cycle + 1, actionsUtilisees: {}, piochesPayantes: 0 }),
+    phasePioche({ ...reinitialiserFoisOn(produit), cycle: etat.cycle + 1, actionsUtilisees: {}, piochesPayantes: 0 }),
     cartes,
   );
 }

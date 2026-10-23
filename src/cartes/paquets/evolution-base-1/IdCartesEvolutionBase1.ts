@@ -1,10 +1,10 @@
 export type IdCartesEvolutionBase1 =
   | "doucheureuse"
   | "chiandit"
-  | "arroser"
+  | "arroseureuse"
   | "humidifieureuse"
   | "roinx"
-  | "desicateureuse"
+  | "desicateurice"
   | "trappeureuse"
   | "meditation"
   | "emolianx"

@@ -5,6 +5,8 @@ import { RESSOURCES } from "../data/ressources";
 import { TOUTES_CARTES } from "../cartes/paquets/toutes.cartes";
 import { peutJouer } from "./jouer";
 import { peutUtiliserAction } from "./actions";
+import { effetOnActif } from "./prerequis";
+import { cleChoixOr, gainOr } from "./production";
 import {
   coutPiocher,
   etatInitial,
@@ -16,7 +18,8 @@ import {
 } from "./etat";
 import { htmlCarte, htmlIconeData } from "./htmlModeles";
 import ExemplairesCarte from "./ExemplairesCarte";
-import EvolutionsDialog from "./EvolutionsDialog";
+import BranchesDialog from "./BranchesDialog";
+import EvolutionsDialog, { ChoixEvolutionDialog } from "./EvolutionsDialog";
 import "./jeu.css";
 
 /** HTML de l'icône cartes par tour, rendu côté Astro (SvgCarte) dans un <template> de la page. */
@@ -36,15 +39,22 @@ function htmlNavbar() {
   );
 }
 
+/** Index de l'action dont le fieldset "or" est le choix, absent s'il s'agit d'un gain de la carte. */
+function indexAction(groupe: HTMLElement): number | undefined {
+  return groupe.dataset.orAction === undefined ? undefined : Number(groupe.dataset.orAction);
+}
+
 export default function Jeu() {
   const [navVisible, setNavVisible] = useState(false);
   const [mainVisible, setMainVisible] = useState(true);
-  /** Dialogue plein écran de l'arbre d'évolutions, affiché à la place du Terrain et de la Main. */
+  /** Dialogue de l'arbre d'évolutions, affiché à la place du Terrain (la Main reste visible au-dessus). */
   const [evolutionsVisible, setEvolutionsVisible] = useState(false);
   const [etat, dispatch] = useReducer(reducteur, undefined, () =>
     etatInitial(),
   );
   const terrainRef = useRef<HTMLUListElement>(null);
+  /** Zone centrale (Terrain et dialogues) : la jauge de branches y est aussi mise à jour dans le dialogue des branches. */
+  const centreRef = useRef<HTMLDivElement>(null);
   /** Dialog d'action ouvert à la place de la bottom bar (Pioche ou Défausse). */
   const [dialog, setDialog] = useState<"pioche" | "defausse" | null>(null);
   /** Index de la carte de la Main choisie pour être défaussée. */
@@ -108,15 +118,17 @@ export default function Jeu() {
     groupes?.forEach((groupe) => {
       const idCarte = groupe.dataset.orCarte as IdCartes;
       const autreIndex = Number(groupe.dataset.orIndex);
-      const autre = TOUTES_CARTES[idCarte]?.gains?.autres?.[autreIndex];
-      if (!autre || typeof autre === "string") return;
+      const actionIndex = indexAction(groupe);
+      const autre = gainOr(TOUTES_CARTES[idCarte], autreIndex, actionIndex);
+      if (!autre) return;
+      const cle = cleChoixOr(autreIndex, actionIndex);
       const carteTerrain = etat.terrain.find((c) => c.id === idCarte);
       if (!carteTerrain) return;
 
       let choisie: IdRessource | undefined;
       if (groupe.closest(".jeu-actions-groupees")) {
         const choix = carteTerrain.exemplaires.map(
-          (e) => e.choixOr?.[autreIndex] ?? autre.resources[0]?.id,
+          (e) => e.choixOr?.[cle] ?? autre.resources[0]?.id,
         );
         choisie = choix.every((c) => c === choix[0]) ? choix[0] : undefined;
       } else {
@@ -125,7 +137,7 @@ export default function Jeu() {
             .exemplaireIndex,
         );
         choisie =
-          carteTerrain.exemplaires[exemplaireIndex]?.choixOr?.[autreIndex] ??
+          carteTerrain.exemplaires[exemplaireIndex]?.choixOr?.[cle] ??
           autre.resources[0]?.id;
       }
       groupe
@@ -136,11 +148,41 @@ export default function Jeu() {
     });
   });
 
+  // Même principe pour l'activation des gains `on.activable` (`[data-on-carte]`) : la case est
+  // cochée par défaut dans le modèle cloné, puis synchronisée ici avec `effetsOn`. Dans la ligne
+  // d'actions groupées, elle n'est cochée que si tous les exemplaires ont l'effet actif.
+  useEffect(() => {
+    const cases = terrainRef.current?.querySelectorAll<HTMLInputElement>(
+      "input[data-on-carte]",
+    );
+    cases?.forEach((input) => {
+      const idCarte = input.dataset.onCarte as IdCartes;
+      const autreIndex = Number(input.dataset.onIndex);
+      const exemplaires =
+        etat.terrain.find((c) => c.id === idCarte)?.exemplaires ?? [];
+      if (input.closest(".jeu-actions-groupees")) {
+        input.checked = exemplaires.every((e) =>
+          effetOnActif(etat, e.id, autreIndex),
+        );
+      } else {
+        const exemplaire =
+          exemplaires[
+            Number(
+              input.closest<HTMLElement>("[data-exemplaire-index]")?.dataset
+                .exemplaireIndex,
+            )
+          ];
+        if (exemplaire)
+          input.checked = effetOnActif(etat, exemplaire.id, autreIndex);
+      }
+    });
+  });
+
   // La jauge de branches vient du modèle de carte cloné (`CarteItemJaugeBranches.astro`),
   // toujours à 0 par défaut : sur l'exemplaire affiché en entier, elle est mise à jour ici avec
   // son propre stock de branches (voir `exemplaire.md`).
   useEffect(() => {
-    const actifs = terrainRef.current?.querySelectorAll<HTMLElement>(
+    const actifs = centreRef.current?.querySelectorAll<HTMLElement>(
       ".jeu-exemplaire-actif",
     );
     actifs?.forEach((actifEl) => {
@@ -216,16 +258,40 @@ export default function Jeu() {
         </div>
       )}
 
+      <div class="jeu-centre" ref={centreRef}>
+      <ChoixEvolutionDialog etat={etat} dispatch={dispatch} />
+      <BranchesDialog etat={etat} dispatch={dispatch} />
       {evolutionsVisible ? (
         <EvolutionsDialog etat={etat} dispatch={dispatch} />
       ) : (
-        <>
       <ul
         class="jeu-terrain"
         aria-label="Terrain"
         ref={terrainRef}
         onClick={(e) => {
           const cible = e.target as HTMLElement;
+
+          const caseOn = cible.closest<HTMLInputElement>("input[data-on-carte]");
+          if (caseOn) {
+            const base = {
+              idCarte: caseOn.dataset.onCarte as IdCartes,
+              autreIndex: Number(caseOn.dataset.onIndex),
+              // La case vient d'être basculée par le navigateur : elle porte le nouvel état voulu.
+              actif: caseOn.checked,
+            };
+            if (caseOn.closest(".jeu-actions-groupees")) {
+              dispatch({ type: "basculer-effet-on-groupe", ...base });
+              return;
+            }
+            const exemplaire = caseOn.closest<HTMLElement>("[data-exemplaire-index]");
+            if (!exemplaire) return;
+            dispatch({
+              type: "basculer-effet-on",
+              exemplaireIndex: Number(exemplaire.dataset.exemplaireIndex),
+              ...base,
+            });
+            return;
+          }
 
           const radio = cible.closest<HTMLInputElement>("[data-or-ressource]");
           if (radio) {
@@ -238,6 +304,7 @@ export default function Jeu() {
                 type: "choisir-ressource-or-groupe",
                 idCarte: groupe.dataset.orCarte as IdCartes,
                 autreIndex: Number(groupe.dataset.orIndex),
+                actionIndex: indexAction(groupe),
                 ressourceId: radio.dataset.orRessource as IdRessource,
               });
               return;
@@ -251,6 +318,7 @@ export default function Jeu() {
               idCarte: groupe.dataset.orCarte as IdCartes,
               exemplaireIndex: Number(exemplaire.dataset.exemplaireIndex),
               autreIndex: Number(groupe.dataset.orIndex),
+              actionIndex: indexAction(groupe),
               ressourceId: radio.dataset.orRessource as IdRessource,
             });
             return;
@@ -317,6 +385,7 @@ export default function Jeu() {
           );
         })}
       </ul>
+      )}
 
       {(mainVisible || defausseEnCours) && (
         <ul class="jeu-main" aria-label="Main">
@@ -331,12 +400,19 @@ export default function Jeu() {
                   !defausseEnCours && !peutJouer(etat, TOUTES_CARTES[id])
                 }
                 onClick={(e) => {
+                  // Cliquer une carte de la Main ferme le dialog d'Évolutions, qui recouvre le
+                  // Terrain : jouer (ou choisir de défausser) une carte n'a de sens que dessus.
+                  setEvolutionsVisible(false);
                   if (defausseEnCours) {
                     setADefausser(aDefausser === i ? null : i);
                     return;
                   }
                   // Le choix de ressource "or" n'a de sens qu'une fois la carte sur le terrain.
-                  if ((e.target as HTMLElement).closest("[data-or-ressource]"))
+                  if (
+                    (e.target as HTMLElement).closest(
+                      "[data-or-ressource], [data-on-carte]",
+                    )
+                  )
                     return;
                   // Le nouvel exemplaire (posé à la fin de la pile) devient le current, même si
                   // un exemplaire précédent de la même carte était affiché en entier.
@@ -358,8 +434,7 @@ export default function Jeu() {
           ))}
         </ul>
       )}
-        </>
-      )}
+      </div>
 
       {dialog ? (
         <div class="jeu-bas" role="dialog">
@@ -405,6 +480,14 @@ export default function Jeu() {
         <div class="jeu-bas">
           <div class="jeu-bas-groupe">
             <button
+              class="jeu-evolutions"
+              aria-pressed={evolutionsVisible}
+              onClick={() => setEvolutionsVisible(!evolutionsVisible)}
+            >
+              Évolutions
+            </button>
+            <span class="jeu-separateur" aria-hidden="true" />
+            <button
               class="jeu-paquet"
               aria-label="Pioche"
               aria-expanded={dialog === "pioche"}
@@ -436,14 +519,6 @@ export default function Jeu() {
           </div>
 
           <div class="jeu-bas-groupe">
-            <button
-              class="jeu-evolutions"
-              aria-pressed={evolutionsVisible}
-              onClick={() => setEvolutionsVisible(!evolutionsVisible)}
-            >
-              Évolutions
-            </button>
-            <span class="jeu-separateur" aria-hidden="true" />
             <span>Cycle {etat.cycle}</span>
             <button
               class="jeu-cycle"

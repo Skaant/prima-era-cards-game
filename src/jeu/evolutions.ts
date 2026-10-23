@@ -12,7 +12,7 @@ type Cartes = Record<IdCartes, Carte>;
 export type EtatEvolution = {
   /** Pile restante du paquet d'évolution, mélangée. */
   pioche: IdCartes[];
-  /** Nombre de cartes effectivement ajoutées à la pioche du joueur depuis ce paquet. */
+  /** Nombre de cartes effectivement ajoutées à la main du joueur depuis ce paquet. */
   achetees: number;
   /** Cartes révélées en attente de choix (1 ou 2), absent si aucune révélation en cours. */
   reveal?: IdCartes[];
@@ -66,7 +66,8 @@ export function revelerEvolution(etat: EtatJeu, id: IdPaquetEvolution, cartes: C
 
 /**
  * Choisit une des cartes révélées (`choix` = index dans `reveal`) ou aucune (`null`). La carte
- * choisie rejoint la pioche du joueur (remélangée) et incrémente `achetees`. Dans tous les cas,
+ * choisie est ajoutée à la fin de la main du joueur (la pioche n'est pas touchée) et incrémente
+ * `achetees`. Dans tous les cas,
  * les cartes non choisies retournent dans la pile du paquet, qui est entièrement remélangée.
  */
 export function choisirCarteEvolution(
@@ -83,7 +84,7 @@ export function choisirCarteEvolution(
 
   return {
     ...etat,
-    pioche: choisie !== undefined ? melanger([...etat.pioche, choisie]) : etat.pioche,
+    main: choisie !== undefined ? [...etat.main, choisie] : etat.main,
     evolutions: {
       ...etat.evolutions,
       [id]: {

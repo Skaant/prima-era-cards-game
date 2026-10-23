@@ -22,11 +22,6 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
       ressources: [
         { id: "branches", stock: true, value: 3 },
         {
-          id: "zums",
-          stock: true,
-          value: 2,
-        },
-        {
           id: "jing",
           value: 1,
           parCycle: true,
@@ -36,11 +31,21 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
             },
           },
         },
+        {
+          id: "zums",
+          stock: true,
+          value: 2,
+          prerequis: {
+            ressources: {
+              branches: { min: 3 },
+            },
+          },
+        },
       ],
       tribus: [
         {
           id: "kolos",
-          value: 2,
+          value: 1,
           prerequis: {
             ressources: {
               branches: { min: 3 },
@@ -133,6 +138,10 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
     gains: {
       ressources: [
         {
+          id: "waild",
+          value: 1,
+        },
+        {
           id: "eau",
           value: 1,
           parCycle: true,
@@ -192,6 +201,10 @@ export const BASE_CARTES: IndexCartes<IdCartesBase> = {
     },
     gains: {
       ressources: [
+        {
+          id: "waild",
+          value: 1,
+        },
         {
           id: "data",
           value: 1,

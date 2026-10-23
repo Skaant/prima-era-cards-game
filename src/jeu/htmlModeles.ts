@@ -36,16 +36,34 @@ export function htmlChipEnergie() {
 }
 
 /**
- * HTML du choix "or" (`autreIndex` de `gains.autres`) de la carte `id`, réutilisé tel que rendu
+ * HTML de l'activation d'un gain `on.activable` (`autreIndex` dans `gains.autres`) de la carte
+ * `id`, réutilisé tel que rendu par `CarteItemOn` (label + case `[data-on-carte]`), pour la ligne
+ * d'actions groupées.
+ */
+export function htmlGainOn(id: IdCartes, autreIndex: number) {
+  const modele = document.querySelector<HTMLTemplateElement>(
+    `template[data-modele-carte="${CSS.escape(id)}"]`,
+  );
+  const input = modele?.content.querySelector<HTMLElement>(
+    `[data-on-carte="${CSS.escape(id)}"][data-on-index="${autreIndex}"]`,
+  );
+  return input?.closest("label")?.outerHTML ?? "";
+}
+
+/**
+ * HTML du choix "or" (`autreIndex` de `gains.autres`) de la carte `id` (ou de son action
+ * `actionIndex`), réutilisé tel que rendu
  * côté Astro par `CarteItemGains` (fieldset `[data-or-carte][data-or-index]`, avec les icônes de
  * ressource), pour la ligne d'actions groupées sous une pile d'exemplaires (voir `exemplaire.md`).
  */
-export function htmlGainOr(id: IdCartes, autreIndex: number) {
+export function htmlGainOr(id: IdCartes, autreIndex: number, actionIndex?: number) {
   const modele = document.querySelector<HTMLTemplateElement>(
     `template[data-modele-carte="${CSS.escape(id)}"]`,
   );
   const fieldset = modele?.content.querySelector<HTMLElement>(
-    `[data-or-carte="${CSS.escape(id)}"][data-or-index="${autreIndex}"]`,
+    `[data-or-carte="${CSS.escape(id)}"][data-or-index="${autreIndex}"]${
+      actionIndex === undefined ? ":not([data-or-action])" : `[data-or-action="${actionIndex}"]`
+    }`,
   );
   return fieldset?.outerHTML ?? "";
 }

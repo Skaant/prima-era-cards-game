@@ -2,7 +2,7 @@ import type { Carte } from "../cartes/_types/Carte";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
 import { peutUtiliserAction } from "./actions";
 import type { EtatJeu, Exemplaire } from "./etat";
-import { htmlCarte, htmlChipEnergie, htmlGainOr, htmlJetonBranche } from "./htmlModeles";
+import { htmlCarte, htmlChipEnergie, htmlGainOn, htmlGainOr, htmlJetonBranche } from "./htmlModeles";
 
 interface Props {
   id: IdCartes;
@@ -11,6 +11,13 @@ interface Props {
   /** Index de l'exemplaire affiché en entier (voir `exemplaire.md`). */
   actif: number;
   etat: EtatJeu;
+  /**
+   * Index réels (dans la carte du Terrain) des `exemplaires` affichés, quand seuls certains le
+   * sont (dialogue des branches) : `data-exemplaire-index` porte alors l'index réel.
+   */
+  indices?: number[];
+  /** Ligne d'actions groupées sous la pile (Terrain uniquement). */
+  groupe?: boolean;
 }
 
 /** Doit correspondre à `--pas` dans `jeu.css`. */
@@ -48,7 +55,10 @@ export default function ExemplairesCarte({
   exemplaires,
   actif,
   etat,
+  indices,
+  groupe = true,
 }: Props) {
+  const indexReel = (i: number) => indices?.[i] ?? i;
   return (
     <li class="jeu-carte-terrain" data-carte-terrain={id}>
       <div
@@ -61,7 +71,7 @@ export default function ExemplairesCarte({
             <div
               class="jeu-exemplaire jeu-exemplaire-actif"
               style={`top: ${topExemplaire(i, actif)}; --distance: ${distance}`}
-              data-exemplaire-index={i}
+              data-exemplaire-index={indexReel(i)}
               key={i}
             >
               <div dangerouslySetInnerHTML={{ __html: htmlCarte(id) }} />
@@ -70,7 +80,7 @@ export default function ExemplairesCarte({
             <div
               class="jeu-exemplaire"
               style={`top: ${topExemplaire(i, actif)}; --distance: ${distance}`}
-              data-exemplaire-index={i}
+              data-exemplaire-index={indexReel(i)}
               key={i}
             >
               <div class="jeu-exemplaire-masque">
@@ -108,7 +118,7 @@ export default function ExemplairesCarte({
           choix "or" (s'il y en a), appliqué à tous les exemplaires à la fois ; à droite, un
           bouton par action, qui la joue pour chaque exemplaire un par un, en s'arrêtant dès que
           l'un d'eux ne peut plus payer son coût (voir `utiliserActionGroupe`). */}
-      {exemplaires.length > 1 && (
+      {groupe && exemplaires.length > 1 && (
         <div class="jeu-actions-groupees">
           <div class="jeu-actions-groupees-or">
             {(carte.gains?.autres ?? []).map((autre, autreIndex) =>
@@ -116,6 +126,24 @@ export default function ExemplairesCarte({
                 <div
                   key={autreIndex}
                   dangerouslySetInnerHTML={{ __html: htmlGainOr(id, autreIndex) }}
+                />
+              ) : null,
+            )}
+            {(carte.actions ?? []).flatMap((action, actionIndex) =>
+              (action.gains.autres ?? []).map((autre, autreIndex) =>
+                typeof autre !== "string" && autre.type === "or" ? (
+                  <div
+                    key={`action-${actionIndex}-${autreIndex}`}
+                    dangerouslySetInnerHTML={{ __html: htmlGainOr(id, autreIndex, actionIndex) }}
+                  />
+                ) : null,
+              ),
+            )}
+            {(carte.gains?.autres ?? []).map((autre, autreIndex) =>
+              typeof autre !== "string" && autre.type === "on" && autre.activable ? (
+                <div
+                  key={`on-${autreIndex}`}
+                  dangerouslySetInnerHTML={{ __html: htmlGainOn(id, autreIndex) }}
                 />
               ) : null,
             )}

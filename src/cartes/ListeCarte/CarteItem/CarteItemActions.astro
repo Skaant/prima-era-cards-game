@@ -22,43 +22,46 @@ const { id, actions, couleur } = Astro.props;
     <ul class="actions">
       {actions.map(({ nom, couts, gains, notes, fois }, index) => (
         <li class="action">
-          <button
-            type="button"
-            class="action-bouton"
-            data-action-carte={id}
-            data-action-index={index}
-          >
-            <div>
+          <div class="action-cadre">
+            <button
+              type="button"
+              class="action-bouton"
+              data-action-carte={id}
+              data-action-index={index}
+            >
               <span>{nom}</span>
               <CarteItemCouts couts={couts} />
+            </button>
+            {/* Hors du bouton : les boutons radio du choix "or" ne peuvent pas être imbriqués dedans. */}
+            <div class="action-gains">
+              <CarteItemGains gains={gains} {id} actionIndex={index} />
             </div>
-            <CarteItemGains gains={gains} />
-          </button>
+            {fois && (
+              <div class="fois">
+                Max {fois.value} fois
+                {fois.parRessource && (
+                  <>
+                    /{" "}
+                    {fois.parRessource.value ? `${fois.parRessource.value}` : ""}
+                    <Ressource
+                      id={fois.parRessource.id}
+                      plural={
+                        (fois.parRessource.value &&
+                          fois.parRessource.value > 1) ||
+                        undefined
+                      }
+                    />
+                  </>
+                )}
+                / cycle
+              </div>
+            )}
+          </div>
           {notes && (
             <div class="notes">
               {notes.map((note) => (
                 <DynamicString value={note} />
               ))}
-            </div>
-          )}
-          {fois && (
-            <div class="fois">
-              Max {fois.value} fois
-              {fois.parRessource && (
-                <>
-                  /{" "}
-                  {fois.parRessource.value ? `${fois.parRessource.value}` : ""}
-                  <Ressource
-                    id={fois.parRessource.id}
-                    plural={
-                      (fois.parRessource.value &&
-                        fois.parRessource.value > 1) ||
-                      undefined
-                    }
-                  />
-                </>
-              )}
-              / cycle
             </div>
           )}
         </li>
@@ -78,38 +81,37 @@ const { id, actions, couleur } = Astro.props;
       margin-top: 6px;
     }
   }
-  .action-bouton {
+  .action-cadre {
     border: 2px solid black;
     border-radius: 5px;
+    padding: 4px 6px;
+    box-sizing: border-box;
+    &:has(.action-bouton:disabled) {
+      opacity: 0.5;
+    }
+  }
+  .action-bouton {
     display: flex;
     justify-content: space-between;
-    padding: 4px 6px;
-    flex-direction: column;
+    gap: 8px;
     width: 100%;
+    padding: 0 0 6px;
+    border: none;
     font: inherit;
     text-align: inherit;
     color: inherit;
     background: none;
     box-sizing: border-box;
     cursor: pointer;
-    > :first-child {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      width: 100%;
-      padding-bottom: 6px;
-      box-sizing: border-box;
-      > span {
-        font-family: "charlevoix";
-      }
+    > span {
+      font-family: "charlevoix";
     }
-    > :nth-child(2) {
-      padding: 2px 4px 4px;
+    &:disabled {
+      cursor: not-allowed;
     }
   }
-  .action-bouton:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .action-gains {
+    padding: 2px 4px 4px;
   }
   .notes {
     margin-top: -6px;

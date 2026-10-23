@@ -9,7 +9,7 @@ import {
 import { recalculerProduction } from "./production";
 import { estRessourceGlobale } from "./ressources";
 import { copierEtat } from "./copier";
-import { ajusterValeurExemplaire, enregistrerListeners } from "./prerequis";
+import { ajusterRessourceGlobale, ajusterValeurExemplaire, enregistrerListeners, evaluerGainsExemplaire, prerequisCarteSatisfait } from "./prerequis";
 
 type Cartes = Record<IdCartes, Carte>;
 
@@ -30,8 +30,11 @@ function stockDisponible(etat: EtatJeu, id: IdRessourceGlobale) {
 }
 
 export function peutJouer(etat: EtatJeu, carte: Carte): boolean {
-  return coutsSimples(carte).every(
-    (c) => !estRessourceGlobale(c.id) || stockDisponible(etat, c.id) >= c.value,
+  return (
+    prerequisCarteSatisfait(etat, carte.prerequis) &&
+    coutsSimples(carte).every(
+      (c) => !estRessourceGlobale(c.id) || stockDisponible(etat, c.id) >= c.value,
+    )
   );
 }
 
@@ -72,8 +75,7 @@ function appliquerGains(
   }
   for (const gain of gains.filter((g) => !g.stock)) {
     if (estRessourceGlobale(gain.id)) {
-      const r = etat.ressources[gain.id];
-      r.stock = Math.min(r.stock + gain.value, r.stockMax);
+      ajusterRessourceGlobale(etat, gain.id, gain.value, cartes);
     } else if (gain.id === "branches" && exemplaire) {
       ajusterValeurExemplaire(etat, exemplaire, "branches", gain.value, cartes);
     }
@@ -111,6 +113,7 @@ export function jouer(etat: EtatJeu, index: number, cartes: Cartes): EtatJeu {
   const exemplaire = ajouterExemplaire(suivant, id, carte);
   exemplaire.zumsAssocies += zumsAssocies;
   appliquerGains(suivant, carte, exemplaire, cartes);
+  evaluerGainsExemplaire(suivant, exemplaire, id, cartes);
 
   return recalculerProduction(suivant, cartes);
 }

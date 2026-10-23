@@ -7,6 +7,7 @@ export const RESSOURCES_GLOBALES: IdRessourceGlobale[] = [
   "data",
   "zums",
   "energie",
+  "waild",
 ];
 
 export function estRessourceGlobale(id: IdRessource): id is IdRessourceGlobale {

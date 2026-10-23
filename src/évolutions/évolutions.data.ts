@@ -32,13 +32,17 @@ export const EVOLUTIONS: Record<IdPaquetEvolution, ConfigEvolution> = {
     nom: "Évolution base 2",
     parent: "evolution-base-1",
     coutData: 30,
-    conditions: [{ type: "cartes-achetees", paquet: "evolution-base-1", min: 5 }],
+    conditions: [
+      { type: "cartes-achetees", paquet: "evolution-base-1", min: 5 },
+    ],
   },
   "evolution-base-3": {
     nom: "Évolution base 3",
     parent: "evolution-base-2",
     coutData: 200,
-    conditions: [{ type: "cartes-achetees", paquet: "evolution-base-2", min: 5 }],
+    conditions: [
+      { type: "cartes-achetees", paquet: "evolution-base-2", min: 10 },
+    ],
   },
   "kolos-1": {
     nom: "Kolos 1",

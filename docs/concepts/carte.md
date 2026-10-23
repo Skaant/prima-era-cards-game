@@ -6,6 +6,7 @@ Une **Carte** est l'élément de base du jeu. Elle est décrite par le type `Car
 
 - `nom` et `type` (obligatoires).
 - `prerequis`, `couts`, `gains` (optionnels).
+- Les gains de ressource et de tribu peuvent porter `on` (`SurAugmentation`, `src/cartes/_types/GainsCarte.ts`) : le gain ne se produit que quand une ressource augmente (voir `docs/regles/gains-sur-augmentation.md`).
 - `unique` (optionnel) : une fois jouée, la carte disparaît au lieu d'aller à la [Défausse](defausse.md) — elle ne peut donc plus être rejouée ni repiochée (voir [Jouer une carte](jouer-une-carte.md)). Exemple : Vaisseau-graine.
 - `actions` (optionnel) : liste d'[Actions de carte](action-de-carte.md), chacune avec `nom`, `couts`, `gains`, et optionnellement `prerequis`, `fois` (combien de fois par cycle) et `notes`. Les cartes de type **Action** n'ont pas de `couts`/`gains` au niveau de la carte : leur coût et leur gain sont ceux de leur unique action (voir [Action de carte](action-de-carte.md)).
 - `notes` et `histoire` (optionnels).

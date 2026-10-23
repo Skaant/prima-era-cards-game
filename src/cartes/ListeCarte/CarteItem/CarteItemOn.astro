@@ -1,0 +1,75 @@
+---
+import Ressource from "../../../ressources/Ressource.astro";
+import type { GainOn } from "../../_types/GainsCarte";
+import type { IdCartes } from "../../paquets/IdCartes";
+import CarteItemGains from "./CarteItemGains.astro";
+
+interface Props {
+  on: GainOn;
+  /** Requis (avec `autreIndex`) pour rendre le bouton d'activation d'un effet `activable`. */
+  id?: IdCartes;
+  /** Index du gain `on` dans `gains.autres`. */
+  autreIndex?: number;
+}
+
+const { on, id, autreIndex } = Astro.props;
+const interactif = id !== undefined && on.activable;
+---
+
+<div class="gain-on">
+  <label class:list={{ "gain-on-activable": interactif }}>
+    {
+      interactif && (
+        <input type="checkbox" data-on-carte={id} data-on-index={autreIndex} checked />
+      )
+    }
+    <span>
+      +{on.value ?? 1}
+      <Ressource id={on.id} plural={(on.value ?? 1) > 1 || undefined} />
+      {
+        on.fois && (
+          <small>
+            (max {on.fois.value}/cycle
+            {on.fois.parRessource && (
+              <>
+                {" "}par{" "}
+                {on.fois.parRessource.value ? `${on.fois.parRessource.value} ` : ""}
+                <Ressource
+                  id={on.fois.parRessource.id}
+                  plural={(on.fois.parRessource.value ?? 1) > 1 || undefined}
+                />
+              </>
+            )}
+            )
+          </small>
+        )
+      }
+      :
+    </span>
+  </label>
+  <CarteItemGains gains={on.gain} />
+</div>
+
+<style>
+  .gain-on {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      &.gain-on-activable {
+        cursor: pointer;
+      }
+      input {
+        margin: 0 2px 0 0;
+        cursor: pointer;
+      }
+    }
+    small {
+      font-size: 0.85em;
+    }
+  }
+</style>

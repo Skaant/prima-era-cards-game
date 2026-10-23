@@ -7,6 +7,7 @@ import DynamicString from "../../../semantique/DynamicString/DynamicString.astro
 import type { IdTribu } from "../../../tribus/IdTribu";
 import type { Carte } from "../../_types/Carte";
 import CarteItemPrerequis from "./CarteItemPrerequis.astro";
+import CarteItemOn from "./CarteItemOn.astro";
 import SvgStock from "../../../ressources/svg/stock/SvgStock.astro";
 import SvgLogement from "../../type-carte/svg/SvgLogement.astro";
 import type { IdCartes } from "../../paquets/IdCartes";
@@ -15,9 +16,11 @@ interface Props {
   gains: Carte["gains"];
   /** Requis pour rendre sélectionnables les gains `autres` de type `"or"` (boutons radio). */
   id?: IdCartes;
+  /** Index de l'action dont ce sont les gains (le choix "or" porte alors sur cette action). */
+  actionIndex?: number;
 }
 
-const { gains, id } = Astro.props;
+const { gains, id, actionIndex } = Astro.props;
 
 const ressources = gains?.ressources?.filter(
   (ress) => !ress.stock || (!ress.stockIndividuel && ress.id !== "branches"),
@@ -44,11 +47,15 @@ const groupes = Object.values(
         <>
           {gains.tribus && gains.tribus.length > 0 && (
             <ul class="gains-tribus">
-              {gains.tribus.map(({ id, value, parCycle, parRessource }) => (
+              {gains.tribus.map(({ id: idTribu, value, parCycle, parRessource, prerequis }) => (
                 <li>
-                  {" "}
+                  {prerequis && (
+                    <div class="inline-prerequis">
+                      <CarteItemPrerequis {prerequis} /> :
+                    </div>
+                  )}
                   +{value}{" "}
-                  <Tribu id={id as IdTribu} plural={value > 1 || undefined} />
+                  <Tribu id={idTribu as IdTribu} plural={value > 1 || undefined} />
                   {parRessource && (
                     <>
                       / {parRessource.value ? `${parRessource.value}` : ""}{" "}
@@ -153,6 +160,8 @@ const groupes = Object.values(
                 <li>
                   {typeof autre === "string" ? (
                     <DynamicString value={autre} />
+                  ) : autre.type === "on" ? (
+                    <CarteItemOn on={autre} {id} {autreIndex} />
                   ) : (
                     <>
                       {id ? (
@@ -160,6 +169,7 @@ const groupes = Object.values(
                           class="gain-or"
                           data-or-carte={id}
                           data-or-index={autreIndex}
+                          data-or-action={actionIndex}
                         >
                           {autre.resources.map(({ id: idRessource, value }, index) => (
                             <label class="gain-or-option">
@@ -213,9 +223,12 @@ const groupes = Object.values(
     gap: 4px;
     :global(.prerequis) {
       padding: 0;
+      ul {
+        display: flex;
+      }
       li {
         display: flex;
-        align-content: center;
+        align-items: center;
         gap: 4px;
       }
     }

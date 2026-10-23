@@ -24,7 +24,7 @@ export function recalculerProduction(etat: EtatJeu, cartes: Cartes): EtatJeu {
       }
       (cartes[id].gains?.autres ?? []).forEach((autre, autreIndex) => {
         if (typeof autre === "string" || autre.type !== "or" || !autre.parCycle) return;
-        const choisie = exemplaire.choixOr?.[autreIndex] ?? autre.resources[0]?.id;
+        const choisie = exemplaire.choixOr?.[cleChoixOr(autreIndex)] ?? autre.resources[0]?.id;
         const ressource = autre.resources.find((r) => r.id === choisie);
         if (ressource && estRessourceGlobale(ressource.id)) {
           production[ressource.id] += ressource.value;
@@ -53,9 +53,22 @@ export function recalculerProduction(etat: EtatJeu, cartes: Cartes): EtatJeu {
   };
 }
 
+/** Clé de `Exemplaire.choixOr` du gain "or" `autreIndex` de la carte, ou de l'action `actionIndex` si donné. */
+export function cleChoixOr(autreIndex: number, actionIndex?: number): string {
+  return actionIndex === undefined ? `${autreIndex}` : `a${actionIndex}.${autreIndex}`;
+}
+
+/** Gain `autres` de type `"or"` de la carte (ou de son action `actionIndex`), s'il existe. */
+export function gainOr(carte: Carte | undefined, autreIndex: number, actionIndex?: number) {
+  const gains = actionIndex === undefined ? carte?.gains : carte?.actions?.[actionIndex]?.gains;
+  const autre = gains?.autres?.[autreIndex];
+  return autre && typeof autre !== "string" && autre.type === "or" ? autre : undefined;
+}
+
 /**
  * Change la ressource choisie pour le gain `autres` de type `"or"` (index `autreIndex`) de
- * l'exemplaire `exemplaireIndex` de la carte `idCarte`, pour les prochains cycles.
+ * l'exemplaire `exemplaireIndex` de la carte `idCarte` (ou de son action `actionIndex`), pour les
+ * prochains cycles (ou la prochaine utilisation de l'action).
  * Sans effet si la carte, l'exemplaire, le gain ou la ressource n'existent pas.
  */
 export function choisirRessourceOr(
@@ -65,10 +78,11 @@ export function choisirRessourceOr(
   autreIndex: number,
   ressourceId: IdRessource,
   cartes: Cartes,
+  actionIndex?: number,
 ): EtatJeu {
-  const autre = cartes[idCarte]?.gains?.autres?.[autreIndex];
-  if (!autre || typeof autre === "string" || autre.type !== "or") return etat;
-  if (!autre.resources.some((r) => r.id === ressourceId)) return etat;
+  const autre = gainOr(cartes[idCarte], autreIndex, actionIndex);
+  if (!autre || !autre.resources.some((r) => r.id === ressourceId)) return etat;
+  const cle = cleChoixOr(autreIndex, actionIndex);
 
   const terrain = etat.terrain.map((entree) => {
     if (entree.id !== idCarte) return entree;
@@ -77,10 +91,7 @@ export function choisirRessourceOr(
       exemplaires: entree.exemplaires.map((exemplaire, i) =>
         i !== exemplaireIndex
           ? exemplaire
-          : {
-              ...exemplaire,
-              choixOr: { ...exemplaire.choixOr, [autreIndex]: ressourceId },
-            },
+          : { ...exemplaire, choixOr: { ...exemplaire.choixOr, [cle]: ressourceId } },
       ),
     };
   });
@@ -90,7 +101,7 @@ export function choisirRessourceOr(
 
 /**
  * Change la ressource choisie pour le gain `autres` de type `"or"` (index `autreIndex`) de la
- * carte `idCarte`, pour tous ses exemplaires à la fois, pour les prochains cycles.
+ * carte `idCarte` (ou de son action `actionIndex`), pour tous ses exemplaires à la fois.
  * Sans effet si la carte, le gain ou la ressource n'existent pas.
  */
 export function choisirRessourceOrGroupe(
@@ -99,10 +110,11 @@ export function choisirRessourceOrGroupe(
   autreIndex: number,
   ressourceId: IdRessource,
   cartes: Cartes,
+  actionIndex?: number,
 ): EtatJeu {
-  const autre = cartes[idCarte]?.gains?.autres?.[autreIndex];
-  if (!autre || typeof autre === "string" || autre.type !== "or") return etat;
-  if (!autre.resources.some((r) => r.id === ressourceId)) return etat;
+  const autre = gainOr(cartes[idCarte], autreIndex, actionIndex);
+  if (!autre || !autre.resources.some((r) => r.id === ressourceId)) return etat;
+  const cle = cleChoixOr(autreIndex, actionIndex);
 
   const terrain = etat.terrain.map((entree) => {
     if (entree.id !== idCarte) return entree;
@@ -110,7 +122,7 @@ export function choisirRessourceOrGroupe(
       ...entree,
       exemplaires: entree.exemplaires.map((exemplaire) => ({
         ...exemplaire,
-        choixOr: { ...exemplaire.choixOr, [autreIndex]: ressourceId },
+        choixOr: { ...exemplaire.choixOr, [cle]: ressourceId },
       })),
     };
   });

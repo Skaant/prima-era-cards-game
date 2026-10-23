@@ -27,5 +27,7 @@ export function copierEtat(etat: EtatJeu): EtatJeu {
       tribus: { ...etat.listeners.tribus },
     },
     prerequisActifs: { ...etat.prerequisActifs },
+    contributionsParRessource: { ...etat.contributionsParRessource },
+    effetsOn: { ...etat.effetsOn },
   };
 }

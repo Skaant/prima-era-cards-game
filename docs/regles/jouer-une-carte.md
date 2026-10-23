@@ -7,7 +7,7 @@
 | 3 | | Jouer une carte paie ses coûts en les retirant des stocks. Les coûts « par cycle » ou « proportionnels » ne sont pas payés. *(spec, non implémenté)* | |
 | 4 | | Les gains immédiats de la carte (ni « par cycle », ni conditionnels, ni proportionnels) sont récoltés dès qu'elle est jouée. | |
 | 5 | | Les gains conditionnels (prérequis), proportionnels, de stock individuel et les gains « autres » non « par cycle » ne sont pas appliqués à la pose. *(spec, non implémenté)* | |
-| 6 | | Le prérequis d'une carte (ex. Dom : waild ≤ 55) doit être respecté pour la jouer. *(spec, non implémenté : waild n'est pas suivi)* | |
+| 6 | | Le prérequis d'une carte (ex. Dom : waild ≤ 55) doit être respecté pour la jouer : seules ses conditions sur les ressources globales et les tribus comptent (la carte n'a pas encore d'exemplaire sur le Terrain, donc une condition individuelle comme les branches ne peut pas s'appliquer). | |
 | 7 | | Une carte jouée va ensuite dans la Défausse. | |
 | 8 | | Une carte « unique » (ex. Vaisseau-graine) disparaît une fois jouée : pas de Défausse, elle ne peut plus être rejouée ni repiochée. | |
 | 9 | | Une carte de type Action est posée gratuitement sur le Terrain : son coût et son gain sont ceux de son unique action. | |

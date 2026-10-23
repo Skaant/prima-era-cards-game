@@ -1,7 +1,10 @@
 import type { Carte } from "../cartes/_types/Carte";
 import type { IdCartes } from "../cartes/paquets/IdCartes";
 import type { EtatJeu } from "./etat";
-import { recalculerProduction } from "./production";
+import { copierEtat } from "./copier";
+import { ajusterRessourceGlobale } from "./prerequis";
+import { cleChoixOr, recalculerProduction } from "./production";
+import { placesDeBranches } from "./branches";
 import { estRessourceGlobale } from "./ressources";
 
 type Cartes = Record<IdCartes, Carte>;
@@ -46,17 +49,37 @@ export function peutUtiliserAction(
 
 /**
  * Applique les gains immédiats de l'action (mêmes règles que les gains de carte, voir `jouer.ts`).
- * Ignorés : gains par cycle, conditionnels, proportionnels, `stockIndividuel`. `etat` est modifié en place.
+ * Ignorés : gains par cycle, conditionnels, proportionnels, `stockIndividuel`. Un gain "or" donne
+ * la ressource choisie par l'exemplaire (la première par défaut) ; des branches vont dans le stock
+ * global invisible `branchesEnAttente` (dans la limite des places libres, voir `placesDeBranches`). `etat` est modifié en place.
  */
-function appliquerGains(etat: EtatJeu, action: ActionCarte) {
+function appliquerGains(
+  etat: EtatJeu,
+  action: ActionCarte,
+  idCarte: IdCartes,
+  exemplaireIndex: number,
+  actionIndex: number,
+  cartes: Cartes,
+) {
   const gains = (action.gains.ressources ?? []).filter(
     (g) => !g.parCycle && !g.prerequis && !g.parRessource && !g.stockIndividuel,
   );
   for (const gain of gains) {
     if (!estRessourceGlobale(gain.id)) continue;
-    const r = etat.ressources[gain.id];
-    r.stock = Math.min(r.stock + gain.value, r.stockMax);
+    ajusterRessourceGlobale(etat, gain.id, gain.value, cartes);
   }
+  const exemplaire = etat.terrain.find((c) => c.id === idCarte)?.exemplaires[exemplaireIndex];
+  (action.gains.autres ?? []).forEach((autre, autreIndex) => {
+    if (typeof autre === "string" || autre.type !== "or" || autre.parCycle) return;
+    const choisie = exemplaire?.choixOr?.[cleChoixOr(autreIndex, actionIndex)] ?? autre.resources[0]?.id;
+    const ressource = autre.resources.find((r) => r.id === choisie);
+    if (!ressource) return;
+    if (estRessourceGlobale(ressource.id)) ajusterRessourceGlobale(etat, ressource.id, ressource.value, cartes);
+    else if (ressource.id === "branches") {
+      // Les branches doivent être posées tout de suite : celles sans place sur un exemplaire sont perdues.
+      etat.branchesEnAttente += Math.min(ressource.value, placesDeBranches(etat));
+    }
+  });
 }
 
 /**
@@ -78,17 +101,15 @@ export function utiliserAction(
   if (!action || !peutUtiliserAction(etat, carte, idCarte, exemplaireIndex, actionIndex))
     return etat;
 
+  // Copie complète : les gains passent par les listeners (`prerequis.ts`) qui mutent l'état.
   const suivant: EtatJeu = {
-    ...etat,
-    ressources: Object.fromEntries(
-      Object.entries(etat.ressources).map(([id, r]) => [id, { ...r }]),
-    ) as EtatJeu["ressources"],
+    ...copierEtat(etat),
     actionsUtilisees: { ...etat.actionsUtilisees },
   };
   for (const cout of coutsSimples(action)) {
     if (estRessourceGlobale(cout.id)) suivant.ressources[cout.id].stock -= cout.value;
   }
-  appliquerGains(suivant, action);
+  appliquerGains(suivant, action, idCarte, exemplaireIndex, actionIndex, cartes);
   const k = cle(idCarte, exemplaireIndex, actionIndex);
   suivant.actionsUtilisees[k] = (suivant.actionsUtilisees[k] ?? 0) + 1;
 
